@@ -52,7 +52,7 @@
   ],
   "author": "RunAPI",
   "license": "Apache-2.0",
-  "homepage": "https://runapi.ai/docs/sdk/grok-imagine",
+  "homepage": "https://runapi.ai/docs#sdk-grok-imagine",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/runapi-ai/grok-imagine-sdk.git"

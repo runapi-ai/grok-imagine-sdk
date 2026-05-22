@@ -1,38 +1,79 @@
 ---
 name: grok-imagine
-description: Grok Imagine API skill for RunAPI. Use when the user asks for grok imagine api SDK setup, CLI usage, pricing, model docs, or agent integration. Learn more at https://runapi.ai/models/grok-imagine.
-documentation: https://runapi.ai/models/grok-imagine
-provider_page: https://runapi.ai/providers/xai
-catalog: https://runapi.ai/models
+description: Generate and edit images with Grok Imagine through RunAPI. Use when the user asks an agent to create, edit, or transform images with Grok Imagine. Default to the RunAPI CLI for one-off generation; use SDKs only when the user is integrating RunAPI into an app or backend.
+documentation: https://runapi.ai/models/grok-imagine.md
+provider_page: https://runapi.ai/providers/xai.md
+catalog: https://runapi.ai/models.md
+metadata:
+  openclaw:
+    homepage: https://runapi.ai/models/grok-imagine
+    requires:
+      bins:
+      - runapi
+    install:
+    - kind: brew
+      formula: runapi-ai/tap/runapi
+      bins:
+      - runapi
+    envVars:
+    - name: RUNAPI_API_KEY
+      required: false
+      description: Optional RunAPI API key; agents should prefer environment auth or saved CLI config. Browser login is interactive fallback only.
 ---
 
-# Grok Imagine API Skill for RunAPI
+# Grok Imagine on RunAPI
 
-Use this skill for grok imagine api work through RunAPI. Learn more at https://runapi.ai/models/grok-imagine.
+Generate and edit images with Grok Imagine through RunAPI. The default path for one-off agent tasks is the `runapi` CLI; SDKs are for application integration.
 
-## When to use
+## Routing decision
 
-- The user asks for grok imagine api integration, examples, SDK installation, CLI calls, or agent workflow setup.
-- The user needs RunAPI SDK or CLI guidance for Grok Imagine.
-- The user asks about Grok Imagine pricing, rate limits, commercial usage, or variant choice.
+- One-off generation, editing, or transformation for the user → use the **CLI path** with the `runapi` binary.
+- Building an app, backend, worker, library, or production codebase → use the **SDK integration path**.
 
-## Workflow
+## CLI path
 
-- Prefer the SDK repository at https://github.com/runapi-ai/grok-imagine-sdk for application code.
-- Use https://runapi.ai/docs#sdk-grok-imagine for SDK docs and https://runapi.ai/docs#grok-imagine for model endpoint details.
-- For CLI flows, pass JSON request bodies through `--input` or `--input-file`; do not invent hand-written flags for every model parameter.
-- Keep API keys in `RUNAPI_API_KEY` or the RunAPI CLI config; never commit secrets.
+The `runapi` binary is the runtime dependency. Run `runapi auth status` first. For agents and headless runs, prefer `RUNAPI_API_KEY` or import it into saved config with `printf '%s' "$RUNAPI_API_KEY" | runapi auth import-token --token -`. Use `runapi login` only when the user explicitly wants interactive browser auth.
 
-## Routing
+Inspect the available actions and request fields with CLI help:
 
-- Main grok imagine api page: https://runapi.ai/models/grok-imagine
-- Default pricing/rate-limit/commercial page: https://runapi.ai/models/grok-imagine/text-to-video
-- Provider comparison: https://runapi.ai/providers/xai
-- Full catalog: https://runapi.ai/models
+```shell
+runapi grok-imagine --help
+runapi grok-imagine text-to-video --help
+```
+
+Run a one-off task (synchronous — polls until the task completes):
+
+```shell
+runapi grok-imagine text-to-video --input-file request.json
+```
+
+Submit asynchronously and poll separately:
+
+```shell
+runapi grok-imagine text-to-video --async --input-file request.json
+runapi wait <task-id> --service grok-imagine --action text-to-video
+```
+
+Available actions: `text-to-video`, `image-to-video`, `text-to-image`, `image-to-image`, `extend`, `upscale-image`.
+
+## SDK integration path
+
+When integrating Grok Imagine into an app, backend, worker, or library — not for one-off tasks — use a RunAPI SDK package:
+
+- JavaScript / TypeScript: `@runapi.ai/grok-imagine`
+- Ruby: `runapi-grok_imagine`
+- Go: `github.com/runapi-ai/grok-imagine-sdk/go`
+
+## References
+
+- Model overview, pricing, and rate limits: https://runapi.ai/models/grok-imagine.md
+- Provider comparison: https://runapi.ai/providers/xai.md
+- Full model catalog: https://runapi.ai/models.md
 
 ## Variants
 
-- [Text to video](https://runapi.ai/models/grok-imagine/text-to-video)
-- [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
-- [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)
-- [Image to image](https://runapi.ai/models/grok-imagine/image-to-image)
+- [Text to video](https://runapi.ai/models/grok-imagine/text-to-video.md)
+- [Image to video](https://runapi.ai/models/grok-imagine/image-to-video.md)
+- [Text to image](https://runapi.ai/models/grok-imagine/text-to-image.md)
+- [Image to image](https://runapi.ai/models/grok-imagine/image-to-image.md)
+

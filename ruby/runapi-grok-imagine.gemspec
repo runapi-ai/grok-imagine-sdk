@@ -4,7 +4,7 @@ Dir.chdir(__dir__) do
 
   Gem::Specification.new do |spec|
     spec.name = "runapi-grok-imagine"
-    spec.version = "0.2.1"
+    spec.version = "0.2.3"
     spec.authors = [ "RunAPI" ]
     spec.email = [ "contact@runapi.ai" ]
 
@@ -22,6 +22,6 @@ Dir.chdir(__dir__) do
     spec.files = Dir.glob("lib/**/*") + %w[LICENSE]
     spec.require_paths = [ "lib" ]
 
-    spec.add_dependency "runapi-core", "~> 0.1"
+    spec.add_dependency "runapi-core", "~> 0.2.3"
   end
 end

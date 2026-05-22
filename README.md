@@ -1,4 +1,24 @@
-# @runapi.ai/grok-imagine
+<p align="center">
+  <a href="https://runapi.ai"><img src="https://runapi.ai/icon.svg" height="56" alt="RunAPI"></a>
+</p>
+
+<h3 align="center">
+  <a href="https://github.com/runapi-ai/grok-imagine-sdk">Grok Imagine API SDK for RunAPI</a>
+</h3>
+
+<p align="center">
+  Grok Imagine API SDKs for JavaScript, Ruby, and Go on RunAPI.
+</p>
+
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/@runapi.ai/grok-imagine)](https://www.npmjs.com/package/@runapi.ai/grok-imagine)
+[![RubyGems](https://img.shields.io/gem/v/runapi-grok-imagine)](https://rubygems.org/gems/runapi-grok-imagine)
+[![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/grok-imagine-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/grok-imagine-sdk/go)
+[![License](https://img.shields.io/github/license/runapi-ai/grok-imagine-sdk)](https://github.com/runapi-ai/grok-imagine-sdk/blob/main/LICENSE)
+
+</div>
+<br/>
 
 The grok imagine api SDK for RunAPI gives Grok Imagine developers typed package installs, JSON request bodies, and consistent task polling across JavaScript, Ruby, and Go.
 

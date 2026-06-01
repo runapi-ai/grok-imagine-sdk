@@ -21,7 +21,7 @@
 </div>
 <br/>
 
-Generate video and images with Grok Imagine text-to-video, image-to-video, text-to-image, and image-to-image. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Grok Imagine through RunAPI.
+Generate video and images with Grok Imagine text-to-video, image-to-video, text-to-image, and edit-image. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Grok Imagine through RunAPI.
 
 The canonical agent file is `skills/grok-imagine/SKILL.md`.
 
@@ -63,7 +63,6 @@ const result = await client.textToVideo.run({
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - SDK repository: https://github.com/runapi-ai/grok-imagine-sdk
 - Pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
-- Provider comparison: https://runapi.ai/providers/xai
 - Browse all RunAPI models and skills: https://runapi.ai/models
 
 ## Variants
@@ -71,7 +70,7 @@ const result = await client.textToVideo.run({
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)
-- [Image to image](https://runapi.ai/models/grok-imagine/image-to-image)
+- [Edit image](https://runapi.ai/models/grok-imagine/edit-image)
 
 ## Agent rules
 

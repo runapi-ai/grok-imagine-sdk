@@ -4,7 +4,7 @@ module RunApi
   module GrokImagine
     module Resources
       # Grok-Imagine video extension resource.
-      # Takes a prior grok-imagine video task_id and extends it.
+      # Takes a prior grok-imagine video source_task_id and extends it.
       class Extensions
         include RunApi::Core::ResourceHelpers
 
@@ -35,14 +35,14 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "task_id is required" unless param(params, :task_id)
+          raise Core::ValidationError, "source_task_id is required" unless param(params, :source_task_id)
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          raise Core::ValidationError, "extend_at is required" unless param(params, :extend_at)
+          raise Core::ValidationError, "start_seconds is required" unless param(params, :start_seconds)
 
-          extend_times = param(params, :extend_times)
-          raise Core::ValidationError, "extend_times is required" unless extend_times
-          unless Types::EXTEND_TIMES.include?(extend_times.to_s)
-            raise Core::ValidationError, "extend_times must be one of: #{Types::EXTEND_TIMES.join(", ")}"
+          extension_duration_seconds = param(params, :extension_duration_seconds)
+          raise Core::ValidationError, "extension_duration_seconds is required" unless extension_duration_seconds
+          unless Types::EXTENSION_DURATION_SECONDS.include?(extension_duration_seconds)
+            raise Core::ValidationError, "extension_duration_seconds must be one of: #{Types::EXTENSION_DURATION_SECONDS.join(", ")}"
           end
         end
       end

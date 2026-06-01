@@ -4,7 +4,7 @@ module RunApi
   module GrokImagine
     module Resources
       # Grok-Imagine video upscale resource.
-      # Takes a prior grok-imagine video task_id and upscales it.
+      # Takes a prior grok-imagine video source_task_id and upscales it.
       class Upscales
         include RunApi::Core::ResourceHelpers
 
@@ -35,7 +35,7 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "task_id is required" unless param(params, :task_id)
+          raise Core::ValidationError, "source_task_id is required" unless param(params, :source_task_id)
         end
       end
     end

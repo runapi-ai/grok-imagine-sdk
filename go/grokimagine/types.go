@@ -10,14 +10,14 @@ type ImageToVideoModel string
 // TextToImageModel identifies the Grok-Imagine text-to-image model.
 type TextToImageModel string
 
-// ImageToImageModel identifies the Grok-Imagine image-to-image model.
-type ImageToImageModel string
+// EditImageModel identifies the Grok-Imagine image editing model.
+type EditImageModel string
 
 const (
 	ModelTextToVideo  TextToVideoModel  = "grok-imagine-text-to-video"
 	ModelImageToVideo ImageToVideoModel = "grok-imagine-image-to-video"
 	ModelTextToImage  TextToImageModel  = "grok-imagine-text-to-image"
-	ModelImageToImage ImageToImageModel = "grok-imagine-image-to-image"
+	ModelEditImage    EditImageModel    = "grok-imagine-edit-image"
 )
 
 // Video contains a generated video URL.
@@ -55,67 +55,67 @@ type ImageTaskResponse struct {
 
 // TextToVideoParams contains parameters for text-to-video generation.
 type TextToVideoParams struct {
-	Model       TextToVideoModel `json:"model" help:"required; must be grok-imagine-text-to-video"`
+	Model       TextToVideoModel `json:"model" help:"required; model slug"`
 	Prompt      string           `json:"prompt" help:"required; up to 5000 characters"`
 	CallbackURL string           `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	AspectRatio string `json:"aspect_ratio,omitempty" help:"optional; 2:3 (default), 3:2, 1:1, 16:9, 9:16"`
-	Mode        string `json:"mode,omitempty" help:"optional; fun, normal (default), or spicy"`
-	Duration    *int   `json:"duration,omitempty" help:"optional; video duration in seconds, integer 6-30"`
-	Resolution  string `json:"resolution,omitempty" help:"optional; 480p (default) or 720p"`
-	NSFWChecker *bool  `json:"nsfw_checker,omitempty" help:"optional; content filtering, default false"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
+	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds"`
+	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
 }
 
 // ImageToVideoParams contains parameters for image-to-video generation.
-// Provide either ImageURLs OR TaskID, never both.
+// Provide either SourceImageURLs OR SourceTaskID, never both.
 type ImageToVideoParams struct {
-	Model       ImageToVideoModel `json:"model" help:"required; must be grok-imagine-image-to-video"`
+	Model       ImageToVideoModel `json:"model" help:"required; model slug"`
 	CallbackURL string            `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	ImageURLs []string `json:"image_urls,omitempty" help:"optional; exactly one reference image URL (mutually exclusive with task_id)"`
-	TaskID    string   `json:"task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with image_urls)"`
-	Index     *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using task_id"`
+	SourceImageURLs []string `json:"source_image_urls,omitempty" help:"optional; exactly one source image URL (mutually exclusive with source_task_id)"`
+	SourceTaskID    string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_urls)"`
+	Index           *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using source_task_id"`
 
-	Prompt      string `json:"prompt,omitempty" help:"optional; text description of desired motion"`
-	Mode        string `json:"mode,omitempty" help:"optional; fun, normal (default), or spicy (spicy not available with image_urls)"`
-	Duration    *int   `json:"duration,omitempty" help:"optional; video duration in seconds, integer 6-30"`
-	Resolution  string `json:"resolution,omitempty" help:"optional; 480p (default) or 720p"`
-	AspectRatio string `json:"aspect_ratio,omitempty" help:"optional; 2:3, 3:2, 1:1, 16:9 (default), 9:16"`
-	NSFWChecker *bool  `json:"nsfw_checker,omitempty" help:"optional; content filtering, default false"`
+	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired motion"`
+	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds"`
+	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
 }
 
 // TextToImageParams contains parameters for text-to-image generation.
 type TextToImageParams struct {
-	Model       TextToImageModel `json:"model" help:"required; must be grok-imagine-text-to-image"`
+	Model       TextToImageModel `json:"model" help:"required; model slug"`
 	Prompt      string           `json:"prompt" help:"required; up to 5000 characters"`
 	CallbackURL string           `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	AspectRatio string `json:"aspect_ratio,omitempty" help:"optional; 2:3, 3:2, 1:1 (default), 16:9, 9:16"`
-	NSFWChecker *bool  `json:"nsfw_checker,omitempty" help:"optional; content filtering, default false"`
-	EnablePro   *bool  `json:"enable_pro,omitempty" help:"optional; quality mode, slower but higher precision, default false"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
+	EnablePro           *bool  `json:"enable_pro,omitempty" help:"optional; quality mode, slower but higher precision, default false"`
 }
 
-// ImageToImageParams contains parameters for image-to-image generation.
-type ImageToImageParams struct {
-	Model       ImageToImageModel `json:"model" help:"required; must be grok-imagine-image-to-image"`
-	ImageURLs   []string          `json:"image_urls" help:"required; exactly one reference image URL"`
-	CallbackURL string            `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+// EditImageParams contains parameters for prompt-guided image editing.
+type EditImageParams struct {
+	Model          EditImageModel `json:"model" help:"required; model slug"`
+	SourceImageURL string         `json:"source_image_url" help:"required; source image URL"`
+	CallbackURL    string         `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	Prompt      string `json:"prompt,omitempty" help:"optional; text description of desired output"`
-	NSFWChecker *bool  `json:"nsfw_checker,omitempty" help:"optional; content filtering, default false"`
+	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired output"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
 }
 
 // ExtendParams contains parameters for extending a prior grok-imagine video task.
 type ExtendParams struct {
-	TaskID      string `json:"task_id" help:"required; prior grok-imagine video task id"`
-	Prompt      string `json:"prompt" help:"required; describes the motion for the extended segment"`
-	ExtendAt    string `json:"extend_at" help:"required; seconds into the original video to begin extension"`
-	ExtendTimes string `json:"extend_times" help:"required; extension duration in seconds, 6 or 10"`
-	CallbackURL string `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+	SourceTaskID             string `json:"source_task_id" help:"required; prior grok-imagine video task id"`
+	Prompt                   string `json:"prompt" help:"required; describes the motion for the extended segment"`
+	StartSeconds             int    `json:"start_seconds" help:"required; seconds into the source video to begin extension"`
+	ExtensionDurationSeconds int    `json:"extension_duration_seconds" help:"required; extension duration in seconds"`
+	CallbackURL              string `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 }
 
 // UpscaleParams contains parameters for upscaling a prior grok-imagine video task.
 type UpscaleParams struct {
-	TaskID      string `json:"task_id" help:"required; prior grok-imagine video task id"`
-	CallbackURL string `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+	SourceTaskID string `json:"source_task_id" help:"required; prior grok-imagine video task id"`
+	CallbackURL  string `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 }

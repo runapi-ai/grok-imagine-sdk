@@ -8,7 +8,7 @@ describe('GrokImagineClient', () => {
     expect(client.textToVideo).toBeDefined();
     expect(client.imageToVideo).toBeDefined();
     expect(client.textToImage).toBeDefined();
-    expect(client.imageToImage).toBeDefined();
+    expect(client.editImage).toBeDefined();
     expect(client.extensions).toBeDefined();
     expect(client.upscales).toBeDefined();
   });

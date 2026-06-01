@@ -34,7 +34,7 @@ Generate and edit images with Grok Imagine through RunAPI. The default path for 
 
 The `runapi` binary is the runtime dependency. Run `runapi auth status` first. For agents and headless runs, prefer `RUNAPI_API_KEY` or import it into saved config with `printf '%s' "$RUNAPI_API_KEY" | runapi auth import-token --token -`. Use `runapi login` only when the user explicitly wants interactive browser auth.
 
-Inspect the available actions and request fields with CLI help:
+Inspect the available commands and request fields with CLI help:
 
 ```shell
 runapi grok-imagine --help
@@ -54,7 +54,7 @@ runapi grok-imagine text-to-video --async --input-file request.json
 runapi wait <task-id> --service grok-imagine --action text-to-video
 ```
 
-Available actions: `text-to-video`, `image-to-video`, `text-to-image`, `image-to-image`, `extend`, `upscale-image`.
+Available commands: `text-to-video`, `image-to-video`, `text-to-image`, `edit-image`, `extend`, `upscale-image`.
 
 ## SDK integration path
 
@@ -67,7 +67,6 @@ When integrating Grok Imagine into an app, backend, worker, or library — not f
 ## References
 
 - Model overview, pricing, and rate limits: https://runapi.ai/models/grok-imagine.md
-- Provider comparison: https://runapi.ai/providers/xai.md
 - Full model catalog: https://runapi.ai/models.md
 
 ## Variants
@@ -75,5 +74,4 @@ When integrating Grok Imagine into an app, backend, worker, or library — not f
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video.md)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video.md)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image.md)
-- [Image to image](https://runapi.ai/models/grok-imagine/image-to-image.md)
-
+- [Edit image](https://runapi.ai/models/grok-imagine/edit-image.md)

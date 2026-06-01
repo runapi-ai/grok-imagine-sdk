@@ -3,18 +3,18 @@ import { compactParams } from '@runapi.ai/core';
 import { pollUntilComplete } from '@runapi.ai/core/internal';
 import type {
   CompletedGrokImagineImageResponse,
+  GrokImagineEditImageParams,
   GrokImagineImageResponse,
-  GrokImagineImageToImageParams,
   TaskCreateResponse,
 } from '../types';
 
-const ENDPOINT = '/api/v1/grok_imagine/image_to_image';
+const ENDPOINT = '/api/v1/grok_imagine/edit_image';
 
-export class ImageToImage {
+export class EditImage {
   constructor(private readonly http: HttpClient) {}
 
   async run(
-    params: GrokImagineImageToImageParams,
+    params: GrokImagineEditImageParams,
     options?: RequestOptions & PollingOptions
   ): Promise<CompletedGrokImagineImageResponse> {
     const { id } = await this.create(params, options);
@@ -25,7 +25,7 @@ export class ImageToImage {
     return response as CompletedGrokImagineImageResponse;
   }
 
-  async create(params: GrokImagineImageToImageParams, options?: RequestOptions): Promise<TaskCreateResponse> {
+  async create(params: GrokImagineEditImageParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body: compactParams(params),
       ...options,

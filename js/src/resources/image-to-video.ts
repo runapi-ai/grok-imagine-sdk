@@ -1,5 +1,5 @@
 import type { HttpClient, PollingOptions, RequestOptions } from '@runapi.ai/core';
-import { compactParams } from '@runapi.ai/core';
+import { compactParams, ValidationError } from '@runapi.ai/core';
 import { pollUntilComplete } from '@runapi.ai/core/internal';
 import type {
   CompletedGrokImagineVideoResponse,
@@ -26,6 +26,11 @@ export class ImageToVideo {
   }
 
   async create(params: GrokImagineImageToVideoParams, options?: RequestOptions): Promise<TaskCreateResponse> {
+    const input = params as unknown as Record<string, unknown>;
+    if (input.motion_style === 'spicy' && Array.isArray(input.source_image_urls) && input.source_image_urls.length > 0) {
+      throw new ValidationError('spicy motion_style requires a source_task_id source image.');
+    }
+
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body: compactParams(params),
       ...options,

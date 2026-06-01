@@ -17,7 +17,7 @@ const (
 	textToVideoPath  = "/api/v1/grok_imagine/text_to_video"
 	imageToVideoPath = "/api/v1/grok_imagine/image_to_video"
 	textToImagePath  = "/api/v1/grok_imagine/text_to_image"
-	imageToImagePath = "/api/v1/grok_imagine/image_to_image"
+	editImagePath    = "/api/v1/grok_imagine/edit_image"
 	extensionsPath    = "/api/v1/grok_imagine/extend_video"
 	upscalesPath      = "/api/v1/grok_imagine/upscale_image"
 )
@@ -27,7 +27,7 @@ type Client struct {
 	TextToVideo  *TextToVideo
 	ImageToVideo *ImageToVideo
 	TextToImage  *TextToImage
-	ImageToImage *ImageToImage
+	EditImage    *EditImage
 	Extensions    *Extensions
 	Upscales      *Upscales
 }
@@ -51,7 +51,7 @@ func NewClientWithHTTP(httpClient core.HTTPClient) *Client {
 		TextToVideo:  &TextToVideo{http: httpClient},
 		ImageToVideo: &ImageToVideo{http: httpClient},
 		TextToImage:  &TextToImage{http: httpClient},
-		ImageToImage: &ImageToImage{http: httpClient},
+		EditImage:    &EditImage{http: httpClient},
 		Extensions:    &Extensions{http: httpClient},
 		Upscales:      &Upscales{http: httpClient},
 	}
@@ -105,18 +105,18 @@ func (r *TextToImage) Run(ctx context.Context, params TextToImageParams, opts ..
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*ImageTaskResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }
 
-// ImageToImage re-styles a reference image.
-type ImageToImage struct{ http core.HTTPClient }
+// EditImage re-styles a source image.
+type EditImage struct{ http core.HTTPClient }
 
-func (r *ImageToImage) Create(ctx context.Context, params ImageToImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
+func (r *EditImage) Create(ctx context.Context, params EditImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, imageToImagePath, core.CompactParams(params), requestOptions)
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, core.CompactParams(params), requestOptions)
 }
-func (r *ImageToImage) Get(ctx context.Context, id string, opts ...option.RequestOption) (*ImageTaskResponse, error) {
+func (r *EditImage) Get(ctx context.Context, id string, opts ...option.RequestOption) (*ImageTaskResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.GetJSON[ImageTaskResponse](ctx, r.http, core.ResourcePath(imageToImagePath, id), requestOptions)
+	return core.GetJSON[ImageTaskResponse](ctx, r.http, core.ResourcePath(editImagePath, id), requestOptions)
 }
-func (r *ImageToImage) Run(ctx context.Context, params ImageToImageParams, opts ...option.RequestOption) (*ImageTaskResponse, error) {
+func (r *EditImage) Run(ctx context.Context, params EditImageParams, opts ...option.RequestOption) (*ImageTaskResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*ImageTaskResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }

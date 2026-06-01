@@ -4,7 +4,7 @@ module RunApi
   module GrokImagine
     module Resources
       # Grok-Imagine image-to-video generation resource.
-      # Accepts either external image_urls or a prior text-to-image task_id (+ index).
+      # Accepts either external source_image_urls or a prior text-to-image source_task_id (+ index).
       class ImageToVideo
         include RunApi::Core::ResourceHelpers
 
@@ -37,20 +37,20 @@ module RunApi
         def validate_params!(params)
           raise Core::ValidationError, "model is required" unless param(params, :model) == Types::IMAGE_TO_VIDEO_MODEL
 
-          image_urls = param(params, :image_urls)
-          task_id = param(params, :task_id)
+          source_image_urls = param(params, :source_image_urls)
+          source_task_id = param(params, :source_task_id)
 
-          if image_urls && !image_urls.empty? && task_id
-            raise Core::ValidationError, "Provide either image_urls or task_id, not both"
+          if source_image_urls && !source_image_urls.empty? && source_task_id
+            raise Core::ValidationError, "Provide either source_image_urls or source_task_id, not both"
           end
-          if (!image_urls || image_urls.empty?) && !task_id
-            raise Core::ValidationError, "One of image_urls or task_id is required"
+          if (!source_image_urls || source_image_urls.empty?) && !source_task_id
+            raise Core::ValidationError, "One of source_image_urls or source_task_id is required"
           end
-          if image_urls && image_urls.size > 1
-            raise Core::ValidationError, "image_urls supports at most 1 entry"
+          if source_image_urls && source_image_urls.size > 1
+            raise Core::ValidationError, "source_image_urls supports at most 1 entry"
           end
 
-          if task_id && (index = param(params, :index))
+          if source_task_id && (index = param(params, :index))
             int = index.to_i
             unless Types::INDEX_RANGE.cover?(int)
               raise Core::ValidationError, "index must be an integer between 0 and 5"
@@ -58,11 +58,11 @@ module RunApi
           end
 
           validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :mode, Types::MODES)
-          validate_optional!(params, :resolution, Types::RESOLUTIONS)
+          validate_optional!(params, :motion_style, Types::MOTION_STYLES)
+          validate_optional!(params, :output_resolution, Types::RESOLUTIONS)
 
-          if param(params, :mode).to_s == "spicy" && image_urls && !image_urls.empty?
-            raise Core::ValidationError, "Spicy mode is not available with image_urls; use task_id instead"
+          if param(params, :motion_style).to_s == "spicy" && source_image_urls && !source_image_urls.empty?
+            raise Core::ValidationError, "spicy motion_style requires a source_task_id source image."
           end
         end
       end

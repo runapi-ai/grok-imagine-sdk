@@ -6,13 +6,13 @@ module RunApi
       TEXT_TO_VIDEO_MODEL = "grok-imagine-text-to-video"
       IMAGE_TO_VIDEO_MODEL = "grok-imagine-image-to-video"
       TEXT_TO_IMAGE_MODEL = "grok-imagine-text-to-image"
-      IMAGE_TO_IMAGE_MODEL = "grok-imagine-image-to-image"
+      EDIT_IMAGE_MODEL = "grok-imagine-edit-image"
 
       ASPECT_RATIOS = %w[2:3 3:2 1:1 16:9 9:16].freeze
-      MODES = %w[fun normal spicy].freeze
+      MOTION_STYLES = %w[fun normal spicy].freeze
       RESOLUTIONS = %w[480p 720p].freeze
       DURATION_RANGE = (6..30)
-      EXTEND_TIMES = %w[6 10].freeze
+      EXTENSION_DURATION_SECONDS = [6, 10].freeze
       INDEX_RANGE = (0..5)
 
       class MediaUrl < RunApi::Core::BaseModel
@@ -25,21 +25,21 @@ module RunApi
       end
 
       class VideoTaskResponse < AsyncTaskResponse
-        optional :videos, [ -> { MediaUrl } ]
+        optional :videos, [-> { MediaUrl }]
         optional :error, String
       end
 
       class CompletedVideoTaskResponse < VideoTaskResponse
-        required :videos, [ -> { MediaUrl } ]
+        required :videos, [-> { MediaUrl }]
       end
 
       class ImageTaskResponse < AsyncTaskResponse
-        optional :images, [ -> { MediaUrl } ]
+        optional :images, [-> { MediaUrl }]
         optional :error, String
       end
 
       class CompletedImageTaskResponse < ImageTaskResponse
-        required :images, [ -> { MediaUrl } ]
+        required :images, [-> { MediaUrl }]
       end
     end
   end

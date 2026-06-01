@@ -41,27 +41,27 @@ const client = new GrokImagineClient({ apiKey: process.env.RUNAPI_KEY });
 const video = await client.textToVideo.run({
   model: 'grok-imagine-text-to-video',
   prompt: 'A drone shot over a neon cityscape at night',
-  resolution: '720p',
-  duration: 6,
+  output_resolution: '720p',
+  duration_seconds: 6,
 });
 
 console.log(video.videos[0].url);
 
 // Extend the result
 const extended = await client.extensions.run({
-  task_id: video.id,
+  source_task_id: video.id,
   prompt: 'The drone continues deeper into the city',
-  extend_at: 6,
-  extend_times: 10,
+  start_seconds: 6,
+  extension_duration_seconds: 10,
 });
 ```
 
 ## Resources
 
 - `textToVideo` — text-to-video (`grok-imagine-text-to-video`)
-- `imageToVideo` — image-to-video (`grok-imagine-image-to-video`) with external URLs or a prior text-to-image `task_id`
+- `imageToVideo` — image-to-video (`grok-imagine-image-to-video`) with `source_image_urls` or a prior text-to-image `source_task_id`
 - `textToImage` — text-to-image (`grok-imagine-text-to-image`)
-- `imageToImage` — image-to-image (`grok-imagine-image-to-image`)
+- `editImage` — prompt-guided image editing (`grok-imagine-edit-image`)
 - `extensions` — extend a prior grok-imagine video
 - `upscales` — upscale a prior grok-imagine video
 
@@ -75,6 +75,6 @@ Pricing, rate-limit, and commercial-usage links for grok imagine api should poin
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)
-- [Image to image](https://runapi.ai/models/grok-imagine/image-to-image)
+- [Edit image](https://runapi.ai/models/grok-imagine/edit-image)
 
-The default grok imagine api pricing link is https://runapi.ai/models/grok-imagine/text-to-video. Compare the provider line at https://runapi.ai/providers/xai, browse every RunAPI model at https://runapi.ai/models, use https://github.com/runapi-ai/grok-imagine-sdk for the SDK repository, and use https://github.com/runapi-ai/grok-imagine for the skill repository.
+The default grok imagine api pricing link is https://runapi.ai/models/grok-imagine/text-to-video. Browse every RunAPI model at https://runapi.ai/models, use https://github.com/runapi-ai/grok-imagine-sdk for the SDK repository, and use https://github.com/runapi-ai/grok-imagine for the skill repository.

@@ -37,14 +37,14 @@ module RunApi
           raise Core::ValidationError, "model is required" unless param(params, :model) == Types::TEXT_TO_VIDEO_MODEL
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
           validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :mode, Types::MODES)
-          validate_optional!(params, :resolution, Types::RESOLUTIONS)
+          validate_optional!(params, :motion_style, Types::MOTION_STYLES)
+          validate_optional!(params, :output_resolution, Types::RESOLUTIONS)
 
-          duration = param(params, :duration)
-          if duration
-            int = duration.to_i
+          duration_seconds = param(params, :duration_seconds)
+          if duration_seconds
+            int = duration_seconds.to_i
             unless Types::DURATION_RANGE.cover?(int)
-              raise Core::ValidationError, "duration must be an integer between 6 and 30"
+              raise Core::ValidationError, "duration_seconds must be an integer between 6 and 30"
             end
           end
         end

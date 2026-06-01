@@ -9,7 +9,7 @@ module RunApi
     #   result = client.text_to_video.run(
     #     model: "grok-imagine-text-to-video",
     #     prompt: "A drone shot over a neon cityscape",
-    #     resolution: "720p"
+    #     output_resolution: "720p"
     #   )
     class Client
       # @return [Resources::TextToVideo]
@@ -18,8 +18,8 @@ module RunApi
       attr_reader :image_to_video
       # @return [Resources::TextToImage]
       attr_reader :text_to_image
-      # @return [Resources::ImageToImage]
-      attr_reader :image_to_image
+      # @return [Resources::EditImage]
+      attr_reader :edit_image
       # @return [Resources::Extensions]
       attr_reader :extensions
       # @return [Resources::Upscales]
@@ -34,7 +34,7 @@ module RunApi
         @text_to_video = Resources::TextToVideo.new(http)
         @image_to_video = Resources::ImageToVideo.new(http)
         @text_to_image = Resources::TextToImage.new(http)
-        @image_to_image = Resources::ImageToImage.new(http)
+        @edit_image = Resources::EditImage.new(http)
         @extensions = Resources::Extensions.new(http)
         @upscales = Resources::Upscales.new(http)
       end

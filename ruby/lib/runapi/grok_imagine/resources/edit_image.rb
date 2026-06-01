@@ -3,11 +3,11 @@
 module RunApi
   module GrokImagine
     module Resources
-      # Grok-Imagine image-to-image generation resource.
-      class ImageToImage
+      # Grok-Imagine prompt-guided image editing resource.
+      class EditImage
         include RunApi::Core::ResourceHelpers
 
-        ENDPOINT = "/api/v1/grok_imagine/image_to_image"
+        ENDPOINT = "/api/v1/grok_imagine/edit_image"
 
         RESPONSE_CLASS = Types::ImageTaskResponse
         COMPLETED_RESPONSE_CLASS = Types::CompletedImageTaskResponse
@@ -34,14 +34,8 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::IMAGE_TO_IMAGE_MODEL
-          image_urls = param(params, :image_urls)
-          unless image_urls && !image_urls.empty?
-            raise Core::ValidationError, "image_urls is required"
-          end
-          if image_urls.size > 1
-            raise Core::ValidationError, "image_urls supports at most 1 entry"
-          end
+          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::EDIT_IMAGE_MODEL
+          raise Core::ValidationError, "source_image_url is required" unless param(params, :source_image_url)
         end
       end
     end

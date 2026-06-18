@@ -78,3 +78,8 @@ Pricing, rate-limit, and commercial-usage links for grok imagine api should poin
 - [Edit image](https://runapi.ai/models/grok-imagine/edit-image)
 
 The default grok imagine api pricing link is https://runapi.ai/models/grok-imagine/text-to-video. Browse every RunAPI model at https://runapi.ai/models, use https://github.com/runapi-ai/grok-imagine-sdk for the SDK repository, and use https://github.com/runapi-ai/grok-imagine for the skill repository.
+
+
+## Generated file storage
+
+RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.

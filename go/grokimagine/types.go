@@ -14,10 +14,14 @@ type TextToImageModel string
 type EditImageModel string
 
 const (
-	ModelTextToVideo  TextToVideoModel  = "grok-imagine-text-to-video"
+	// ModelTextToVideo is the Grok Imagine text-to-video model.
+	ModelTextToVideo TextToVideoModel = "grok-imagine-text-to-video"
+	// ModelImageToVideo is the Grok Imagine image-to-video model.
 	ModelImageToVideo ImageToVideoModel = "grok-imagine-image-to-video"
-	ModelTextToImage  TextToImageModel  = "grok-imagine-text-to-image"
-	ModelEditImage    EditImageModel    = "grok-imagine-edit-image"
+	// ModelTextToImage is the Grok Imagine text-to-image model, with an optional Pro quality mode.
+	ModelTextToImage TextToImageModel = "grok-imagine-text-to-image"
+	// ModelEditImage is the Grok Imagine image editing model for prompt-guided modifications to a source image.
+	ModelEditImage EditImageModel = "grok-imagine-edit-image"
 )
 
 // Video contains a generated video URL.

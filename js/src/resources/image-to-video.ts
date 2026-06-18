@@ -10,9 +10,16 @@ import type {
 
 const ENDPOINT = '/api/v1/grok_imagine/image_to_video';
 
+/** Generates videos from reference images or a prior text-to-image task. */
 export class ImageToVideo {
   constructor(private readonly http: HttpClient) {}
 
+  /**
+   * Generate a video and wait until complete.
+   * @param params Image-to-video parameters.
+   * @param options Per-request and polling overrides.
+   * @returns The completed video with results.
+   */
   async run(
     params: GrokImagineImageToVideoParams,
     options?: RequestOptions & PollingOptions
@@ -25,6 +32,12 @@ export class ImageToVideo {
     return response as CompletedGrokImagineVideoResponse;
   }
 
+  /**
+   * Create an image-to-video task; returns immediately with a task id.
+   * @param params Image-to-video parameters.
+   * @param options Per-request overrides.
+   * @returns The task creation result with id.
+   */
   async create(params: GrokImagineImageToVideoParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     const input = params as unknown as Record<string, unknown>;
     if (input.motion_style === 'spicy' && Array.isArray(input.source_image_urls) && input.source_image_urls.length > 0) {
@@ -37,6 +50,12 @@ export class ImageToVideo {
     });
   }
 
+  /**
+   * Fetch the current status of an image-to-video task.
+   * @param id The task id.
+   * @param options Per-request overrides.
+   * @returns The current video task status.
+   */
   async get(id: string, options?: RequestOptions): Promise<GrokImagineVideoResponse> {
     return this.http.request<GrokImagineVideoResponse>('GET', `${ENDPOINT}/${id}`, options ?? {});
   }

@@ -10,9 +10,16 @@ import type {
 
 const ENDPOINT = '/api/v1/grok_imagine/text_to_video';
 
+/** Generates videos from text prompts with configurable aspect ratio, duration, and resolution. */
 export class TextToVideo {
   constructor(private readonly http: HttpClient) {}
 
+  /**
+   * Generate a video and wait until complete.
+   * @param params Text-to-video parameters.
+   * @param options Per-request and polling overrides.
+   * @returns The completed video with results.
+   */
   async run(
     params: GrokImagineTextToVideoParams,
     options?: RequestOptions & PollingOptions
@@ -25,6 +32,12 @@ export class TextToVideo {
     return response as CompletedGrokImagineVideoResponse;
   }
 
+  /**
+   * Create a text-to-video task; returns immediately with a task id.
+   * @param params Text-to-video parameters.
+   * @param options Per-request overrides.
+   * @returns The task creation result with id.
+   */
   async create(params: GrokImagineTextToVideoParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body: compactParams(params),
@@ -32,6 +45,12 @@ export class TextToVideo {
     });
   }
 
+  /**
+   * Fetch the current status of a text-to-video task.
+   * @param id The task id.
+   * @param options Per-request overrides.
+   * @returns The current video task status.
+   */
   async get(id: string, options?: RequestOptions): Promise<GrokImagineVideoResponse> {
     return this.http.request<GrokImagineVideoResponse>('GET', `${ENDPOINT}/${id}`, options ?? {});
   }

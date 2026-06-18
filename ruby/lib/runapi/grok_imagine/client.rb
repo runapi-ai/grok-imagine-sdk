@@ -11,25 +11,22 @@ module RunApi
     #     prompt: "A drone shot over a neon cityscape",
     #     output_resolution: "720p"
     #   )
-    class Client
-      # @return [Resources::TextToVideo]
+    class Client < RunApi::Core::Client
+      # @return [Resources::TextToVideo] Text-to-video generation operations.
       attr_reader :text_to_video
-      # @return [Resources::ImageToVideo]
+      # @return [Resources::ImageToVideo] Image-to-video generation operations.
       attr_reader :image_to_video
-      # @return [Resources::TextToImage]
+      # @return [Resources::TextToImage] Text-to-image generation operations.
       attr_reader :text_to_image
-      # @return [Resources::EditImage]
+      # @return [Resources::EditImage] Prompt-guided image editing operations.
       attr_reader :edit_image
-      # @return [Resources::Extensions]
+      # @return [Resources::Extensions] Extend a previously generated video.
       attr_reader :extensions
-      # @return [Resources::Upscales]
+      # @return [Resources::Upscales] Upscale a previously generated video.
       attr_reader :upscales
 
       def initialize(api_key: nil, **options)
-        @api_key = Core::Auth.resolve_api_key(api_key)
-
-        client_options = Core::ClientOptions.new(api_key: @api_key, **options)
-        http = client_options.http_client || Core::HttpClient.new(client_options)
+        super
 
         @text_to_video = Resources::TextToVideo.new(http)
         @image_to_video = Resources::ImageToVideo.new(http)

@@ -1,4 +1,4 @@
-import { createHttpClient, type ClientOptions } from '@runapi.ai/core';
+import { BaseClient, type ClientOptions } from '@runapi.ai/core';
 import { TextToVideo } from './resources/text-to-video';
 import { ImageToVideo } from './resources/image-to-video';
 import { TextToImage } from './resources/text-to-image';
@@ -7,7 +7,10 @@ import { Extensions } from './resources/extensions';
 import { Upscales } from './resources/upscales';
 
 /**
- * Grok-Imagine multimodal text-to-image API client.
+ * Grok-Imagine multimodal generation API client.
+ *
+ * Image generation, video generation, image editing, video extension,
+ * and video upscaling.
  *
  * @example
  * ```typescript
@@ -23,7 +26,7 @@ import { Upscales } from './resources/upscales';
  * });
  * ```
  */
-export class GrokImagineClient {
+export class GrokImagineClient extends BaseClient {
   /** Text-to-video generation. */
   public readonly textToVideo: TextToVideo;
   /** Image-to-video generation (external URLs or prior text-to-image task). */
@@ -38,12 +41,12 @@ export class GrokImagineClient {
   public readonly upscales: Upscales;
 
   constructor(options: ClientOptions = {}) {
-    const http = createHttpClient(options);
-    this.textToVideo = new TextToVideo(http);
-    this.imageToVideo = new ImageToVideo(http);
-    this.textToImage = new TextToImage(http);
-    this.editImage = new EditImage(http);
-    this.extensions = new Extensions(http);
-    this.upscales = new Upscales(http);
+    super(options);
+    this.textToVideo = new TextToVideo(this.http);
+    this.imageToVideo = new ImageToVideo(this.http);
+    this.textToImage = new TextToImage(this.http);
+    this.editImage = new EditImage(this.http);
+    this.extensions = new Extensions(this.http);
+    this.upscales = new Upscales(this.http);
   }
 }

@@ -24,6 +24,8 @@ status = client.text_to_video.get(task.id)
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
 
+RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
+
 ## Language notes
 
 Use Ruby keyword arguments and the `RunApi::GrokImagine` error classes when building image jobs, Rails workers, or scripts. The available resources include text to videos, image to videos, text to images, image to images, extensions, and upscales. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.

@@ -35,7 +35,7 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::IMAGE_TO_VIDEO_MODEL
+          validate_contract!(CONTRACT["image-to-video"], params)
 
           source_image_urls = param(params, :source_image_urls)
           source_task_id = param(params, :source_task_id)
@@ -56,10 +56,6 @@ module RunApi
               raise Core::ValidationError, "index must be an integer between 0 and 5"
             end
           end
-
-          validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :motion_style, Types::MOTION_STYLES)
-          validate_optional!(params, :output_resolution, Types::RESOLUTIONS)
 
           if param(params, :motion_style).to_s == "spicy" && source_image_urls && !source_image_urls.empty?
             raise Core::ValidationError, "spicy motion_style requires a source_task_id source image."

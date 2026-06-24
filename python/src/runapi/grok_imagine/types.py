@@ -4,14 +4,6 @@ from __future__ import annotations
 
 from runapi.core import BaseModel, TaskResponse, optional, required
 
-TEXT_TO_VIDEO_MODEL = "grok-imagine-text-to-video"
-IMAGE_TO_VIDEO_MODEL = "grok-imagine-image-to-video"
-TEXT_TO_IMAGE_MODEL = "grok-imagine-text-to-image"
-EDIT_IMAGE_MODEL = "grok-imagine-edit-image"
-
-ASPECT_RATIOS = ["2:3", "3:2", "1:1", "16:9", "9:16"]
-MOTION_STYLES = ["fun", "normal", "spicy"]
-RESOLUTIONS = ["480p", "720p"]
 DURATION_RANGE = range(6, 31)
 EXTENSION_DURATION_SECONDS = [6, 10]
 INDEX_RANGE = range(0, 6)

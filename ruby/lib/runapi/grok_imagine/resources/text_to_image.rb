@@ -34,9 +34,8 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::TEXT_TO_IMAGE_MODEL
+          validate_contract!(CONTRACT["text-to-image"], params)
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
         end
       end
     end

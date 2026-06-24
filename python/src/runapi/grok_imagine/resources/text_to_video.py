@@ -6,12 +6,9 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    ASPECT_RATIOS,
     DURATION_RANGE,
-    MOTION_STYLES,
-    RESOLUTIONS,
-    TEXT_TO_VIDEO_MODEL,
     CompletedVideoTaskResponse,
     VideoTaskResponse,
 )
@@ -62,13 +59,9 @@ class TextToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if params.get("model") != TEXT_TO_VIDEO_MODEL:
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["text-to-video"], params)
         if not params.get("prompt"):
             raise ValidationError("prompt is required")
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS)
-        self._validate_optional(params, "motion_style", MOTION_STYLES)
-        self._validate_optional(params, "output_resolution", RESOLUTIONS)
 
         duration_seconds = params.get("duration_seconds")
         if duration_seconds:

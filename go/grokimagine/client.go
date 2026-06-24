@@ -66,7 +66,11 @@ type TextToVideo struct{ http core.HTTPClient }
 // Create submits a Grok Imagine text-to-video task and returns immediately with a task id.
 func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, core.CompactParams(params), requestOptions)
+	body := core.CompactParams(params)
+	if err := core.ValidateParams(contractSchema["text-to-video"], body); err != nil {
+		return nil, err
+	}
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, body, requestOptions)
 }
 
 // Get fetches the current status of a Grok Imagine text-to-video task by id.
@@ -87,7 +91,11 @@ type ImageToVideo struct{ http core.HTTPClient }
 // Create submits a Grok Imagine image-to-video task and returns immediately with a task id.
 func (r *ImageToVideo) Create(ctx context.Context, params ImageToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, imageToVideoPath, core.CompactParams(params), requestOptions)
+	body := core.CompactParams(params)
+	if err := core.ValidateParams(contractSchema["image-to-video"], body); err != nil {
+		return nil, err
+	}
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, imageToVideoPath, body, requestOptions)
 }
 
 // Get fetches the current status of a Grok Imagine image-to-video task by id.
@@ -108,7 +116,11 @@ type TextToImage struct{ http core.HTTPClient }
 // Create submits a Grok Imagine text-to-image task and returns immediately with a task id.
 func (r *TextToImage) Create(ctx context.Context, params TextToImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToImagePath, core.CompactParams(params), requestOptions)
+	body := core.CompactParams(params)
+	if err := core.ValidateParams(contractSchema["text-to-image"], body); err != nil {
+		return nil, err
+	}
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToImagePath, body, requestOptions)
 }
 
 // Get fetches the current status of a Grok Imagine text-to-image task by id.
@@ -129,7 +141,11 @@ type EditImage struct{ http core.HTTPClient }
 // Create submits a Grok Imagine image editing task and returns immediately with a task id.
 func (r *EditImage) Create(ctx context.Context, params EditImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
-	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, core.CompactParams(params), requestOptions)
+	body := core.CompactParams(params)
+	if err := core.ValidateParams(contractSchema["edit-image"], body); err != nil {
+		return nil, err
+	}
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, body, requestOptions)
 }
 
 // Get fetches the current status of a Grok Imagine image editing task by id.

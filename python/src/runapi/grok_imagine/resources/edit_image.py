@@ -6,8 +6,8 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    EDIT_IMAGE_MODEL,
     CompletedImageTaskResponse,
     ImageTaskResponse,
 )
@@ -58,7 +58,6 @@ class EditImage(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if params.get("model") != EDIT_IMAGE_MODEL:
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["edit-image"], params)
         if not params.get("source_image_url"):
             raise ValidationError("source_image_url is required")

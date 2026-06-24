@@ -2,6 +2,7 @@
 
 require "runapi/core"
 require_relative "grok_imagine/types"
+require_relative "grok_imagine/contract_gen"
 require_relative "grok_imagine/resources/text_to_video"
 require_relative "grok_imagine/resources/image_to_video"
 require_relative "grok_imagine/resources/text_to_image"

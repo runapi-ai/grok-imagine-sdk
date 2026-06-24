@@ -7,13 +7,13 @@ This grok imagine api README is the Ruby package guide inside the public `grok-i
 ## Install
 
 ```bash
-gem install runapi-grok-imagine
+gem install runapi-grok_imagine
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-grok-imagine"
+require "runapi-grok_imagine"
 
 client = RunApi::GrokImagine::Client.new
 task = client.text_to_video.create(

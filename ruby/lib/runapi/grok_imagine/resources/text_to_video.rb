@@ -34,11 +34,8 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::TEXT_TO_VIDEO_MODEL
+          validate_contract!(CONTRACT["text-to-video"], params)
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :motion_style, Types::MOTION_STYLES)
-          validate_optional!(params, :output_resolution, Types::RESOLUTIONS)
 
           duration_seconds = param(params, :duration_seconds)
           if duration_seconds

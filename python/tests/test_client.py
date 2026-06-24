@@ -190,7 +190,7 @@ def test_text_to_video_non_numeric_duration_raises_validation_error():
     # Regression: a non-numeric duration must raise the SDK's ValidationError,
     # not a bare ValueError from int(). Fails if int() is unguarded again.
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="duration_seconds must be an integer between 6 and 30"):
+    with pytest.raises(ValidationError, match="duration_seconds must be an integer"):
         client.text_to_video.create(
             model="grok-imagine-text-to-video", prompt="a fox", duration_seconds="6s"
         )
@@ -198,7 +198,7 @@ def test_text_to_video_non_numeric_duration_raises_validation_error():
 
 def test_image_to_video_non_numeric_index_raises_validation_error():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="index must be an integer between 0 and 5"):
+    with pytest.raises(ValidationError, match="index must be an integer"):
         client.image_to_video.create(
             model="grok-imagine-image-to-video", source_task_id="src_1", index="abc"
         )
@@ -241,7 +241,7 @@ def test_run_narrows_completed_image_type():
 
 def test_text_to_video_requires_model():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model is required"):
+    with pytest.raises(ValidationError, match="model must be one of: grok-imagine-text-to-video"):
         client.text_to_video.create(prompt="hi")
 
 
@@ -253,7 +253,7 @@ def test_text_to_video_requires_prompt():
 
 def test_text_to_video_rejects_bad_aspect_ratio():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+    with pytest.raises(ValidationError, match=r"aspect_ratio must be one of: 2:3, 3:2, 1:1, 16:9, 9:16"):
         client.text_to_video.create(model="grok-imagine-text-to-video", prompt="hi", aspect_ratio="4:5")
 
 
@@ -298,7 +298,7 @@ def test_image_to_video_index_range():
 
 def test_image_to_video_index_rejects_bool():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="index must be an integer between 0 and 5"):
+    with pytest.raises(ValidationError, match="index must be an integer"):
         client.image_to_video.create(
             model="grok-imagine-image-to-video", source_task_id="src_1", index=True
         )

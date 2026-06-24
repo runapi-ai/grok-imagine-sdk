@@ -34,7 +34,7 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model) == Types::EDIT_IMAGE_MODEL
+          validate_contract!(CONTRACT["edit-image"], params)
           raise Core::ValidationError, "source_image_url is required" unless param(params, :source_image_url)
         end
       end

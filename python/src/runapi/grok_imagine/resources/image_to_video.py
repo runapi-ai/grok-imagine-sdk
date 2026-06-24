@@ -10,12 +10,9 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    ASPECT_RATIOS,
-    IMAGE_TO_VIDEO_MODEL,
     INDEX_RANGE,
-    MOTION_STYLES,
-    RESOLUTIONS,
     CompletedVideoTaskResponse,
     VideoTaskResponse,
 )
@@ -66,8 +63,7 @@ class ImageToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if params.get("model") != IMAGE_TO_VIDEO_MODEL:
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["image-to-video"], params)
 
         source_image_urls = params.get("source_image_urls")
         source_task_id = params.get("source_task_id")
@@ -88,10 +84,6 @@ class ImageToVideo(Resource):
                     value = None
                 if value is None or value not in INDEX_RANGE:
                     raise ValidationError("index must be an integer between 0 and 5")
-
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS)
-        self._validate_optional(params, "motion_style", MOTION_STYLES)
-        self._validate_optional(params, "output_resolution", RESOLUTIONS)
 
         if str(params.get("motion_style")) == "spicy" and source_image_urls and len(source_image_urls) > 0:
             raise ValidationError("spicy motion_style requires a source_task_id source image.")

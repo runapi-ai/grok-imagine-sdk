@@ -136,19 +136,21 @@ class GrokImagineClientTest {
       CapturingTransport createTransport = new CapturingTransport("{\"id\":\"task_edit_image\",\"status\":\"processing\"}");
       GrokImagineClient createClient = GrokImagineClient.builder().apiKey("sk-test").transport(createTransport).build();
       assertNotNull(createClient.editImage().create(
-              EditImageParams.builder()
-                  .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
-                  .prompt("A small red cube on a plain white table, studio product photo")
-                  .build()
+          EditImageParams.builder()
+              .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
+              .sourceImageUrl("https://cdn.runapi.ai/public/samples/source.png")
+              .prompt("A small red cube on a plain white table, studio product photo")
+              .build()
       ));
 
       CapturingTransport createWithOptionsTransport = new CapturingTransport("{\"id\":\"task_edit_image_options\",\"status\":\"processing\"}");
       GrokImagineClient createWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(createWithOptionsTransport).build();
       assertNotNull(createWithOptionsClient.editImage().create(
-              EditImageParams.builder()
-                  .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
-                  .prompt("A small red cube on a plain white table, studio product photo")
-                  .build(),
+          EditImageParams.builder()
+              .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
+              .sourceImageUrl("https://cdn.runapi.ai/public/samples/source.png")
+              .prompt("A small red cube on a plain white table, studio product photo")
+              .build(),
           RequestOptions.none()));
 
       CapturingTransport getTransport = new CapturingTransport("{\"id\":\"task_edit_image\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
@@ -164,10 +166,11 @@ class GrokImagineClientTest {
           "{\"id\":\"task_edit_image_run\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient runClient = GrokImagineClient.builder().apiKey("sk-test").transport(runTransport).build();
       CompletedEditImageResponse runResponse = runClient.editImage().run(
-              EditImageParams.builder()
-                  .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
-                  .prompt("A small red cube on a plain white table, studio product photo")
-                  .build(),
+          EditImageParams.builder()
+              .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
+              .sourceImageUrl("https://cdn.runapi.ai/public/samples/source.png")
+              .prompt("A small red cube on a plain white table, studio product photo")
+              .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build());
       assertNotNull(runResponse);
 
@@ -176,10 +179,11 @@ class GrokImagineClientTest {
           "{\"id\":\"task_edit_image_run_options\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient runWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(runWithOptionsTransport).build();
       assertNotNull(runWithOptionsClient.editImage().run(
-              EditImageParams.builder()
-                  .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
-                  .prompt("A small red cube on a plain white table, studio product photo")
-                  .build(),
+          EditImageParams.builder()
+              .model(EditImageModel.GROK_IMAGINE_EDIT_IMAGE)
+              .sourceImageUrl("https://cdn.runapi.ai/public/samples/source.png")
+              .prompt("A small red cube on a plain white table, studio product photo")
+              .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build()));
     }
 

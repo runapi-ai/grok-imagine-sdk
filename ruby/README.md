@@ -1,8 +1,8 @@
-# Grok Imagine API Ruby SDK for RunAPI
+# Grok Imagine Ruby SDK for RunAPI
 
-The grok imagine api Ruby SDK is the language-specific package for Grok Imagine on RunAPI. Use this grok imagine api package for text-to-image, image editing, and creative production flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
+The Grok Imagine Ruby SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
-This grok imagine api README is the Ruby package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs#grok-imagine; for SDK docs, use https://runapi.ai/docs#sdk-grok-imagine.
+This README is the Ruby package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs#grok-imagine; for SDK docs, use https://runapi.ai/docs#sdk-grok-imagine.
 
 ## Install
 
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use Ruby keyword arguments and the `RunApi::GrokImagine` error classes when building image jobs, Rails workers, or scripts. The available resources include text to videos, image to videos, text to images, image to images, extensions, and upscales. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use Ruby keyword arguments and the `RunApi::GrokImagine` error classes when building image jobs, Rails workers, or scripts. The available resources are `text_to_video`, `image_to_video`, `text_to_image`, `edit_image`, `extensions`, and `upscales`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 

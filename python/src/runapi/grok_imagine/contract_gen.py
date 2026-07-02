@@ -2,7 +2,11 @@ CONTRACT = {
     "edit-image": {
         "models": ["grok-imagine-edit-image"],
         "fields_by_model": {
-            "grok-imagine-edit-image": {}
+            "grok-imagine-edit-image": {
+                "source_image_url": {
+                    "required": True
+                }
+            }
         }
     },
     "extend": {

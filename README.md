@@ -7,14 +7,14 @@
 </h3>
 
 <p align="center">
-  Grok Imagine API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
+  Grok Imagine API SDKs for JavaScript, Python, Ruby, Go, Java, and PHP on RunAPI.
 </p>
 
 <div align="center">
 
 [![npm](https://img.shields.io/npm/v/@runapi.ai/grok-imagine)](https://www.npmjs.com/package/@runapi.ai/grok-imagine)
 [![PyPI](https://img.shields.io/pypi/v/runapi-grok-imagine)](https://pypi.org/project/runapi-grok-imagine/)
-[![RubyGems](https://img.shields.io/gem/v/runapi-grok_imagine)](https://rubygems.org/gems/runapi-grok_imagine)
+[![RubyGems](https://img.shields.io/gem/v/runapi-grok-imagine)](https://rubygems.org/gems/runapi-grok-imagine)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/grok-imagine-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/grok-imagine-sdk/go)
 [![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-grok-imagine)](https://central.sonatype.com/artifact/ai.runapi/runapi-grok-imagine)
 [![License](https://img.shields.io/github/license/runapi-ai/grok-imagine-sdk)](https://github.com/runapi-ai/grok-imagine-sdk/blob/main/LICENSE)
@@ -22,16 +22,16 @@
 </div>
 <br/>
 
-The Grok Imagine API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Grok Imagine on RunAPI. Use it for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Grok Imagine API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Grok Imagine on RunAPI. Use it for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Grok Imagine is listed in the RunAPI model catalog at https://runapi.ai/models/grok-imagine. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `grok-imagine-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+Grok Imagine is listed in the RunAPI model catalog at https://runapi.ai/models/grok-imagine. Variant pages below carry pricing, rate-limit, and commercial-usage details, including the shared `grok-imagine-video-1.5-preview` model for text-to-video and image-to-video. The public `grok-imagine-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
 ```bash
 npm install @runapi.ai/grok-imagine
 pip install runapi-grok-imagine
-gem install runapi-grok_imagine
+gem install runapi-grok-imagine
 go get github.com/runapi-ai/grok-imagine-sdk/go@latest
 ```
 
@@ -62,11 +62,14 @@ dependencies {
 }
 ```
 
+The PHP package is published from the split Composer repository as `runapi-ai/grok-imagine`; see https://github.com/runapi-ai/grok-imagine-php for PHP install and examples.
+
 ## What you can build
 
 - Build apps, agent workflows, batch jobs, and production services around Grok Imagine requests.
 - Install only the language package your app needs while keeping one model-specific repository for docs and releases.
 - Use `create` for submit-only jobs, `get` for status lookup, and `run` for submit-and-poll scripts.
+- Use `grok-imagine-video-1.5-preview` on either text-to-video or image-to-video when you need the preview video model.
 - Upload local files, URL files, or base64 files through shared RunAPI file helpers.
 - Handle validation, authentication, rate limits, insufficient credits, task failures, and polling timeouts through RunAPI SDK errors.
 
@@ -101,7 +104,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 - `js/` publishes `@runapi.ai/grok-imagine`.
 - `python/` publishes `runapi-grok-imagine`.
-- `ruby/` publishes `runapi-grok_imagine` when RubyGems publishing resumes.
+- `ruby/` publishes `runapi-grok-imagine`.
 - `go/` publishes `github.com/runapi-ai/grok-imagine-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
 - `java/` publishes `ai.runapi:runapi-grok-imagine` and depends on `ai.runapi:runapi-core`.
 
@@ -111,6 +114,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - Product docs: https://runapi.ai/docs#grok-imagine
 - SDK repository: https://github.com/runapi-ai/grok-imagine-sdk
+- PHP package repository: https://github.com/runapi-ai/grok-imagine-php
 - Skill repository: https://github.com/runapi-ai/grok-imagine
 - Provider comparison: https://runapi.ai/providers/xai
 - Full catalog: https://runapi.ai/models
@@ -118,6 +122,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Pricing and variants
 
 Use the most specific Grok Imagine variant page for pricing, rate limits, and commercial usage:
+- [Video 1.5 Preview](https://runapi.ai/models/grok-imagine/video-1.5-preview)
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)
@@ -133,7 +138,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ### Which package should I install for Grok Imagine work?
 
-Install the model package for your language: `@runapi.ai/grok-imagine` on npm, `runapi-grok-imagine` on PyPI, `runapi-grok_imagine` on RubyGems, `github.com/runapi-ai/grok-imagine-sdk/go`, or `ai.runapi:runapi-grok-imagine`. Install core SDK packages only when you are building shared SDK infrastructure.
+Install the model package for your language: `@runapi.ai/grok-imagine` on npm, `runapi-grok-imagine` on PyPI, `runapi-grok-imagine` on RubyGems, `github.com/runapi-ai/grok-imagine-sdk/go`, `ai.runapi:runapi-grok-imagine` on Maven Central, or `runapi-ai/grok-imagine` on Packagist. Install core SDK packages only when you are building shared SDK infrastructure.
 
 ### Where should public links point?
 

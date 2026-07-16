@@ -177,7 +177,9 @@ try {
 - Model page: https://runapi.ai/models/grok-imagine
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - Product docs: https://runapi.ai/docs#grok-imagine
-- Pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
+- Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
+- Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
+- Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/grok-imagine-sdk
 

@@ -1,6 +1,6 @@
 ---
 name: grok-imagine
-description: Generate and edit images with Grok Imagine through RunAPI. Use when the user asks an agent to create, edit, or transform images with Grok Imagine. Default to the RunAPI CLI for one-off generation; use SDKs only when the user is integrating RunAPI into an app or backend.
+description: Generate and edit images and videos with Grok Imagine through RunAPI. Use when the user asks an agent to create, edit, animate, or transform media with Grok Imagine. Default to the RunAPI CLI for one-off generation; use SDKs only when the user is integrating RunAPI into an app or backend.
 documentation: https://runapi.ai/models/grok-imagine.md
 provider_page: https://runapi.ai/providers/xai.md
 catalog: https://runapi.ai/models.md
@@ -23,7 +23,7 @@ metadata:
 
 # Grok Imagine on RunAPI
 
-Generate and edit images with Grok Imagine through RunAPI. The default path for one-off agent tasks is the `runapi` CLI; SDKs are for application integration.
+Generate and edit images and videos with Grok Imagine through RunAPI. The default path for one-off agent tasks is the `runapi` CLI; SDKs are for application integration.
 
 ## Critical: Integration Runtime
 
@@ -36,8 +36,11 @@ Generate and edit images with Grok Imagine through RunAPI. The default path for 
 When integrating Grok Imagine into an app, backend, worker, library, Rails service, Node service, Go service, webhook pipeline, or production workflow, start by checking the current SDK package and official usage. Confirm install commands, client methods (`create`, `get`, `run`), request fields, response shape, and error classes before using CLI help or raw HTTP examples. Use a RunAPI SDK package:
 
 - JavaScript / TypeScript: `@runapi.ai/grok-imagine`
-- Ruby: `runapi-grok_imagine`
+- Python: `runapi-grok-imagine`
+- Ruby: `runapi-grok-imagine`
 - Go: `github.com/runapi-ai/grok-imagine-sdk/go`
+- Java: `ai.runapi:runapi-grok-imagine`
+- PHP: `runapi-ai/grok-imagine`
 
 ## CLI path
 
@@ -76,6 +79,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Variants
 
+- [Video 1.5 Preview](https://runapi.ai/models/grok-imagine/video-1.5-preview.md)
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video.md)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video.md)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image.md)

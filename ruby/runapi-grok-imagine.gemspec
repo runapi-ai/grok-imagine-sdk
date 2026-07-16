@@ -3,14 +3,14 @@
 Dir.chdir(__dir__) do
 
   Gem::Specification.new do |spec|
-    spec.name = "runapi-grok_imagine"
-    spec.version = "0.2.7"
+    spec.name = "runapi-grok-imagine"
+    spec.version = "0.2.8"
     spec.metadata["runapi_slug"] = "grok-imagine"
     spec.authors = ["RunAPI"]
     spec.email = ["contact@runapi.ai"]
 
     spec.summary = "Grok Imagine Ruby SDK for RunAPI"
-    spec.description = "The Grok Imagine Ruby SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby."
+    spec.description = "The Grok Imagine Ruby SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image and video generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby."
     spec.homepage = "https://runapi.ai/models/grok-imagine"
     spec.license = "Apache-2.0"
     spec.required_ruby_version = ">= 3.1.0"
@@ -25,6 +25,6 @@ Dir.chdir(__dir__) do
     spec.extra_rdoc_files = ["README.md"]
         spec.require_paths = ["lib"]
 
-    spec.add_dependency "runapi-core", "~> 0.2.7"
+    spec.add_dependency "runapi-core", "~> 0.2.11"
   end
 end

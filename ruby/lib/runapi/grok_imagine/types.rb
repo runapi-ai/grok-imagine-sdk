@@ -4,6 +4,8 @@ module RunApi
   module GrokImagine
     module Types
       DURATION_RANGE = (6..30)
+      PREVIEW_MODEL = "grok-imagine-video-1.5-preview"
+      PREVIEW_DURATION_RANGE = (1..15)
       EXTENSION_DURATION_SECONDS = [6, 10].freeze
       INDEX_RANGE = (0..5)
 

@@ -3,8 +3,8 @@
   "runapi": {
     "slug": "grok-imagine"
   },
-  "version": "0.2.7",
-  "description": "RunAPI Grok Imagine SDK for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows in JavaScript, Python, Ruby, Go, and Java",
+  "version": "0.2.8",
+  "description": "RunAPI Grok Imagine SDK for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows in JavaScript, Python, Ruby, Go, Java, and PHP",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -31,7 +31,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runapi.ai/core": "^0.2.7"
+    "@runapi.ai/core": "^0.2.11"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -57,8 +57,12 @@
     "maven",
     "gradle",
     "image-generation",
+    "video-generation",
     "text-to-image",
+    "text-to-video",
+    "image-to-video",
     "image-api",
+    "video-api",
     "grok-imagine-api"
   ],
   "author": "RunAPI",

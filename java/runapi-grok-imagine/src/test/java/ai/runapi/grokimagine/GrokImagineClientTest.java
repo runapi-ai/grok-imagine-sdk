@@ -79,6 +79,52 @@ class GrokImagineClientTest {
   }
 
   @Test
+  void textToVideoPreviewSendsExpectedRequestShape() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_preview\",\"status\":\"processing\"}");
+    GrokImagineClient client = GrokImagineClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToVideo().create(
+        TextToVideoParams.builder()
+            .model(TextToVideoModel.GROK_IMAGINE_VIDEO_1_5_PREVIEW)
+            .prompt("A quiet city rain scene")
+            .aspectRatio("auto")
+            .durationSeconds(15)
+            .outputResolution("720p")
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("grok-imagine-video-1.5-preview", body.get("model").asText());
+    assertEquals("auto", body.get("aspect_ratio").asText());
+    assertEquals(15, body.get("duration_seconds").asInt());
+    assertEquals(false, body.has("motion_style"));
+    assertEquals(false, body.has("enable_safety_checker"));
+  }
+
+  @Test
+  void imageToVideoPreviewSendsExpectedRequestShape() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_preview\",\"status\":\"processing\"}");
+    GrokImagineClient client = GrokImagineClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.imageToVideo().create(
+        ImageToVideoParams.builder()
+            .model(ImageToVideoModel.GROK_IMAGINE_VIDEO_1_5_PREVIEW)
+            .sourceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/result.png"))
+            .prompt("Animate the still image")
+            .aspectRatio("auto")
+            .durationSeconds(8)
+            .outputResolution("720p")
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("grok-imagine-video-1.5-preview", body.get("model").asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/result.png", body.get("source_image_urls").get(0).asText());
+    assertEquals(false, body.has("source_task_id"));
+    assertEquals(false, body.has("motion_style"));
+  }
+
+  @Test
   void getDecodesTaskResponseAndExtraFields() {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_456\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}],\"custom\":\"kept\"}");
     GrokImagineClient client = GrokImagineClient.builder().apiKey("sk-test").transport(transport).build();

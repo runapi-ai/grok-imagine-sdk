@@ -5,9 +5,9 @@ Takes a prior grok-imagine video source_task_id and extends it.
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from runapi.core import Resource, ValidationError
+from runapi.core import Resource, ValidationError, RequestOptions
 
 from ..types import (
     EXTENSION_DURATION_SECONDS,
@@ -24,7 +24,7 @@ class Extensions(Resource):
     RESPONSE_CLASS = VideoTaskResponse
     COMPLETED_RESPONSE_CLASS = CompletedVideoTaskResponse
 
-    def run(self, **params: Any) -> Any:
+    def run(self, options: Optional[RequestOptions] = None, **params: Any) -> Any:
         """Create a video extension task and poll until it completes.
 
         Args:
@@ -33,10 +33,10 @@ class Extensions(Resource):
         Returns:
             The completed video extension response.
         """
-        task = self.create(**params)
-        return self._poll_until_complete(lambda: self.get(task.id))
+        task = self.create(options=options, **params)
+        return self._poll_until_complete(lambda: self.get(task.id, options=options))
 
-    def create(self, **params: Any) -> Any:
+    def create(self, options: Optional[RequestOptions] = None, **params: Any) -> Any:
         """Create a video extension task and return immediately with an id.
 
         Args:
@@ -47,9 +47,9 @@ class Extensions(Resource):
         """
         compacted = self._compact_params(params)
         self._validate_params(compacted)
-        return self._request("post", self.ENDPOINT, body=compacted)
+        return self._request("post", self.ENDPOINT, body=compacted, options=options)
 
-    def get(self, id: str) -> Any:
+    def get(self, id: str, options: Optional[RequestOptions] = None) -> Any:
         """Fetch the current status of a video extension task.
 
         Args:
@@ -58,7 +58,7 @@ class Extensions(Resource):
         Returns:
             The current video extension status.
         """
-        return self._request("get", f"{self.ENDPOINT}/{id}")
+        return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
         if not params.get("source_task_id"):

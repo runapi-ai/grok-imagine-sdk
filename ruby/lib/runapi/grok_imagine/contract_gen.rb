@@ -28,7 +28,7 @@ module RunApi
         }
       },
       "image-to-video" => {
-        "models" => ["grok-imagine-image-to-video"],
+        "models" => ["grok-imagine-image-to-video", "grok-imagine-video-1.5-preview"],
         "fields_by_model" => {
           "grok-imagine-image-to-video" => {
             "aspect_ratio" => {
@@ -46,8 +46,38 @@ module RunApi
             "output_resolution" => {
               "enum" => ["480p", "720p"]
             }
+          },
+          "grok-imagine-video-1.5-preview" => {
+            "aspect_ratio" => {
+              "enum" => ["1:1", "16:9", "9:16", "3:2", "2:3", "auto"]
+            },
+            "duration_seconds" => {
+              "min" => 1,
+              "max" => 15,
+              "type" => "integer"
+            },
+            "index" => {
+              "type" => "integer"
+            },
+            "output_resolution" => {
+              "enum" => ["480p", "720p"]
+            },
+            "prompt" => {
+              "min" => 1,
+              "max" => 4096,
+              "length" => true
+            },
+            "source_image_urls" => {
+              "required" => true
+            }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "grok-imagine-video-1.5-preview"
+          },
+          "forbidden" => ["source_task_id", "index", "motion_style", "enable_safety_checker"]
+        }]
       },
       "text-to-image" => {
         "models" => ["grok-imagine-text-to-image"],
@@ -60,7 +90,7 @@ module RunApi
         }
       },
       "text-to-video" => {
-        "models" => ["grok-imagine-text-to-video"],
+        "models" => ["grok-imagine-text-to-video", "grok-imagine-video-1.5-preview"],
         "fields_by_model" => {
           "grok-imagine-text-to-video" => {
             "aspect_ratio" => {
@@ -75,8 +105,33 @@ module RunApi
             "output_resolution" => {
               "enum" => ["480p", "720p"]
             }
+          },
+          "grok-imagine-video-1.5-preview" => {
+            "aspect_ratio" => {
+              "enum" => ["1:1", "16:9", "9:16", "3:2", "2:3", "auto"]
+            },
+            "duration_seconds" => {
+              "min" => 1,
+              "max" => 15,
+              "type" => "integer"
+            },
+            "output_resolution" => {
+              "enum" => ["480p", "720p"]
+            },
+            "prompt" => {
+              "required" => true,
+              "min" => 1,
+              "max" => 4096,
+              "length" => true
+            }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "grok-imagine-video-1.5-preview"
+          },
+          "forbidden" => ["motion_style", "enable_safety_checker"]
+        }]
       },
       "upscale-image" => {
         "models" => [],

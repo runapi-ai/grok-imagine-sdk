@@ -45,6 +45,31 @@ describe('Grok Imagine image-to-video', () => {
     });
   });
 
+  it('creates preview requests with source_image_urls only', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-preview' });
+    const resource = new ImageToVideo(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-video-1.5-preview',
+      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      prompt: 'Animate the still image',
+      aspect_ratio: 'auto',
+      duration_seconds: 8,
+      output_resolution: '720p',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/image_to_video', {
+      body: {
+        model: 'grok-imagine-video-1.5-preview',
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        prompt: 'Animate the still image',
+        aspect_ratio: 'auto',
+        duration_seconds: 8,
+        output_resolution: '720p',
+      },
+    });
+  });
+
   it('rejects spicy motion_style with source_image_urls', async () => {
     const resource = new ImageToVideo(mockHttp);
 

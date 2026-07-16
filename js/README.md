@@ -1,6 +1,6 @@
 # Grok Imagine JavaScript SDK for RunAPI
 
-The Grok Imagine JavaScript SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
+The Grok Imagine JavaScript SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image and video generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
 This README is the JavaScript package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs#grok-imagine; for SDK docs, use https://runapi.ai/docs#sdk-grok-imagine.
 
@@ -28,14 +28,16 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building image applications. The available resources are `textToVideo`, `imageToVideo`, `textToImage`, `editImage`, `extensions`, and `upscales`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building media applications. The available resources are `textToVideo`, `imageToVideo`, `textToImage`, `editImage`, `extensions`, and `upscales`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
 - Model page: https://runapi.ai/models/grok-imagine
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - Product docs: https://runapi.ai/docs#grok-imagine
-- Pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
+- Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
+- Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
+- Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
 - Provider comparison: https://runapi.ai/providers/xai
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/grok-imagine-sdk

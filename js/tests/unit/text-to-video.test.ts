@@ -30,4 +30,27 @@ describe('Grok Imagine text-to-video', () => {
     });
   });
 
+  it('creates preview requests without legacy fields', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-preview' });
+    const resource = new TextToVideo(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-video-1.5-preview',
+      prompt: 'A quiet city rain scene',
+      aspect_ratio: 'auto',
+      duration_seconds: 15,
+      output_resolution: '720p',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/text_to_video', {
+      body: {
+        model: 'grok-imagine-video-1.5-preview',
+        prompt: 'A quiet city rain scene',
+        aspect_ratio: 'auto',
+        duration_seconds: 15,
+        output_resolution: '720p',
+      },
+    });
+  });
+
 });

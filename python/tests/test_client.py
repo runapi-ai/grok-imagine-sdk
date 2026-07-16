@@ -104,6 +104,31 @@ def test_text_to_video_create_posts_compacted_body():
     assert isinstance(result, VideoTaskResponse)
 
 
+def test_text_to_video_preview_create_posts_compacted_body():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.text_to_video.create(
+        model="grok-imagine-video-1.5-preview",
+        prompt="a quiet city rain scene",
+        aspect_ratio="auto",
+        duration_seconds=15,
+        output_resolution="720p",
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/text_to_video",
+            {
+                "model": "grok-imagine-video-1.5-preview",
+                "prompt": "a quiet city rain scene",
+                "aspect_ratio": "auto",
+                "duration_seconds": 15,
+                "output_resolution": "720p",
+            },
+        ),
+    ]
+
+
 def test_text_to_video_get_fetches_by_id():
     fake = FakeHttp({"id": "t1", "status": "processing"})
     client = GrokImagineClient(api_key="k", http_client=fake)
@@ -136,6 +161,33 @@ def test_image_to_video_create_shape():
             "post",
             "/api/v1/grok_imagine/image_to_video",
             {"model": "grok-imagine-image-to-video", "source_image_urls": ["https://x/a.png"]},
+        ),
+    ]
+
+
+def test_image_to_video_preview_create_shape():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.image_to_video.create(
+        model="grok-imagine-video-1.5-preview",
+        source_image_urls=["https://x/a.png"],
+        prompt="animate this",
+        aspect_ratio="auto",
+        duration_seconds=8,
+        output_resolution="720p",
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/image_to_video",
+            {
+                "model": "grok-imagine-video-1.5-preview",
+                "source_image_urls": ["https://x/a.png"],
+                "prompt": "animate this",
+                "aspect_ratio": "auto",
+                "duration_seconds": 8,
+                "output_resolution": "720p",
+            },
         ),
     ]
 
@@ -261,6 +313,12 @@ def test_text_to_video_duration_range():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(ValidationError, match="duration_seconds must be an integer between 6 and 30"):
         client.text_to_video.create(model="grok-imagine-text-to-video", prompt="hi", duration_seconds=99)
+
+
+def test_text_to_video_preview_duration_range():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="duration_seconds must be between 1 and 15"):
+        client.text_to_video.create(model="grok-imagine-video-1.5-preview", prompt="hi", duration_seconds=16)
 
 
 def test_image_to_video_requires_a_source():

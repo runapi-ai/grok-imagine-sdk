@@ -16,8 +16,12 @@ type EditImageModel string
 const (
 	// ModelTextToVideo is the Grok Imagine text-to-video model.
 	ModelTextToVideo TextToVideoModel = "grok-imagine-text-to-video"
+	// ModelTextToVideo15Preview is the Grok Imagine Video 1.5 Preview model for text-to-video.
+	ModelTextToVideo15Preview TextToVideoModel = "grok-imagine-video-1.5-preview"
 	// ModelImageToVideo is the Grok Imagine image-to-video model.
 	ModelImageToVideo ImageToVideoModel = "grok-imagine-image-to-video"
+	// ModelImageToVideo15Preview is the Grok Imagine Video 1.5 Preview model for image-to-video.
+	ModelImageToVideo15Preview ImageToVideoModel = "grok-imagine-video-1.5-preview"
 	// ModelTextToImage is the Grok Imagine text-to-image model, with an optional Pro quality mode.
 	ModelTextToImage TextToImageModel = "grok-imagine-text-to-image"
 	// ModelEditImage is the Grok Imagine image editing model for prompt-guided modifications to a source image.
@@ -60,14 +64,14 @@ type ImageTaskResponse struct {
 // TextToVideoParams contains parameters for text-to-video generation.
 type TextToVideoParams struct {
 	Model       TextToVideoModel `json:"model" help:"required; model slug"`
-	Prompt      string           `json:"prompt" help:"required; up to 5000 characters"`
+	Prompt      string           `json:"prompt" help:"required; up to 5000 characters, or 4096 characters for grok-imagine-video-1.5-preview"`
 	CallbackURL string           `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
-	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset"`
-	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio; preview also accepts auto"`
+	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset; not supported by preview"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds (6-30, or 1-15 for preview)"`
 	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
-	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle; not supported by preview"`
 }
 
 // ImageToVideoParams contains parameters for image-to-video generation.
@@ -77,15 +81,15 @@ type ImageToVideoParams struct {
 	CallbackURL string            `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
 	SourceImageURLs []string `json:"source_image_urls,omitempty" help:"optional; exactly one source image URL (mutually exclusive with source_task_id)"`
-	SourceTaskID    string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_urls)"`
-	Index           *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using source_task_id"`
+	SourceTaskID    string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_urls); not supported by preview"`
+	Index           *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using source_task_id; not supported by preview"`
 
 	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired motion"`
-	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset"`
-	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds"`
+	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset; not supported by preview"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"optional; duration in seconds (6-30, or 1-15 for preview)"`
 	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
-	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
-	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio; preview also accepts auto"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle; not supported by preview"`
 }
 
 // TextToImageParams contains parameters for text-to-image generation.

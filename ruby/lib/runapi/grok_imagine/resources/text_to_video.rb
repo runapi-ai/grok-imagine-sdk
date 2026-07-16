@@ -16,19 +16,19 @@ module RunApi
           @http = http
         end
 
-        def run(**params)
-          task = create(**params)
-          poll_until_complete { get(task.id) }
+        def run(options: nil, **params)
+          task = create(options: options, **params)
+          poll_until_complete { get(task.id, options: options) }
         end
 
-        def create(**params)
+        def create(options: nil, **params)
           params = compact_params(params)
           validate_params!(params)
-          request(:post, ENDPOINT, body: params)
+          request(:post, ENDPOINT, body: params, options: options)
         end
 
-        def get(id)
-          request(:get, "#{ENDPOINT}/#{id}")
+        def get(id, options: nil)
+          request(:get, "#{ENDPOINT}/#{id}", options: options)
         end
 
         private
@@ -40,8 +40,9 @@ module RunApi
           duration_seconds = param(params, :duration_seconds)
           if duration_seconds
             int = duration_seconds.to_i
-            unless Types::DURATION_RANGE.cover?(int)
-              raise Core::ValidationError, "duration_seconds must be an integer between 6 and 30"
+            range = (param(params, :model) == Types::PREVIEW_MODEL) ? Types::PREVIEW_DURATION_RANGE : Types::DURATION_RANGE
+            unless range.cover?(int)
+              raise Core::ValidationError, "duration_seconds must be an integer between #{range.min} and #{range.max}"
             end
           end
         end

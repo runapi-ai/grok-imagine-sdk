@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public final class TextToVideoModel extends GrokimagineValue {
   /** grok-imagine-text-to-video model slug. */
   public static final TextToVideoModel GROK_IMAGINE_TEXT_TO_VIDEO = new TextToVideoModel("grok-imagine-text-to-video");
+  /** grok-imagine-video-1.5-fast model slug. */
+  public static final TextToVideoModel GROK_IMAGINE_VIDEO_1_5_FAST = new TextToVideoModel("grok-imagine-video-1.5-fast");
   /** grok-imagine-video-1.5-preview model slug. */
   public static final TextToVideoModel GROK_IMAGINE_VIDEO_1_5_PREVIEW = new TextToVideoModel("grok-imagine-video-1.5-preview");
 

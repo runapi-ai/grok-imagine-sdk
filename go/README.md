@@ -32,7 +32,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when building media services, CLIs, or workers. The available resources are `TextToVideo`, `ImageToVideo`, `TextToImage`, `EditImage`, `Extensions`, and `Upscales`; use `ModelTextToVideo15Preview` or `ModelImageToVideo15Preview` for the preview video model. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when building media services, CLIs, or workers. The available resources are `TextToVideo`, `ImageToVideo`, `TextToImage`, `EditImage`, `Extensions`, and `Upscales`; use `ModelTextToVideo15Fast` or `ModelImageToVideo15Fast` for Fast, and the corresponding `15Preview` constants for preview. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
@@ -40,6 +40,7 @@ Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when bu
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - Product docs: https://runapi.ai/docs#grok-imagine
 - Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
+- Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
 - Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
 - Provider comparison: https://runapi.ai/providers/xai

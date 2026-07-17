@@ -53,4 +53,29 @@ describe('Grok Imagine text-to-video', () => {
     });
   });
 
+  it('creates fast requests with fast-only inputs', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-fast' });
+    const resource = new TextToVideo(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-video-1.5-fast',
+      prompt: 'A paper plane crossing a sunlit room',
+      reference_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      aspect_ratio: '16:9',
+      duration_seconds: 5,
+      output_resolution: '720p',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/text_to_video', {
+      body: {
+        model: 'grok-imagine-video-1.5-fast',
+        prompt: 'A paper plane crossing a sunlit room',
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        aspect_ratio: '16:9',
+        duration_seconds: 5,
+        output_resolution: '720p',
+      },
+    });
+  });
+
 });

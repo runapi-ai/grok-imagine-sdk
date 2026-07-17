@@ -31,6 +31,7 @@ export const contract = {
   "image-to-video": {
     "models": [
       "grok-imagine-image-to-video",
+      "grok-imagine-video-1.5-fast",
       "grok-imagine-video-1.5-preview"
     ],
     "fields_by_model": {
@@ -62,6 +63,34 @@ export const contract = {
             "480p",
             "720p"
           ]
+        }
+      },
+      "grok-imagine-video-1.5-fast": {
+        "aspect_ratio": {
+          "enum": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3"
+          ]
+        },
+        "duration_seconds": {
+          "min": 1,
+          "max": 30,
+          "type": "integer"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "output_resolution": {
+          "enum": [
+            "480p",
+            "720p"
+          ]
+        },
+        "source_image_urls": {
+          "required": true
         }
       },
       "grok-imagine-video-1.5-preview": {
@@ -102,11 +131,31 @@ export const contract = {
     "rules": [
       {
         "when": {
+          "model": "grok-imagine-image-to-video"
+        },
+        "forbidden": [
+          "reference_image_urls"
+        ]
+      },
+      {
+        "when": {
+          "model": "grok-imagine-video-1.5-fast"
+        },
+        "forbidden": [
+          "source_task_id",
+          "index",
+          "motion_style",
+          "enable_safety_checker"
+        ]
+      },
+      {
+        "when": {
           "model": "grok-imagine-video-1.5-preview"
         },
         "forbidden": [
           "source_task_id",
           "index",
+          "reference_image_urls",
           "motion_style",
           "enable_safety_checker"
         ]
@@ -134,6 +183,7 @@ export const contract = {
   "text-to-video": {
     "models": [
       "grok-imagine-text-to-video",
+      "grok-imagine-video-1.5-fast",
       "grok-imagine-video-1.5-preview"
     ],
     "fields_by_model": {
@@ -162,6 +212,31 @@ export const contract = {
             "480p",
             "720p"
           ]
+        }
+      },
+      "grok-imagine-video-1.5-fast": {
+        "aspect_ratio": {
+          "enum": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3"
+          ]
+        },
+        "duration_seconds": {
+          "min": 1,
+          "max": 30,
+          "type": "integer"
+        },
+        "output_resolution": {
+          "enum": [
+            "480p",
+            "720p"
+          ]
+        },
+        "prompt": {
+          "required": true
         }
       },
       "grok-imagine-video-1.5-preview": {
@@ -197,9 +272,27 @@ export const contract = {
     "rules": [
       {
         "when": {
+          "model": "grok-imagine-text-to-video"
+        },
+        "forbidden": [
+          "reference_image_urls"
+        ]
+      },
+      {
+        "when": {
+          "model": "grok-imagine-video-1.5-fast"
+        },
+        "forbidden": [
+          "motion_style",
+          "enable_safety_checker"
+        ]
+      },
+      {
+        "when": {
           "model": "grok-imagine-video-1.5-preview"
         },
         "forbidden": [
+          "reference_image_urls",
           "motion_style",
           "enable_safety_checker"
         ]

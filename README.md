@@ -24,7 +24,7 @@
 
 The Grok Imagine API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Grok Imagine on RunAPI. Use it for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Grok Imagine is listed in the RunAPI model catalog at https://runapi.ai/models/grok-imagine. Variant pages below carry pricing, rate-limit, and commercial-usage details, including the shared `grok-imagine-video-1.5-preview` model for text-to-video and image-to-video. The public `grok-imagine-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
+Grok Imagine is listed in the RunAPI model catalog at https://runapi.ai/models/grok-imagine. Variant pages below carry pricing, rate-limit, and commercial-usage details, including the shared `grok-imagine-video-1.5-fast` and `grok-imagine-video-1.5-preview` models for text-to-video and image-to-video. The public `grok-imagine-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
@@ -70,6 +70,7 @@ The PHP package is published from the split Composer repository as `runapi-ai/gr
 - Install only the language package your app needs while keeping one model-specific repository for docs and releases.
 - Use `create` for submit-only jobs, `get` for status lookup, and `run` for submit-and-poll scripts.
 - Use `grok-imagine-video-1.5-preview` on either text-to-video or image-to-video when you need the preview video model.
+- Use `grok-imagine-video-1.5-fast` on either text-to-video or image-to-video for fast iteration, reference images, and clips up to 30 seconds.
 - Upload local files, URL files, or base64 files through shared RunAPI file helpers.
 - Handle validation, authentication, rate limits, insufficient credits, task failures, and polling timeouts through RunAPI SDK errors.
 
@@ -123,6 +124,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 Use the most specific Grok Imagine variant page for pricing, rate limits, and commercial usage:
 - [Video 1.5 Preview](https://runapi.ai/models/grok-imagine/video-1.5-preview)
+- [Video 1.5 Fast](https://runapi.ai/models/grok-imagine/video-1.5-fast)
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)

@@ -5,6 +5,8 @@ from __future__ import annotations
 from runapi.core import BaseModel, TaskResponse, optional, required
 
 DURATION_RANGE = range(6, 31)
+FAST_MODEL = "grok-imagine-video-1.5-fast"
+FAST_DURATION_RANGE = range(1, 31)
 PREVIEW_MODEL = "grok-imagine-video-1.5-preview"
 PREVIEW_DURATION_RANGE = range(1, 16)
 EXTENSION_DURATION_SECONDS = [6, 10]

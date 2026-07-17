@@ -79,6 +79,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Variants
 
+- [Video 1.5 Fast](https://runapi.ai/models/grok-imagine/video-1.5-fast.md)
 - [Video 1.5 Preview](https://runapi.ai/models/grok-imagine/video-1.5-preview.md)
 - [Text to video](https://runapi.ai/models/grok-imagine/text-to-video.md)
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video.md)

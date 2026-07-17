@@ -47,7 +47,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Pass parameters as keyword arguments and catch the `runapi.grok_imagine` error classes when building media jobs or scripts. The available resources are `text_to_video`, `image_to_video`, `text_to_image`, `edit_image`, `extensions`, and `upscales`; use `grok-imagine-video-1.5-preview` with either video resource for the preview model. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Pass parameters as keyword arguments and catch the `runapi.grok_imagine` error classes when building media jobs or scripts. The available resources are `text_to_video`, `image_to_video`, `text_to_image`, `edit_image`, `extensions`, and `upscales`; use `grok-imagine-video-1.5-fast` or `grok-imagine-video-1.5-preview` with either video resource. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
@@ -55,6 +55,7 @@ Pass parameters as keyword arguments and catch the `runapi.grok_imagine` error c
 - SDK docs: https://runapi.ai/docs#sdk-grok-imagine
 - Product docs: https://runapi.ai/docs#grok-imagine
 - Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
+- Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
 - Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
 - Provider comparison: https://runapi.ai/providers/xai

@@ -4,6 +4,7 @@ import type { AsyncTaskStatus } from '@runapi.ai/core';
 
 export type GrokImagineTextToVideoModel = 'grok-imagine-text-to-video';
 export type GrokImagineImageToVideoModel = 'grok-imagine-image-to-video';
+export type GrokImagineVideo15FastModel = 'grok-imagine-video-1.5-fast';
 export type GrokImagineVideo15PreviewModel = 'grok-imagine-video-1.5-preview';
 export type GrokImagineTextToImageModel = 'grok-imagine-text-to-image';
 export type GrokImagineEditImageModel = 'grok-imagine-edit-image';
@@ -11,9 +12,11 @@ export type GrokImagineEditImageModel = 'grok-imagine-edit-image';
 // --- Enums ---
 
 export type GrokImagineAspectRatio = '2:3' | '3:2' | '1:1' | '16:9' | '9:16';
+export type GrokImagineFastAspectRatio = GrokImagineAspectRatio;
 export type GrokImaginePreviewAspectRatio = GrokImagineAspectRatio | 'auto';
 export type GrokImagineMotionStyle = 'fun' | 'normal' | 'spicy';
 export type GrokImagineResolution = '480p' | '720p';
+export type GrokImagineFastResolution = GrokImagineResolution;
 export type GrokImagineExtensionDurationSeconds = 6 | 10;
 
 // --- Common ---
@@ -56,8 +59,25 @@ export interface GrokImagineTextToVideoPreviewParams extends TextToVideoBase {
   enable_safety_checker?: never;
 }
 
+export interface GrokImagineTextToVideoFastParams extends TaskCommonParams {
+  model: GrokImagineVideo15FastModel;
+  /** Text description of desired video motion. */
+  prompt: string;
+  /** Optional reference images used to guide the generated video. */
+  reference_image_urls?: string[];
+  /** Width-to-height ratio of the generated video. */
+  aspect_ratio?: GrokImagineFastAspectRatio;
+  /** Duration in seconds (1-30). Default: 8. */
+  duration_seconds?: number;
+  /** Output resolution. Default: 480p. */
+  output_resolution?: GrokImagineFastResolution;
+  motion_style?: never;
+  enable_safety_checker?: never;
+}
+
 export type GrokImagineTextToVideoParams =
   | GrokImagineTextToVideoClassicParams
+  | GrokImagineTextToVideoFastParams
   | GrokImagineTextToVideoPreviewParams;
 
 // --- Image to Video ---
@@ -109,9 +129,29 @@ export interface GrokImagineImageToVideoPreviewParams extends TaskCommonParams {
   enable_safety_checker?: never;
 }
 
+export interface GrokImagineImageToVideoFastParams extends TaskCommonParams {
+  model: GrokImagineVideo15FastModel;
+  /** Source image URL array with exactly one URL. */
+  source_image_urls: [string];
+  /** Optional reference images used to guide the generated video. */
+  reference_image_urls?: string[];
+  /** Optional text description for the desired motion. */
+  prompt?: string;
+  aspect_ratio?: GrokImagineFastAspectRatio;
+  /** Duration in seconds (1-30). Default: 8. */
+  duration_seconds?: number;
+  /** Output resolution. Default: 480p. */
+  output_resolution?: GrokImagineFastResolution;
+  source_task_id?: never;
+  index?: never;
+  motion_style?: never;
+  enable_safety_checker?: never;
+}
+
 export type GrokImagineImageToVideoParams =
   | GrokImagineImageToVideoUrlParams
   | GrokImagineImageToVideoTaskParams
+  | GrokImagineImageToVideoFastParams
   | GrokImagineImageToVideoPreviewParams;
 
 // --- Text to Image ---

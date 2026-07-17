@@ -9,6 +9,7 @@ public final class TextToVideoParams {
   private final String model;
   private final String prompt;
   private final String callbackUrl;
+  private final List<String> referenceImageUrls;
   private final String aspectRatio;
   private final String motionStyle;
   private final Integer durationSeconds;
@@ -19,6 +20,7 @@ public final class TextToVideoParams {
     this.model = builder.model;
     this.prompt = builder.prompt;
     this.callbackUrl = builder.callbackUrl;
+    this.referenceImageUrls = GrokimagineParamUtils.strings(builder.referenceImageUrls);
     this.aspectRatio = builder.aspectRatio;
     this.motionStyle = builder.motionStyle;
     this.durationSeconds = builder.durationSeconds;
@@ -42,6 +44,7 @@ public final class TextToVideoParams {
     raw.put("model", GrokimagineParamUtils.wireValue(model));
     raw.put("prompt", GrokimagineParamUtils.wireValue(prompt));
     raw.put("callback_url", GrokimagineParamUtils.wireValue(callbackUrl));
+    raw.put("reference_image_urls", GrokimagineParamUtils.wireValue(referenceImageUrls));
     raw.put("aspect_ratio", GrokimagineParamUtils.wireValue(aspectRatio));
     raw.put("motion_style", GrokimagineParamUtils.wireValue(motionStyle));
     raw.put("duration_seconds", GrokimagineParamUtils.wireValue(durationSeconds));
@@ -57,6 +60,7 @@ public final class TextToVideoParams {
     private String model;
     private String prompt;
     private String callbackUrl;
+    private List<String> referenceImageUrls;
     private String aspectRatio;
     private String motionStyle;
     private Integer durationSeconds;
@@ -87,6 +91,12 @@ public final class TextToVideoParams {
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
       this.callbackUrl = GrokimagineParamUtils.requireNonBlank(value, "callbackUrl");
+      return this;
+    }
+
+    /** Sets the reference image URLs. */
+    public Builder referenceImageUrls(List<String> value) {
+      this.referenceImageUrls = value;
       return this;
     }
 

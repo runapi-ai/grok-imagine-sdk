@@ -9,6 +9,7 @@ public final class ImageToVideoParams {
   private final String model;
   private final String callbackUrl;
   private final List<String> sourceImageUrls;
+  private final List<String> referenceImageUrls;
   private final String sourceTaskId;
   private final Integer index;
   private final String prompt;
@@ -22,6 +23,7 @@ public final class ImageToVideoParams {
     this.model = builder.model;
     this.callbackUrl = builder.callbackUrl;
     this.sourceImageUrls = GrokimagineParamUtils.strings(builder.sourceImageUrls);
+    this.referenceImageUrls = GrokimagineParamUtils.strings(builder.referenceImageUrls);
     this.sourceTaskId = builder.sourceTaskId;
     this.index = builder.index;
     this.prompt = builder.prompt;
@@ -48,6 +50,7 @@ public final class ImageToVideoParams {
     raw.put("model", GrokimagineParamUtils.wireValue(model));
     raw.put("callback_url", GrokimagineParamUtils.wireValue(callbackUrl));
     raw.put("source_image_urls", GrokimagineParamUtils.wireValue(sourceImageUrls));
+    raw.put("reference_image_urls", GrokimagineParamUtils.wireValue(referenceImageUrls));
     raw.put("source_task_id", GrokimagineParamUtils.wireValue(sourceTaskId));
     raw.put("index", GrokimagineParamUtils.wireValue(index));
     raw.put("prompt", GrokimagineParamUtils.wireValue(prompt));
@@ -66,6 +69,7 @@ public final class ImageToVideoParams {
     private String model;
     private String callbackUrl;
     private List<String> sourceImageUrls;
+    private List<String> referenceImageUrls;
     private String sourceTaskId;
     private Integer index;
     private String prompt;
@@ -99,6 +103,12 @@ public final class ImageToVideoParams {
     /** Sets the source image URLs. */
     public Builder sourceImageUrls(List<String> value) {
       this.sourceImageUrls = value;
+      return this;
+    }
+
+    /** Sets the reference image URLs. */
+    public Builder referenceImageUrls(List<String> value) {
+      this.referenceImageUrls = value;
       return this;
     }
 

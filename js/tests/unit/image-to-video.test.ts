@@ -70,6 +70,33 @@ describe('Grok Imagine image-to-video', () => {
     });
   });
 
+  it('creates fast requests with one source image and references', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-fast' });
+    const resource = new ImageToVideo(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-video-1.5-fast',
+      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.png'],
+      prompt: 'Animate the still image',
+      aspect_ratio: '3:2',
+      duration_seconds: 21,
+      output_resolution: '720p',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/image_to_video', {
+      body: {
+        model: 'grok-imagine-video-1.5-fast',
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.png'],
+        prompt: 'Animate the still image',
+        aspect_ratio: '3:2',
+        duration_seconds: 21,
+        output_resolution: '720p',
+      },
+    });
+  });
+
   it('rejects spicy motion_style with source_image_urls', async () => {
     const resource = new ImageToVideo(mockHttp);
 

@@ -87,6 +87,33 @@ func TestTextToVideoPreviewCreate(t *testing.T) {
 	}
 }
 
+func TestTextToVideoFastCreate(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	duration := 5
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Model:              ModelTextToVideo15Fast,
+		Prompt:             "A paper plane crossing a sunlit room",
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/result.png"},
+		AspectRatio:        "16:9",
+		DurationSeconds:    &duration,
+		OutputResolution:   "720p",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "grok-imagine-video-1.5-fast" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+	if got := body["reference_image_urls"]; got == nil {
+		t.Fatalf("expected reference_image_urls in body, got %#v", body)
+	}
+	if body["output_resolution"] != "720p" {
+		t.Fatalf("unexpected output_resolution: %v", body["output_resolution"])
+	}
+}
+
 func TestImageToVideoWithTaskID(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
@@ -175,6 +202,37 @@ func TestImageToVideoPreviewWithSourceImageURLs(t *testing.T) {
 	}
 	if _, ok := body["motion_style"]; ok {
 		t.Fatal("expected preview request to omit motion_style")
+	}
+}
+
+func TestImageToVideoFastWithSourceAndReferenceImages(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	duration := 21
+	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
+		Model:              ModelImageToVideo15Fast,
+		SourceImageURLs:    []string{"https://cdn.runapi.ai/public/samples/result.png"},
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/reference.png"},
+		Prompt:             "Animate the still image",
+		AspectRatio:        "3:2",
+		DurationSeconds:    &duration,
+		OutputResolution:   "720p",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "grok-imagine-video-1.5-fast" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+	if got := body["source_image_urls"]; got == nil {
+		t.Fatalf("expected source_image_urls in body, got %#v", body)
+	}
+	if got := body["reference_image_urls"]; got == nil {
+		t.Fatalf("expected reference_image_urls in body, got %#v", body)
+	}
+	if _, ok := body["source_task_id"]; ok {
+		t.Fatal("expected fast request to omit source_task_id")
 	}
 }
 

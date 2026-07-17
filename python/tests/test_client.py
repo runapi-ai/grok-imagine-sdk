@@ -129,6 +129,33 @@ def test_text_to_video_preview_create_posts_compacted_body():
     ]
 
 
+def test_text_to_video_fast_create_accepts_durations_below_the_classic_minimum():
+    fake = FakeHttp({"id": "t-fast", "status": "pending"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.text_to_video.create(
+        model="grok-imagine-video-1.5-fast",
+        prompt="A paper plane crossing a sunlit room",
+        aspect_ratio="16:9",
+        duration_seconds=5,
+        output_resolution="720p",
+        reference_image_urls=["https://cdn.runapi.ai/public/samples/result.png"],
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/text_to_video",
+            {
+                "model": "grok-imagine-video-1.5-fast",
+                "prompt": "A paper plane crossing a sunlit room",
+                "aspect_ratio": "16:9",
+                "duration_seconds": 5,
+                "output_resolution": "720p",
+                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/result.png"],
+            },
+        ),
+    ]
+
+
 def test_text_to_video_get_fetches_by_id():
     fake = FakeHttp({"id": "t1", "status": "processing"})
     client = GrokImagineClient(api_key="k", http_client=fake)
@@ -186,6 +213,35 @@ def test_image_to_video_preview_create_shape():
                 "prompt": "animate this",
                 "aspect_ratio": "auto",
                 "duration_seconds": 8,
+                "output_resolution": "720p",
+            },
+        ),
+    ]
+
+
+def test_image_to_video_fast_create_shape():
+    fake = FakeHttp({"id": "t-fast", "status": "pending"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.image_to_video.create(
+        model="grok-imagine-video-1.5-fast",
+        source_image_urls=["https://cdn.runapi.ai/public/samples/result.png"],
+        reference_image_urls=["https://cdn.runapi.ai/public/samples/reference.png"],
+        prompt="Animate the still image",
+        aspect_ratio="3:2",
+        duration_seconds=21,
+        output_resolution="720p",
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/image_to_video",
+            {
+                "model": "grok-imagine-video-1.5-fast",
+                "source_image_urls": ["https://cdn.runapi.ai/public/samples/result.png"],
+                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/reference.png"],
+                "prompt": "Animate the still image",
+                "aspect_ratio": "3:2",
+                "duration_seconds": 21,
                 "output_resolution": "720p",
             },
         ),

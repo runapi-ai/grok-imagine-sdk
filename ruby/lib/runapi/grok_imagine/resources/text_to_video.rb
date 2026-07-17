@@ -40,7 +40,14 @@ module RunApi
           duration_seconds = param(params, :duration_seconds)
           if duration_seconds
             int = duration_seconds.to_i
-            range = (param(params, :model) == Types::PREVIEW_MODEL) ? Types::PREVIEW_DURATION_RANGE : Types::DURATION_RANGE
+            range = case param(params, :model)
+            when Types::FAST_MODEL
+              Types::FAST_DURATION_RANGE
+            when Types::PREVIEW_MODEL
+              Types::PREVIEW_DURATION_RANGE
+            else
+              Types::DURATION_RANGE
+            end
             unless range.cover?(int)
               raise Core::ValidationError, "duration_seconds must be an integer between #{range.min} and #{range.max}"
             end

@@ -9,6 +9,8 @@ from runapi.core import Resource, ValidationError, RequestOptions
 from ..contract_gen import CONTRACT
 from ..types import (
     DURATION_RANGE,
+    FAST_DURATION_RANGE,
+    FAST_MODEL,
     PREVIEW_DURATION_RANGE,
     PREVIEW_MODEL,
     CompletedVideoTaskResponse,
@@ -67,7 +69,11 @@ class TextToVideo(Resource):
 
         duration_seconds = params.get("duration_seconds")
         if duration_seconds:
-            duration_range = PREVIEW_DURATION_RANGE if params.get("model") == PREVIEW_MODEL else DURATION_RANGE
+            duration_ranges = {
+                FAST_MODEL: FAST_DURATION_RANGE,
+                PREVIEW_MODEL: PREVIEW_DURATION_RANGE,
+            }
+            duration_range = duration_ranges.get(params.get("model"), DURATION_RANGE)
             try:
                 value = int(duration_seconds)
             except (TypeError, ValueError):

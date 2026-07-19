@@ -1,3 +1,59 @@
 # Changelog
 
-Release notes are published with each GitHub Release and package release tag.
+## [js/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.9), [ruby/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.9), [go/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.9), [python/v0.1.2](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.1.2), [java/v0.1.3](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.3) - 2026-07-17
+
+### Changed
+- Add typed Fast text-to-video and image-to-video requests across all SDK languages.
+- Add Fast model constraints, reference images, 480p and 720p output, and duration support.
+
+## [js/v0.2.8](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.8), [ruby/v0.2.8](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.8), [go/v0.2.8](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.8), [python/v0.1.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.1.1), [java/v0.1.2](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.2) - 2026-07-16
+
+### Changed
+- Add `grok-imagine-video-1.5-preview` to Grok Imagine text-to-video and image-to-video SDK contracts and typed request surfaces.
+- Refresh Grok Imagine SDK public READMEs with canonical variant links.
+
+## [js/v0.2.7](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.7), [ruby/v0.2.7](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.7), [go/v0.2.7](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.7) - 2026-07-02
+
+### Fixed
+- Request validation now derives allowed values (aspect ratios, output resolutions, formats) from the RunAPI request contract, so valid requests are no longer rejected client-side.
+- Corrected field names and widened enum coverage for image generation endpoints.
+- Documented reference image URL parameters where supported.
+
+## [java/v0.1.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.1) - 2026-06-25
+
+### Fixed
+- Fixed Java retry handling for Retry-After response headers.
+- Fixed Java contract validation for action-level conditional rules.
+- Refreshed Java SDK metadata for v0.1.1.
+
+## [java/v0.1.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.0) - 2026-06-24
+
+### Added
+- Publish `ai.runapi:runapi-grok-imagine` for Java SDK consumers.
+- Include typed Java builders, synchronous client resources, sources, and Javadocs.
+
+## [js/v0.2.6](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.6), [ruby/v0.2.6](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.6), [go/v0.2.6](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.6), [python/v0.1.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.1.0) - 2026-06-18
+
+### Changed
+- Per-method documentation for all resource methods
+
+## [js/v0.2.5](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.5), [ruby/v0.2.5](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.5), [go/v0.2.5](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.5) - 2026-06-01
+
+### Changed
+- Align SDK with upstream Input Contract and public API vocabulary changes
+- Update endpoint definitions and field constraints
+
+## [js/v0.2.4](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.4), [ruby/v0.2.4](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.4), [go/v0.2.4](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.4) - 2026-05-22
+
+### Changed
+- Publish JavaScript, Ruby, and Go SDK artifacts for grok-imagine with per-language GitHub release tags.
+- Refresh public README metadata.
+
+## [v0.2.3](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/v0.2.3) - 2026-05-22
+
+### Changed
+- Publish grok-imagine-sdk v0.2.3 with refreshed README header, package metadata, and current SDK source.
+
+## [v0.2.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/v0.2.1) - 2026-05-19
+
+Initial release.

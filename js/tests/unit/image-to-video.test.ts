@@ -28,30 +28,30 @@ describe('Grok Imagine image-to-video', () => {
     });
   });
 
-  it('creates with source_image_urls', async () => {
+  it('creates with source_image_url', async () => {
     vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-1' });
     const resource = new ImageToVideo(mockHttp);
 
     await resource.create({
       model: 'grok-imagine-image-to-video',
-      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
     });
 
     expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/image_to_video', {
       body: {
         model: 'grok-imagine-image-to-video',
-        source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
       },
     });
   });
 
-  it('creates preview requests with source_image_urls only', async () => {
+  it('creates preview requests with source_image_url only', async () => {
     vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-preview' });
     const resource = new ImageToVideo(mockHttp);
 
     await resource.create({
       model: 'grok-imagine-video-1.5-preview',
-      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
       prompt: 'Animate the still image',
       aspect_ratio: 'auto',
       duration_seconds: 8,
@@ -61,7 +61,7 @@ describe('Grok Imagine image-to-video', () => {
     expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/image_to_video', {
       body: {
         model: 'grok-imagine-video-1.5-preview',
-        source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
         prompt: 'Animate the still image',
         aspect_ratio: 'auto',
         duration_seconds: 8,
@@ -76,7 +76,7 @@ describe('Grok Imagine image-to-video', () => {
 
     await resource.create({
       model: 'grok-imagine-video-1.5-fast',
-      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
       reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.png'],
       prompt: 'Animate the still image',
       aspect_ratio: '3:2',
@@ -87,7 +87,7 @@ describe('Grok Imagine image-to-video', () => {
     expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/image_to_video', {
       body: {
         model: 'grok-imagine-video-1.5-fast',
-        source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+        source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
         reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.png'],
         prompt: 'Animate the still image',
         aspect_ratio: '3:2',
@@ -97,12 +97,12 @@ describe('Grok Imagine image-to-video', () => {
     });
   });
 
-  it('rejects spicy motion_style with source_image_urls', async () => {
+  it('rejects spicy motion_style with source_image_url', async () => {
     const resource = new ImageToVideo(mockHttp);
 
     await expect(resource.create({
       model: 'grok-imagine-image-to-video',
-      source_image_urls: ['https://cdn.runapi.ai/public/samples/result.png'],
+      source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
       motion_style: 'spicy',
     })).rejects.toThrow(/spicy motion_style requires a source_task_id source image/);
 

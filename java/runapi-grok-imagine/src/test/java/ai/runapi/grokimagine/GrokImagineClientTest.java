@@ -109,7 +109,7 @@ class GrokImagineClientTest {
     client.imageToVideo().create(
         ImageToVideoParams.builder()
             .model(ImageToVideoModel.GROK_IMAGINE_VIDEO_1_5_PREVIEW)
-            .sourceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/result.png"))
+            .sourceImageUrl("https://cdn.runapi.ai/public/samples/result.png")
             .prompt("Animate the still image")
             .aspectRatio("auto")
             .durationSeconds(8)
@@ -119,7 +119,7 @@ class GrokImagineClientTest {
 
     JsonNode body = bodyJson(transport.request);
     assertEquals("grok-imagine-video-1.5-preview", body.get("model").asText());
-    assertEquals("https://cdn.runapi.ai/public/samples/result.png", body.get("source_image_urls").get(0).asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/result.png", body.get("source_image_url").asText());
     assertEquals(false, body.has("source_task_id"));
     assertEquals(false, body.has("motion_style"));
   }
@@ -155,7 +155,7 @@ class GrokImagineClientTest {
     client.imageToVideo().create(
         ImageToVideoParams.builder()
             .model(ImageToVideoModel.GROK_IMAGINE_VIDEO_1_5_FAST)
-            .sourceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/result.png"))
+            .sourceImageUrl("https://cdn.runapi.ai/public/samples/result.png")
             .referenceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/reference.png"))
             .prompt("Animate the still image")
             .aspectRatio("3:2")
@@ -166,7 +166,7 @@ class GrokImagineClientTest {
 
     JsonNode body = bodyJson(transport.request);
     assertEquals("grok-imagine-video-1.5-fast", body.get("model").asText());
-    assertEquals("https://cdn.runapi.ai/public/samples/result.png", body.get("source_image_urls").get(0).asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/result.png", body.get("source_image_url").asText());
     assertEquals("https://cdn.runapi.ai/public/samples/reference.png", body.get("reference_image_urls").get(0).asText());
     assertEquals(false, body.has("source_task_id"));
   }

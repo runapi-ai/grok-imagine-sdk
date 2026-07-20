@@ -41,7 +41,7 @@ export class ImageToVideo {
    */
   async create(params: GrokImagineImageToVideoParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     const input = params as unknown as Record<string, unknown>;
-    if (input.motion_style === 'spicy' && Array.isArray(input.source_image_urls) && input.source_image_urls.length > 0) {
+    if (input.motion_style === 'spicy' && input.source_image_url) {
       throw new ValidationError('spicy motion_style requires a source_task_id source image.');
     }
 

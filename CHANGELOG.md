@@ -1,5 +1,12 @@
 # Changelog
 
+## [js/v0.2.10](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.10), [ruby/v0.2.10](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.10), [go/v0.2.10](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.10), [python/v0.1.3](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.1.3), [java/v0.1.4](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.4) - 2026-07-20
+
+### Breaking
+- Replace Grok Imagine image-to-video `source_image_urls` with scalar `source_image_url`.
+  Migration: Pass the source image as `source_image_url`; keep `reference_image_urls` only for optional Fast reference images.
+
+
 ## [js/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.9), [ruby/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.9), [go/v0.2.9](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.9), [python/v0.1.2](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.1.2), [java/v0.1.3](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.3) - 2026-07-17
 
 ### Changed

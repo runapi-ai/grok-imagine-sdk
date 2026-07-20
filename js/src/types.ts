@@ -93,10 +93,10 @@ interface ImageToVideoClassicBase extends TaskCommonParams {
   enable_safety_checker?: boolean;
 }
 
-/** Image-to-video using external image URLs. */
+/** Image-to-video using an external image URL. */
 export interface GrokImagineImageToVideoUrlParams extends ImageToVideoClassicBase {
-  /** Source image URL array with exactly one URL. Mutually exclusive with source_task_id. */
-  source_image_urls: string[];
+  /** Source image URL. Mutually exclusive with source_task_id. */
+  source_image_url: string;
   source_task_id?: never;
   index?: never;
 }
@@ -110,13 +110,13 @@ export interface GrokImagineImageToVideoTaskParams extends ImageToVideoClassicBa
   source_task_id: string;
   /** 0-based index (0-5) selecting which generated image to use. */
   index?: number;
-  source_image_urls?: never;
+  source_image_url?: never;
 }
 
 export interface GrokImagineImageToVideoPreviewParams extends TaskCommonParams {
   model: GrokImagineVideo15PreviewModel;
-  /** Source image URL array with exactly one URL. */
-  source_image_urls: string[];
+  /** Source image URL. */
+  source_image_url: string;
   /** Optional text description for the desired motion, up to 4096 characters. */
   prompt?: string;
   aspect_ratio?: GrokImaginePreviewAspectRatio;
@@ -131,8 +131,8 @@ export interface GrokImagineImageToVideoPreviewParams extends TaskCommonParams {
 
 export interface GrokImagineImageToVideoFastParams extends TaskCommonParams {
   model: GrokImagineVideo15FastModel;
-  /** Source image URL array with exactly one URL. */
-  source_image_urls: [string];
+  /** Source image URL. */
+  source_image_url: string;
   /** Optional reference images used to guide the generated video. */
   reference_image_urls?: string[];
   /** Optional text description for the desired motion. */

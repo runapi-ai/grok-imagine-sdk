@@ -89,7 +89,7 @@ export const contract = {
             "720p"
           ]
         },
-        "source_image_urls": {
+        "source_image_url": {
           "required": true
         }
       },
@@ -123,7 +123,7 @@ export const contract = {
           "max": 4096,
           "length": true
         },
-        "source_image_urls": {
+        "source_image_url": {
           "required": true
         }
       }

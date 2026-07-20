@@ -181,13 +181,13 @@ def test_image_to_video_create_shape():
     fake = FakeHttp({"id": "t1", "status": "pending"})
     client = GrokImagineClient(api_key="k", http_client=fake)
     client.image_to_video.create(
-        model="grok-imagine-image-to-video", source_image_urls=["https://x/a.png"]
+        model="grok-imagine-image-to-video", source_image_url="https://x/a.png"
     )
     assert fake.calls == [
         (
             "post",
             "/api/v1/grok_imagine/image_to_video",
-            {"model": "grok-imagine-image-to-video", "source_image_urls": ["https://x/a.png"]},
+            {"model": "grok-imagine-image-to-video", "source_image_url": "https://x/a.png"},
         ),
     ]
 
@@ -197,7 +197,7 @@ def test_image_to_video_preview_create_shape():
     client = GrokImagineClient(api_key="k", http_client=fake)
     client.image_to_video.create(
         model="grok-imagine-video-1.5-preview",
-        source_image_urls=["https://x/a.png"],
+        source_image_url="https://x/a.png",
         prompt="animate this",
         aspect_ratio="auto",
         duration_seconds=8,
@@ -209,7 +209,7 @@ def test_image_to_video_preview_create_shape():
             "/api/v1/grok_imagine/image_to_video",
             {
                 "model": "grok-imagine-video-1.5-preview",
-                "source_image_urls": ["https://x/a.png"],
+                "source_image_url": "https://x/a.png",
                 "prompt": "animate this",
                 "aspect_ratio": "auto",
                 "duration_seconds": 8,
@@ -224,7 +224,7 @@ def test_image_to_video_fast_create_shape():
     client = GrokImagineClient(api_key="k", http_client=fake)
     client.image_to_video.create(
         model="grok-imagine-video-1.5-fast",
-        source_image_urls=["https://cdn.runapi.ai/public/samples/result.png"],
+        source_image_url="https://cdn.runapi.ai/public/samples/result.png",
         reference_image_urls=["https://cdn.runapi.ai/public/samples/reference.png"],
         prompt="Animate the still image",
         aspect_ratio="3:2",
@@ -237,7 +237,7 @@ def test_image_to_video_fast_create_shape():
             "/api/v1/grok_imagine/image_to_video",
             {
                 "model": "grok-imagine-video-1.5-fast",
-                "source_image_urls": ["https://cdn.runapi.ai/public/samples/result.png"],
+                "source_image_url": "https://cdn.runapi.ai/public/samples/result.png",
                 "reference_image_urls": ["https://cdn.runapi.ai/public/samples/reference.png"],
                 "prompt": "Animate the still image",
                 "aspect_ratio": "3:2",
@@ -379,7 +379,7 @@ def test_text_to_video_preview_duration_range():
 
 def test_image_to_video_requires_a_source():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="One of source_image_urls or source_task_id is required"):
+    with pytest.raises(ValidationError, match="One of source_image_url or source_task_id is required"):
         client.image_to_video.create(model="grok-imagine-image-to-video")
 
 
@@ -388,17 +388,8 @@ def test_image_to_video_rejects_both_sources():
     with pytest.raises(ValidationError, match="not both"):
         client.image_to_video.create(
             model="grok-imagine-image-to-video",
-            source_image_urls=["https://x/a.png"],
+            source_image_url="https://x/a.png",
             source_task_id="src_1",
-        )
-
-
-def test_image_to_video_rejects_multiple_urls():
-    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="supports at most 1 entry"):
-        client.image_to_video.create(
-            model="grok-imagine-image-to-video",
-            source_image_urls=["https://x/a.png", "https://x/b.png"],
         )
 
 
@@ -423,7 +414,7 @@ def test_image_to_video_spicy_requires_source_task_id():
     with pytest.raises(ValidationError, match="spicy motion_style requires a source_task_id source image."):
         client.image_to_video.create(
             model="grok-imagine-image-to-video",
-            source_image_urls=["https://x/a.png"],
+            source_image_url="https://x/a.png",
             motion_style="spicy",
         )
 

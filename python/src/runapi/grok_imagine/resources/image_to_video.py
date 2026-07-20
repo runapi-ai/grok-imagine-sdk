@@ -1,6 +1,6 @@
 """Grok-Imagine image-to-video generation resource.
 
-Accepts either external source_image_urls or a prior text-to-image
+Accepts either an external source_image_url or a prior text-to-image
 source_task_id (+ index).
 """
 
@@ -65,15 +65,13 @@ class ImageToVideo(Resource):
     def _validate_params(self, params: Dict[str, Any]) -> None:
         self._validate_contract(CONTRACT["image-to-video"], params)
 
-        source_image_urls = params.get("source_image_urls")
+        source_image_url = params.get("source_image_url")
         source_task_id = params.get("source_task_id")
 
-        if source_image_urls and len(source_image_urls) > 0 and source_task_id:
-            raise ValidationError("Provide either source_image_urls or source_task_id, not both")
-        if (not source_image_urls or len(source_image_urls) == 0) and not source_task_id:
-            raise ValidationError("One of source_image_urls or source_task_id is required")
-        if source_image_urls and len(source_image_urls) > 1:
-            raise ValidationError("source_image_urls supports at most 1 entry")
+        if source_image_url and source_task_id:
+            raise ValidationError("Provide either source_image_url or source_task_id, not both")
+        if not source_image_url and not source_task_id:
+            raise ValidationError("One of source_image_url or source_task_id is required")
 
         if source_task_id:
             index = params.get("index")
@@ -85,5 +83,5 @@ class ImageToVideo(Resource):
                 if value is None or value not in INDEX_RANGE:
                     raise ValidationError("index must be an integer between 0 and 5")
 
-        if str(params.get("motion_style")) == "spicy" and source_image_urls and len(source_image_urls) > 0:
+        if str(params.get("motion_style")) == "spicy" and source_image_url:
             raise ValidationError("spicy motion_style requires a source_task_id source image.")

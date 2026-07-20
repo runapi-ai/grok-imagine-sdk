@@ -62,7 +62,7 @@ module RunApi
             "output_resolution" => {
               "enum" => ["480p", "720p"]
             },
-            "source_image_urls" => {
+            "source_image_url" => {
               "required" => true
             }
           },
@@ -86,7 +86,7 @@ module RunApi
               "max" => 4096,
               "length" => true
             },
-            "source_image_urls" => {
+            "source_image_url" => {
               "required" => true
             }
           }

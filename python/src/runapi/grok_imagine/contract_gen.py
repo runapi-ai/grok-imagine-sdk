@@ -58,7 +58,7 @@ CONTRACT = {
                 "output_resolution": {
                     "enum": ["480p", "720p"]
                 },
-                "source_image_urls": {
+                "source_image_url": {
                     "required": True
                 }
             },
@@ -82,7 +82,7 @@ CONTRACT = {
                     "max": 4096,
                     "length": True
                 },
-                "source_image_urls": {
+                "source_image_url": {
                     "required": True
                 }
             }

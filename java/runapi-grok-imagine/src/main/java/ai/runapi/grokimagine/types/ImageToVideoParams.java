@@ -8,7 +8,7 @@ import java.util.Map;
 public final class ImageToVideoParams {
   private final String model;
   private final String callbackUrl;
-  private final List<String> sourceImageUrls;
+  private final String sourceImageUrl;
   private final List<String> referenceImageUrls;
   private final String sourceTaskId;
   private final Integer index;
@@ -22,7 +22,7 @@ public final class ImageToVideoParams {
   private ImageToVideoParams(Builder builder) {
     this.model = builder.model;
     this.callbackUrl = builder.callbackUrl;
-    this.sourceImageUrls = GrokimagineParamUtils.strings(builder.sourceImageUrls);
+    this.sourceImageUrl = builder.sourceImageUrl;
     this.referenceImageUrls = GrokimagineParamUtils.strings(builder.referenceImageUrls);
     this.sourceTaskId = builder.sourceTaskId;
     this.index = builder.index;
@@ -49,7 +49,7 @@ public final class ImageToVideoParams {
     Map<String, Object> raw = new LinkedHashMap<String, Object>();
     raw.put("model", GrokimagineParamUtils.wireValue(model));
     raw.put("callback_url", GrokimagineParamUtils.wireValue(callbackUrl));
-    raw.put("source_image_urls", GrokimagineParamUtils.wireValue(sourceImageUrls));
+    raw.put("source_image_url", GrokimagineParamUtils.wireValue(sourceImageUrl));
     raw.put("reference_image_urls", GrokimagineParamUtils.wireValue(referenceImageUrls));
     raw.put("source_task_id", GrokimagineParamUtils.wireValue(sourceTaskId));
     raw.put("index", GrokimagineParamUtils.wireValue(index));
@@ -68,7 +68,7 @@ public final class ImageToVideoParams {
   public static final class Builder {
     private String model;
     private String callbackUrl;
-    private List<String> sourceImageUrls;
+    private String sourceImageUrl;
     private List<String> referenceImageUrls;
     private String sourceTaskId;
     private Integer index;
@@ -100,9 +100,9 @@ public final class ImageToVideoParams {
       return this;
     }
 
-    /** Sets the source image URLs. */
-    public Builder sourceImageUrls(List<String> value) {
-      this.sourceImageUrls = value;
+    /** Sets the source image URL. */
+    public Builder sourceImageUrl(String value) {
+      this.sourceImageUrl = GrokimagineParamUtils.requireNonBlank(value, "sourceImageUrl");
       return this;
     }
 

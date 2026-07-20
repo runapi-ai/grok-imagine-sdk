@@ -80,14 +80,14 @@ type TextToVideoParams struct {
 }
 
 // ImageToVideoParams contains parameters for image-to-video generation.
-// Provide either SourceImageURLs OR SourceTaskID, never both.
+// Provide either SourceImageURL OR SourceTaskID, never both.
 type ImageToVideoParams struct {
 	Model       ImageToVideoModel `json:"model" help:"required; model slug"`
 	CallbackURL string            `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	SourceImageURLs    []string `json:"source_image_urls,omitempty" help:"optional; exactly one source image URL (mutually exclusive with source_task_id); required by fast"`
+	SourceImageURL     string   `json:"source_image_url,omitempty" help:"optional; source image URL (mutually exclusive with source_task_id); required by fast and preview"`
 	ReferenceImageURLs []string `json:"reference_image_urls,omitempty" help:"optional; reference image URLs; fast only"`
-	SourceTaskID       string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_urls); not supported by fast or preview"`
+	SourceTaskID       string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_url); not supported by fast or preview"`
 	Index              *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using source_task_id; not supported by fast or preview"`
 
 	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired motion"`

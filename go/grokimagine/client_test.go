@@ -156,32 +156,32 @@ func TestImageToVideoMotionStyle(t *testing.T) {
 	}
 }
 
-func TestImageToVideoWithSourceImageURLs(t *testing.T) {
+func TestImageToVideoWithSourceImageURL(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
-		Model:           ModelImageToVideo,
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/result.png"},
+		Model:          ModelImageToVideo,
+		SourceImageURL: "https://cdn.runapi.ai/public/samples/result.png",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 	body := stub.body.(map[string]any)
-	if got := body["source_image_urls"]; got == nil {
-		t.Fatalf("expected source_image_urls in body, got %#v", body)
+	if got := body["source_image_url"]; got != "https://cdn.runapi.ai/public/samples/result.png" {
+		t.Fatalf("unexpected source_image_url: %v", got)
 	}
 	if _, ok := body["image_urls"]; ok {
 		t.Fatal("expected image_urls to stay off the public request body")
 	}
 }
 
-func TestImageToVideoPreviewWithSourceImageURLs(t *testing.T) {
+func TestImageToVideoPreviewWithSourceImageURL(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	duration := 8
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
 		Model:            ModelImageToVideo15Preview,
-		SourceImageURLs:  []string{"https://cdn.runapi.ai/public/samples/result.png"},
+		SourceImageURL:   "https://cdn.runapi.ai/public/samples/result.png",
 		Prompt:           "Animate the still image",
 		AspectRatio:      "auto",
 		DurationSeconds:  &duration,
@@ -194,8 +194,8 @@ func TestImageToVideoPreviewWithSourceImageURLs(t *testing.T) {
 	if body["model"] != "grok-imagine-video-1.5-preview" {
 		t.Fatalf("unexpected model: %v", body["model"])
 	}
-	if got := body["source_image_urls"]; got == nil {
-		t.Fatalf("expected source_image_urls in body, got %#v", body)
+	if got := body["source_image_url"]; got != "https://cdn.runapi.ai/public/samples/result.png" {
+		t.Fatalf("unexpected source_image_url: %v", got)
 	}
 	if _, ok := body["source_task_id"]; ok {
 		t.Fatal("expected preview request to omit source_task_id")
@@ -211,7 +211,7 @@ func TestImageToVideoFastWithSourceAndReferenceImages(t *testing.T) {
 	duration := 21
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
 		Model:              ModelImageToVideo15Fast,
-		SourceImageURLs:    []string{"https://cdn.runapi.ai/public/samples/result.png"},
+		SourceImageURL:     "https://cdn.runapi.ai/public/samples/result.png",
 		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/reference.png"},
 		Prompt:             "Animate the still image",
 		AspectRatio:        "3:2",
@@ -225,8 +225,8 @@ func TestImageToVideoFastWithSourceAndReferenceImages(t *testing.T) {
 	if body["model"] != "grok-imagine-video-1.5-fast" {
 		t.Fatalf("unexpected model: %v", body["model"])
 	}
-	if got := body["source_image_urls"]; got == nil {
-		t.Fatalf("expected source_image_urls in body, got %#v", body)
+	if got := body["source_image_url"]; got != "https://cdn.runapi.ai/public/samples/result.png" {
+		t.Fatalf("unexpected source_image_url: %v", got)
 	}
 	if got := body["reference_image_urls"]; got == nil {
 		t.Fatalf("expected reference_image_urls in body, got %#v", body)

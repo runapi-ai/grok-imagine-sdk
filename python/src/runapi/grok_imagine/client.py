@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from runapi.core import ClientOptions, HttpClient, resolve_api_key
+from runapi.core import ProviderClient
 
 from .resources.edit_image import EditImage
 from .resources.extensions import Extensions
@@ -14,7 +14,7 @@ from .resources.text_to_video import TextToVideo
 from .resources.upscales import Upscales
 
 
-class GrokImagineClient:
+class GrokImagineClient(ProviderClient):
     """Grok-Imagine multimodal generation client.
 
     Example::
@@ -28,9 +28,8 @@ class GrokImagineClient:
     """
 
     def __init__(self, api_key: Optional[str] = None, **options: Any) -> None:
-        resolved_api_key = resolve_api_key(api_key)
-        client_options = ClientOptions(api_key=resolved_api_key, **options)
-        http = client_options.http_client or HttpClient(client_options)
+        super().__init__(api_key, **options)
+        http = self._http
         self.text_to_video = TextToVideo(http)
         self.image_to_video = ImageToVideo(http)
         self.text_to_image = TextToImage(http)

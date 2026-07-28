@@ -59,8 +59,8 @@ const result = await client.textToVideo.run({
 ## Routing
 
 - Model page: https://runapi.ai/models/grok-imagine
-- Product docs: https://runapi.ai/docs#grok-imagine
-- SDK docs: https://runapi.ai/docs#sdk-grok-imagine
+- Product docs: https://runapi.ai/docs/api/grok-imagine/text-to-image
+- SDK docs: https://runapi.ai/docs/resources/sdks
 - SDK repository: https://github.com/runapi-ai/grok-imagine-sdk
 - Pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Browse all RunAPI models and skills: https://runapi.ai/models

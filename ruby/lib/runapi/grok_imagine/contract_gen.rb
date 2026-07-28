@@ -7,6 +7,9 @@ module RunApi
         "models" => ["grok-imagine-edit-image"],
         "fields_by_model" => {
           "grok-imagine-edit-image" => {
+            "model" => {
+              "required" => true
+            },
             "source_image_url" => {
               "required" => true
             }
@@ -19,9 +22,20 @@ module RunApi
           "_" => {
             "extension_duration_seconds" => {
               "enum" => [6, 10],
+              "required" => true,
               "type" => "integer"
             },
+            "prompt" => {
+              "required" => true,
+              "max" => 5000,
+              "length" => true
+            },
+            "source_task_id" => {
+              "required" => true
+            },
             "start_seconds" => {
+              "required" => true,
+              "min" => 0,
               "type" => "integer"
             }
           }
@@ -35,16 +49,27 @@ module RunApi
               "enum" => ["2:3", "3:2", "1:1", "16:9", "9:16"]
             },
             "duration_seconds" => {
+              "min" => 6,
+              "max" => 30,
               "type" => "integer"
             },
             "index" => {
+              "min" => 0,
+              "max" => 5,
               "type" => "integer"
+            },
+            "model" => {
+              "required" => true
             },
             "motion_style" => {
               "enum" => ["fun", "normal", "spicy"]
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
+            },
+            "prompt" => {
+              "max" => 5000,
+              "length" => true
             }
           },
           "grok-imagine-video-1.5-fast" => {
@@ -59,8 +84,15 @@ module RunApi
             "index" => {
               "type" => "integer"
             },
+            "model" => {
+              "required" => true
+            },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
+            },
+            "prompt" => {
+              "max" => 5000,
+              "length" => true
             },
             "source_image_url" => {
               "required" => true
@@ -77,6 +109,9 @@ module RunApi
             },
             "index" => {
               "type" => "integer"
+            },
+            "model" => {
+              "required" => true
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
@@ -114,6 +149,14 @@ module RunApi
           "grok-imagine-text-to-image" => {
             "aspect_ratio" => {
               "enum" => ["2:3", "3:2", "1:1", "16:9", "9:16"]
+            },
+            "model" => {
+              "required" => true
+            },
+            "prompt" => {
+              "required" => true,
+              "max" => 5000,
+              "length" => true
             }
           }
         }
@@ -126,13 +169,23 @@ module RunApi
               "enum" => ["2:3", "3:2", "1:1", "16:9", "9:16"]
             },
             "duration_seconds" => {
+              "min" => 6,
+              "max" => 30,
               "type" => "integer"
+            },
+            "model" => {
+              "required" => true
             },
             "motion_style" => {
               "enum" => ["fun", "normal", "spicy"]
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
+            },
+            "prompt" => {
+              "required" => true,
+              "max" => 5000,
+              "length" => true
             }
           },
           "grok-imagine-video-1.5-fast" => {
@@ -144,11 +197,16 @@ module RunApi
               "max" => 30,
               "type" => "integer"
             },
+            "model" => {
+              "required" => true
+            },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
             },
             "prompt" => {
-              "required" => true
+              "required" => true,
+              "max" => 5000,
+              "length" => true
             }
           },
           "grok-imagine-video-1.5-preview" => {
@@ -159,6 +217,9 @@ module RunApi
               "min" => 1,
               "max" => 15,
               "type" => "integer"
+            },
+            "model" => {
+              "required" => true
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
@@ -191,7 +252,11 @@ module RunApi
       "upscale-image" => {
         "models" => [],
         "fields_by_model" => {
-          "_" => {}
+          "_" => {
+            "source_task_id" => {
+              "required" => true
+            }
+          }
         }
       }
     }.freeze

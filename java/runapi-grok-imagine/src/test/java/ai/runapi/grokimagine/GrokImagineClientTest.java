@@ -286,7 +286,10 @@ class GrokImagineClientTest {
       GrokImagineClient createClient = GrokImagineClient.builder().apiKey("sk-test").transport(createTransport).build();
       assertNotNull(createClient.extensions().create(
               ExtendParams.builder()
+                  .sourceTaskId("task_source_video")
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .startSeconds(0)
+                  .extensionDurationSeconds(6)
                   .build()
       ));
 
@@ -294,7 +297,10 @@ class GrokImagineClientTest {
       GrokImagineClient createWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(createWithOptionsTransport).build();
       assertNotNull(createWithOptionsClient.extensions().create(
               ExtendParams.builder()
+                  .sourceTaskId("task_source_video")
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .startSeconds(0)
+                  .extensionDurationSeconds(6)
                   .build(),
           RequestOptions.none()));
 
@@ -312,7 +318,10 @@ class GrokImagineClientTest {
       GrokImagineClient runClient = GrokImagineClient.builder().apiKey("sk-test").transport(runTransport).build();
       CompletedExtendVideoResponse runResponse = runClient.extensions().run(
               ExtendParams.builder()
+                  .sourceTaskId("task_source_video")
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .startSeconds(0)
+                  .extensionDurationSeconds(6)
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build());
       assertNotNull(runResponse);
@@ -323,7 +332,10 @@ class GrokImagineClientTest {
       GrokImagineClient runWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(runWithOptionsTransport).build();
       assertNotNull(runWithOptionsClient.extensions().run(
               ExtendParams.builder()
+                  .sourceTaskId("task_source_video")
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .startSeconds(0)
+                  .extensionDurationSeconds(6)
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build()));
     }
@@ -494,6 +506,7 @@ class GrokImagineClientTest {
       GrokImagineClient createClient = GrokImagineClient.builder().apiKey("sk-test").transport(createTransport).build();
       assertNotNull(createClient.upscales().create(
               UpscaleParams.builder()
+                  .sourceTaskId("task_source_video")
                   .build()
       ));
 
@@ -501,33 +514,36 @@ class GrokImagineClientTest {
       GrokImagineClient createWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(createWithOptionsTransport).build();
       assertNotNull(createWithOptionsClient.upscales().create(
               UpscaleParams.builder()
+                  .sourceTaskId("task_source_video")
                   .build(),
           RequestOptions.none()));
 
-      CapturingTransport getTransport = new CapturingTransport("{\"id\":\"task_upscale_image\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
+      CapturingTransport getTransport = new CapturingTransport("{\"id\":\"task_upscale_image\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient getClient = GrokImagineClient.builder().apiKey("sk-test").transport(getTransport).build();
       assertNotNull(getClient.upscales().get("task_upscale_image"));
 
-      CapturingTransport getWithOptionsTransport = new CapturingTransport("{\"id\":\"task_upscale_image_options\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
+      CapturingTransport getWithOptionsTransport = new CapturingTransport("{\"id\":\"task_upscale_image_options\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient getWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(getWithOptionsTransport).build();
       assertNotNull(getWithOptionsClient.upscales().get("task_upscale_image_options", RequestOptions.none()));
 
       SequenceTransport runTransport = new SequenceTransport(
           "{\"id\":\"task_upscale_image_run\",\"status\":\"processing\"}",
-          "{\"id\":\"task_upscale_image_run\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
+          "{\"id\":\"task_upscale_image_run\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient runClient = GrokImagineClient.builder().apiKey("sk-test").transport(runTransport).build();
       CompletedUpscaleImageResponse runResponse = runClient.upscales().run(
               UpscaleParams.builder()
+                  .sourceTaskId("task_source_video")
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build());
       assertNotNull(runResponse);
 
       SequenceTransport runWithOptionsTransport = new SequenceTransport(
           "{\"id\":\"task_upscale_image_run_options\",\"status\":\"processing\"}",
-          "{\"id\":\"task_upscale_image_run_options\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
+          "{\"id\":\"task_upscale_image_run_options\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       GrokImagineClient runWithOptionsClient = GrokImagineClient.builder().apiKey("sk-test").transport(runWithOptionsTransport).build();
       assertNotNull(runWithOptionsClient.upscales().run(
               UpscaleParams.builder()
+                  .sourceTaskId("task_source_video")
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build()));
     }

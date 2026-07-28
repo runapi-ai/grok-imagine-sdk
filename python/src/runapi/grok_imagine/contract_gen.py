@@ -3,6 +3,9 @@ CONTRACT = {
         "models": ["grok-imagine-edit-image"],
         "fields_by_model": {
             "grok-imagine-edit-image": {
+                "model": {
+                    "required": True
+                },
                 "source_image_url": {
                     "required": True
                 }
@@ -15,9 +18,20 @@ CONTRACT = {
             "_": {
                 "extension_duration_seconds": {
                     "enum": [6, 10],
+                    "required": True,
                     "type": "integer"
                 },
+                "prompt": {
+                    "required": True,
+                    "max": 5000,
+                    "length": True
+                },
+                "source_task_id": {
+                    "required": True
+                },
                 "start_seconds": {
+                    "required": True,
+                    "min": 0,
                     "type": "integer"
                 }
             }
@@ -31,16 +45,27 @@ CONTRACT = {
                     "enum": ["2:3", "3:2", "1:1", "16:9", "9:16"]
                 },
                 "duration_seconds": {
+                    "min": 6,
+                    "max": 30,
                     "type": "integer"
                 },
                 "index": {
+                    "min": 0,
+                    "max": 5,
                     "type": "integer"
+                },
+                "model": {
+                    "required": True
                 },
                 "motion_style": {
                     "enum": ["fun", "normal", "spicy"]
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
+                },
+                "prompt": {
+                    "max": 5000,
+                    "length": True
                 }
             },
             "grok-imagine-video-1.5-fast": {
@@ -55,8 +80,15 @@ CONTRACT = {
                 "index": {
                     "type": "integer"
                 },
+                "model": {
+                    "required": True
+                },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
+                },
+                "prompt": {
+                    "max": 5000,
+                    "length": True
                 },
                 "source_image_url": {
                     "required": True
@@ -73,6 +105,9 @@ CONTRACT = {
                 },
                 "index": {
                     "type": "integer"
+                },
+                "model": {
+                    "required": True
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
@@ -110,6 +145,14 @@ CONTRACT = {
             "grok-imagine-text-to-image": {
                 "aspect_ratio": {
                     "enum": ["2:3", "3:2", "1:1", "16:9", "9:16"]
+                },
+                "model": {
+                    "required": True
+                },
+                "prompt": {
+                    "required": True,
+                    "max": 5000,
+                    "length": True
                 }
             }
         }
@@ -122,13 +165,23 @@ CONTRACT = {
                     "enum": ["2:3", "3:2", "1:1", "16:9", "9:16"]
                 },
                 "duration_seconds": {
+                    "min": 6,
+                    "max": 30,
                     "type": "integer"
+                },
+                "model": {
+                    "required": True
                 },
                 "motion_style": {
                     "enum": ["fun", "normal", "spicy"]
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
+                },
+                "prompt": {
+                    "required": True,
+                    "max": 5000,
+                    "length": True
                 }
             },
             "grok-imagine-video-1.5-fast": {
@@ -140,11 +193,16 @@ CONTRACT = {
                     "max": 30,
                     "type": "integer"
                 },
+                "model": {
+                    "required": True
+                },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
                 },
                 "prompt": {
-                    "required": True
+                    "required": True,
+                    "max": 5000,
+                    "length": True
                 }
             },
             "grok-imagine-video-1.5-preview": {
@@ -155,6 +213,9 @@ CONTRACT = {
                     "min": 1,
                     "max": 15,
                     "type": "integer"
+                },
+                "model": {
+                    "required": True
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
@@ -187,7 +248,11 @@ CONTRACT = {
     "upscale-image": {
         "models": [],
         "fields_by_model": {
-            "_": {}
+            "_": {
+                "source_task_id": {
+                    "required": True
+                }
+            }
         }
     }
 }

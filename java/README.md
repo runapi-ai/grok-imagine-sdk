@@ -4,7 +4,7 @@
 
 The Grok Imagine Java SDK is the language-specific package for Grok Imagine on RunAPI. Use it when your Java application needs typed builders, strict request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Grok Imagine workflows.
 
-This README is the Java package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs/api/grok-imagine/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
+This README is the Java package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs#grok-imagine; for SDK docs, use https://runapi.ai/docs#sdk-grok-imagine.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.4")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.5")
 }
 ```
 
@@ -26,7 +26,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.7"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.8"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```
@@ -47,7 +47,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.2.7</version>
+      <version>0.2.8</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -175,8 +175,8 @@ try {
 ## Links
 
 - Model page: https://runapi.ai/models/grok-imagine
-- SDK docs: https://runapi.ai/docs/resources/sdks
-- Product docs: https://runapi.ai/docs/api/grok-imagine/text-to-image
+- SDK docs: https://runapi.ai/docs#sdk-grok-imagine
+- Product docs: https://runapi.ai/docs#grok-imagine
 - Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
 - Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video

@@ -5,6 +5,9 @@ export const contract = {
     ],
     "fields_by_model": {
       "grok-imagine-edit-image": {
+        "model": {
+          "required": true
+        },
         "source_image_url": {
           "required": true
         }
@@ -20,9 +23,20 @@ export const contract = {
             6,
             10
           ],
+          "required": true,
           "type": "integer"
         },
+        "prompt": {
+          "required": true,
+          "max": 5000,
+          "length": true
+        },
+        "source_task_id": {
+          "required": true
+        },
         "start_seconds": {
+          "required": true,
+          "min": 0,
           "type": "integer"
         }
       }
@@ -46,10 +60,17 @@ export const contract = {
           ]
         },
         "duration_seconds": {
+          "min": 6,
+          "max": 30,
           "type": "integer"
         },
         "index": {
+          "min": 0,
+          "max": 5,
           "type": "integer"
+        },
+        "model": {
+          "required": true
         },
         "motion_style": {
           "enum": [
@@ -63,6 +84,10 @@ export const contract = {
             "480p",
             "720p"
           ]
+        },
+        "prompt": {
+          "max": 5000,
+          "length": true
         }
       },
       "grok-imagine-video-1.5-fast": {
@@ -83,11 +108,18 @@ export const contract = {
         "index": {
           "type": "integer"
         },
+        "model": {
+          "required": true
+        },
         "output_resolution": {
           "enum": [
             "480p",
             "720p"
           ]
+        },
+        "prompt": {
+          "max": 5000,
+          "length": true
         },
         "source_image_url": {
           "required": true
@@ -111,6 +143,9 @@ export const contract = {
         },
         "index": {
           "type": "integer"
+        },
+        "model": {
+          "required": true
         },
         "output_resolution": {
           "enum": [
@@ -176,6 +211,14 @@ export const contract = {
             "16:9",
             "9:16"
           ]
+        },
+        "model": {
+          "required": true
+        },
+        "prompt": {
+          "required": true,
+          "max": 5000,
+          "length": true
         }
       }
     }
@@ -198,7 +241,12 @@ export const contract = {
           ]
         },
         "duration_seconds": {
+          "min": 6,
+          "max": 30,
           "type": "integer"
+        },
+        "model": {
+          "required": true
         },
         "motion_style": {
           "enum": [
@@ -212,6 +260,11 @@ export const contract = {
             "480p",
             "720p"
           ]
+        },
+        "prompt": {
+          "required": true,
+          "max": 5000,
+          "length": true
         }
       },
       "grok-imagine-video-1.5-fast": {
@@ -229,6 +282,9 @@ export const contract = {
           "max": 30,
           "type": "integer"
         },
+        "model": {
+          "required": true
+        },
         "output_resolution": {
           "enum": [
             "480p",
@@ -236,7 +292,9 @@ export const contract = {
           ]
         },
         "prompt": {
-          "required": true
+          "required": true,
+          "max": 5000,
+          "length": true
         }
       },
       "grok-imagine-video-1.5-preview": {
@@ -254,6 +312,9 @@ export const contract = {
           "min": 1,
           "max": 15,
           "type": "integer"
+        },
+        "model": {
+          "required": true
         },
         "output_resolution": {
           "enum": [
@@ -302,7 +363,11 @@ export const contract = {
   "upscale-image": {
     "models": [],
     "fields_by_model": {
-      "_": {}
+      "_": {
+        "source_task_id": {
+          "required": true
+        }
+      }
     }
   }
 } as const;

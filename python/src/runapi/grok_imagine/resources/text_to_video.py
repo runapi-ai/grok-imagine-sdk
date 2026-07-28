@@ -22,6 +22,7 @@ class TextToVideo(Resource):
     """Generate videos from text prompts with Grok-Imagine."""
 
     ENDPOINT = "/api/v1/grok_imagine/text_to_video"
+    CLASSIC_MODEL = "grok-imagine-text-to-video"
 
     RESPONSE_CLASS = VideoTaskResponse
     COMPLETED_RESPONSE_CLASS = CompletedVideoTaskResponse
@@ -63,6 +64,13 @@ class TextToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
+        if (
+            params.get("model") == self.CLASSIC_MODEL
+            and params.get("prompt")
+            and "duration_seconds" in params
+        ):
+            self._validate_duration(params, DURATION_RANGE)
+
         self._validate_contract(CONTRACT["text-to-video"], params)
         if not params.get("prompt"):
             raise ValidationError("prompt is required")
@@ -74,11 +82,14 @@ class TextToVideo(Resource):
                 PREVIEW_MODEL: PREVIEW_DURATION_RANGE,
             }
             duration_range = duration_ranges.get(params.get("model"), DURATION_RANGE)
-            try:
-                value = int(duration_seconds)
-            except (TypeError, ValueError):
-                value = None
-            if value is None or value not in duration_range:
-                raise ValidationError(
-                    f"duration_seconds must be an integer between {duration_range.start} and {duration_range.stop - 1}"
-                )
+            self._validate_duration(params, duration_range)
+
+    def _validate_duration(self, params: Dict[str, Any], duration_range: range) -> None:
+        try:
+            value = int(params.get("duration_seconds"))
+        except (TypeError, ValueError):
+            value = None
+        if value is None or value not in duration_range:
+            raise ValidationError(
+                f"duration_seconds must be an integer between {duration_range.start} and {duration_range.stop - 1}"
+            )

@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.12](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.12), [ruby/v0.2.12](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.12), [go/v0.2.12](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.12), [python/v0.2.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.2.1), [java/v0.1.5](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.5) - 2026-07-28
+
+### Changed
+- Describe supported request fields, validate existing model-specific requirements, and expose video results for upscale responses.
+
+
 ## [go/v0.2.11](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.11) - 2026-07-28
 
 ### Added

@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.4")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.5")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.7"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.8"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```
@@ -112,8 +112,8 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Public links
 
 - Model page: https://runapi.ai/models/grok-imagine
-- SDK docs: https://runapi.ai/docs/resources/sdks
-- Product docs: https://runapi.ai/docs/api/grok-imagine/text-to-image
+- SDK docs: https://runapi.ai/docs#sdk-grok-imagine
+- Product docs: https://runapi.ai/docs#grok-imagine
 - SDK repository: https://github.com/runapi-ai/grok-imagine-sdk
 - PHP package repository: https://github.com/runapi-ai/grok-imagine-php
 - Skill repository: https://github.com/runapi-ai/grok-imagine

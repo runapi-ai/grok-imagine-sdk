@@ -22,6 +22,7 @@ class ImageToVideo(Resource):
     """Generate videos from a source image with Grok-Imagine."""
 
     ENDPOINT = "/api/v1/grok_imagine/image_to_video"
+    CLASSIC_MODEL = "grok-imagine-image-to-video"
 
     RESPONSE_CLASS = VideoTaskResponse
     COMPLETED_RESPONSE_CLASS = CompletedVideoTaskResponse
@@ -63,25 +64,27 @@ class ImageToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        self._validate_contract(CONTRACT["image-to-video"], params)
-
         source_image_url = params.get("source_image_url")
         source_task_id = params.get("source_task_id")
+        if params.get("model") == self.CLASSIC_MODEL and source_task_id and not source_image_url:
+            self._validate_index(params.get("index"))
+
+        self._validate_contract(CONTRACT["image-to-video"], params)
 
         if source_image_url and source_task_id:
             raise ValidationError("Provide either source_image_url or source_task_id, not both")
         if not source_image_url and not source_task_id:
             raise ValidationError("One of source_image_url or source_task_id is required")
 
-        if source_task_id:
-            index = params.get("index")
-            if index is not None:
-                try:
-                    value = None if isinstance(index, bool) else int(index)
-                except (TypeError, ValueError):
-                    value = None
-                if value is None or value not in INDEX_RANGE:
-                    raise ValidationError("index must be an integer between 0 and 5")
-
         if str(params.get("motion_style")) == "spicy" and source_image_url:
             raise ValidationError("spicy motion_style requires a source_task_id source image.")
+
+    def _validate_index(self, index: Any) -> None:
+        if index is None:
+            return
+        try:
+            value = None if isinstance(index, bool) else int(index)
+        except (TypeError, ValueError):
+            value = None
+        if value is None or value not in INDEX_RANGE:
+            raise ValidationError("index must be an integer between 0 and 5")

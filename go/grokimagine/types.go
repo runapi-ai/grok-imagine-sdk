@@ -1,6 +1,8 @@
 // Package grokimagine provides the Grok-Imagine multimodal generation API client.
 package grokimagine
 
+import "github.com/runapi-ai/core-sdk/go/core"
+
 // TextToVideoModel identifies the Grok-Imagine text-to-video model.
 type TextToVideoModel string
 
@@ -44,6 +46,7 @@ type Image struct {
 
 // AsyncTaskResponse is the base response for async Grok-Imagine tasks.
 type AsyncTaskResponse struct {
+	core.TaskBillingFacts
 	ID     string `json:"id"`
 	Status string `json:"status"`
 	Error  string `json:"error,omitempty"`

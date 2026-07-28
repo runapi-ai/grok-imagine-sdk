@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
 
 // --- Models ---
 
@@ -201,7 +201,7 @@ export interface GrokImagineUpscaleParams extends TaskCommonParams {
 
 // --- Responses ---
 
-export interface TaskCreateResponse {
+export interface TaskCreateResponse extends TaskBillingResponse {
   id: string;
 }
 
@@ -209,7 +209,7 @@ export interface MediaUrl {
   url: string;
 }
 
-export interface GrokImagineVideoResponse {
+export interface GrokImagineVideoResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   videos?: MediaUrl[];
@@ -217,7 +217,7 @@ export interface GrokImagineVideoResponse {
   [key: string]: unknown;
 }
 
-export interface GrokImagineImageResponse {
+export interface GrokImagineImageResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   images?: MediaUrl[];

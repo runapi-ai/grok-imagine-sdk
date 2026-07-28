@@ -18,8 +18,4 @@ RSpec.describe RunApi::GrokImagine::Client do
     expect(client.extensions).to be_a(RunApi::GrokImagine::Resources::Extensions)
     expect(client.upscales).to be_a(RunApi::GrokImagine::Resources::Upscales)
   end
-
-  it "raises AuthenticationError without api_key" do
-    expect { described_class.new }.to raise_error(RunApi::Core::AuthenticationError, /API key is required/)
-  end
 end

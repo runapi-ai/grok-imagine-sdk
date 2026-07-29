@@ -2,7 +2,7 @@
 
 The Grok Imagine Go SDK is the language-specific package for Grok Imagine on RunAPI. Use this package for image and video generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Go.
 
-This README is the Go package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs#grok-imagine; for SDK docs, use https://runapi.ai/docs#sdk-grok-imagine.
+This README is the Go package guide inside the public `grok-imagine-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/grok-imagine; for API reference, use https://runapi.ai/docs/api/grok-imagine/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -21,7 +21,7 @@ import (
 
 client, err := grokimagine.NewClient()
 task, err := client.TextToVideo.Create(context.Background(), grokimagine.TextToVideoParams{
-  // Pass the Grok Imagine JSON request body from https://runapi.ai/docs#grok-imagine.
+  // Pass the Grok Imagine JSON request body from https://runapi.ai/docs/api/grok-imagine/text-to-image.
 })
 status, err := client.TextToVideo.Get(context.Background(), task.ID)
 ```
@@ -37,8 +37,8 @@ Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when bu
 ## Links
 
 - Model page: https://runapi.ai/models/grok-imagine
-- SDK docs: https://runapi.ai/docs#sdk-grok-imagine
-- Product docs: https://runapi.ai/docs#grok-imagine
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/grok-imagine/text-to-image
 - Video 1.5 Preview pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-preview
 - Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video

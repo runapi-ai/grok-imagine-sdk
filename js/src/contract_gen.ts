@@ -150,13 +150,17 @@ export const contract = {
         "output_resolution": {
           "enum": [
             "480p",
-            "720p"
+            "720p",
+            "1080p"
           ]
         },
         "prompt": {
           "min": 1,
           "max": 4096,
           "length": true
+        },
+        "reference_image_urls": {
+          "max_items": 6
         },
         "source_image_url": {
           "required": true
@@ -190,7 +194,6 @@ export const contract = {
         "forbidden": [
           "source_task_id",
           "index",
-          "reference_image_urls",
           "motion_style",
           "enable_safety_checker"
         ]
@@ -319,7 +322,8 @@ export const contract = {
         "output_resolution": {
           "enum": [
             "480p",
-            "720p"
+            "720p",
+            "1080p"
           ]
         },
         "prompt": {
@@ -327,6 +331,9 @@ export const contract = {
           "min": 1,
           "max": 4096,
           "length": true
+        },
+        "reference_image_urls": {
+          "max_items": 7
         }
       }
     },
@@ -353,7 +360,6 @@ export const contract = {
           "model": "grok-imagine-video-1.5-preview"
         },
         "forbidden": [
-          "reference_image_urls",
           "motion_style",
           "enable_safety_checker"
         ]

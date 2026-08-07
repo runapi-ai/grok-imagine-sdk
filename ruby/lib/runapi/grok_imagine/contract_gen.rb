@@ -114,12 +114,15 @@ module RunApi
               "required" => true
             },
             "output_resolution" => {
-              "enum" => ["480p", "720p"]
+              "enum" => ["480p", "720p", "1080p"]
             },
             "prompt" => {
               "min" => 1,
               "max" => 4096,
               "length" => true
+            },
+            "reference_image_urls" => {
+              "max_items" => 6
             },
             "source_image_url" => {
               "required" => true
@@ -140,7 +143,7 @@ module RunApi
           "when" => {
             "model" => "grok-imagine-video-1.5-preview"
           },
-          "forbidden" => ["source_task_id", "index", "reference_image_urls", "motion_style", "enable_safety_checker"]
+          "forbidden" => ["source_task_id", "index", "motion_style", "enable_safety_checker"]
         }]
       },
       "text-to-image" => {
@@ -222,13 +225,16 @@ module RunApi
               "required" => true
             },
             "output_resolution" => {
-              "enum" => ["480p", "720p"]
+              "enum" => ["480p", "720p", "1080p"]
             },
             "prompt" => {
               "required" => true,
               "min" => 1,
               "max" => 4096,
               "length" => true
+            },
+            "reference_image_urls" => {
+              "max_items" => 7
             }
           }
         },
@@ -246,7 +252,7 @@ module RunApi
           "when" => {
             "model" => "grok-imagine-video-1.5-preview"
           },
-          "forbidden" => ["reference_image_urls", "motion_style", "enable_safety_checker"]
+          "forbidden" => ["motion_style", "enable_safety_checker"]
         }]
       },
       "upscale-image" => {

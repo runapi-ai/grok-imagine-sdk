@@ -18,6 +18,7 @@ const (
 	textToVideoPath  = "/api/v1/grok_imagine/text_to_video"
 	imageToVideoPath = "/api/v1/grok_imagine/image_to_video"
 	textToImagePath  = "/api/v1/grok_imagine/text_to_image"
+	segmentMapPath   = "/api/v1/grok_imagine/segment_map"
 	editImagePath    = "/api/v1/grok_imagine/edit_image"
 	extensionsPath   = "/api/v1/grok_imagine/extend_video"
 	upscalesPath     = "/api/v1/grok_imagine/upscale_image"
@@ -29,6 +30,7 @@ type Client struct {
 	TextToVideo  *TextToVideo
 	ImageToVideo *ImageToVideo
 	TextToImage  *TextToImage
+	SegmentMap   *SegmentMap
 	EditImage    *EditImage
 	Extensions   *Extensions
 	Upscales     *Upscales
@@ -54,6 +56,7 @@ func NewClientWithHTTP(httpClient core.HTTPClient) *Client {
 		TextToVideo:  &TextToVideo{http: httpClient},
 		ImageToVideo: &ImageToVideo{http: httpClient},
 		TextToImage:  &TextToImage{http: httpClient},
+		SegmentMap:   &SegmentMap{http: httpClient},
 		EditImage:    &EditImage{http: httpClient},
 		Extensions:   &Extensions{http: httpClient},
 		Upscales:     &Upscales{http: httpClient},
@@ -133,6 +136,31 @@ func (r *TextToImage) Get(ctx context.Context, id string, opts ...option.Request
 func (r *TextToImage) Run(ctx context.Context, params TextToImageParams, opts ...option.RequestOption) (*ImageTaskResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*ImageTaskResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
+}
+
+// SegmentMap produces an editable segmentation map from an Image 2.0 text-to-image task.
+type SegmentMap struct{ http core.HTTPClient }
+
+// Create submits a segment-map task and returns immediately with a task id.
+func (r *SegmentMap) Create(ctx context.Context, params SegmentMapParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
+	requestOptions, _ := option.ResolveRequestOptions(opts...)
+	body := core.CompactParams(params)
+	if err := core.ValidateParams(contractSchema["segment-map"], body); err != nil {
+		return nil, err
+	}
+	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, segmentMapPath, body, requestOptions)
+}
+
+// Get fetches the current status of a segment-map task by id.
+func (r *SegmentMap) Get(ctx context.Context, id string, opts ...option.RequestOption) (*SegmentMapTaskResponse, error) {
+	requestOptions, _ := option.ResolveRequestOptions(opts...)
+	return core.GetJSON[SegmentMapTaskResponse](ctx, r.http, core.ResourcePath(segmentMapPath, id), requestOptions)
+}
+
+// Run submits a segment-map task and polls until it completes.
+func (r *SegmentMap) Run(ctx context.Context, params SegmentMapParams, opts ...option.RequestOption) (*SegmentMapTaskResponse, error) {
+	_, pollingOptions := option.ResolveRequestOptions(opts...)
+	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*SegmentMapTaskResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }
 
 // EditImage applies prompt-guided edits to a source image.

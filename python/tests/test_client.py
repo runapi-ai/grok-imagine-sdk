@@ -6,13 +6,16 @@ from runapi.grok_imagine import GrokImagineClient
 from runapi.grok_imagine.resources.edit_image import EditImage
 from runapi.grok_imagine.resources.extensions import Extensions
 from runapi.grok_imagine.resources.image_to_video import ImageToVideo
+from runapi.grok_imagine.resources.segment_map import SegmentMap
 from runapi.grok_imagine.resources.text_to_image import TextToImage
 from runapi.grok_imagine.resources.text_to_video import TextToVideo
 from runapi.grok_imagine.resources.upscales import Upscales
 from runapi.grok_imagine.types import (
     CompletedImageTaskResponse,
+    CompletedSegmentMapTaskResponse,
     CompletedVideoTaskResponse,
     ImageTaskResponse,
+    SegmentMapTaskResponse,
     VideoTaskResponse,
 )
 
@@ -67,6 +70,7 @@ def test_uses_injected_http_client():
     assert client.text_to_video._http is fake
     assert client.image_to_video._http is fake
     assert client.text_to_image._http is fake
+    assert client.segment_map._http is fake
     assert client.edit_image._http is fake
     assert client.extensions._http is fake
     assert client.upscales._http is fake
@@ -77,6 +81,7 @@ def test_exposes_resource_accessors():
     assert isinstance(client.text_to_video, TextToVideo)
     assert isinstance(client.image_to_video, ImageToVideo)
     assert isinstance(client.text_to_image, TextToImage)
+    assert isinstance(client.segment_map, SegmentMap)
     assert isinstance(client.edit_image, EditImage)
     assert isinstance(client.extensions, Extensions)
     assert isinstance(client.upscales, Upscales)
@@ -177,6 +182,30 @@ def test_text_to_image_create_shape():
     assert isinstance(result, ImageTaskResponse)
 
 
+def test_image_2_text_to_image_and_segment_map_create_shapes():
+    fake = FakeHttp({"id": "image_2"}, {"id": "segment_map"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.text_to_image.create(
+        model="grok-imagine-image-2-0", prompt="a fox", aspect_ratio="1:1"
+    )
+    client.segment_map.create(
+        model="grok-imagine-image-2-0", source_task_id="image_2"
+    )
+
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/text_to_image",
+            {"model": "grok-imagine-image-2-0", "prompt": "a fox", "aspect_ratio": "1:1"},
+        ),
+        (
+            "post",
+            "/api/v1/grok_imagine/segment_map",
+            {"model": "grok-imagine-image-2-0", "source_task_id": "image_2"},
+        ),
+    ]
+
+
 def test_image_to_video_create_shape():
     fake = FakeHttp({"id": "t1", "status": "pending"})
     client = GrokImagineClient(api_key="k", http_client=fake)
@@ -259,6 +288,48 @@ def test_edit_image_create_shape():
             {"model": "grok-imagine-edit-image", "source_image_url": "https://x/a.png"},
         ),
     ]
+
+
+def test_image_2_edit_image_create_shape():
+    fake = FakeHttp({"id": "t2"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.edit_image.create(
+        model="grok-imagine-image-2-0",
+        source_task_id="segment_map_1",
+        mask_indices=[1, 3],
+        prompt="Replace the foreground",
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/edit_image",
+            {
+                "model": "grok-imagine-image-2-0",
+                "source_task_id": "segment_map_1",
+                "mask_indices": [1, 3],
+                "prompt": "Replace the foreground",
+            },
+        ),
+    ]
+
+
+def test_segment_map_run_returns_typed_segments():
+    fake = FakeHttp(
+        {"id": "segment_map_1"},
+        {
+            "id": "segment_map_1",
+            "status": "completed",
+            "segments": [{"url": "https://file.runapi.ai/segment.png", "name": "subject", "index": 1}],
+        },
+    )
+    client = GrokImagineClient(api_key="k", http_client=fake)
+
+    result = client.segment_map.run(model="grok-imagine-image-2-0", source_task_id="image_2")
+
+    assert isinstance(result, CompletedSegmentMapTaskResponse)
+    assert result.segments[0].url == "https://file.runapi.ai/segment.png"
+    assert result.segments[0].name == "subject"
+    assert result.segments[0].index == 1
 
 
 def test_extensions_create_uses_task_id_shape():

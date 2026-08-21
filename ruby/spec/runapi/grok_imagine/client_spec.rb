@@ -9,11 +9,12 @@ RSpec.describe RunApi::GrokImagine::Client do
 
   after { RunApi.api_key = nil }
 
-  it "exposes all six resource accessors" do
+  it "exposes all seven resource accessors" do
     client = described_class.new(api_key: "test-key")
     expect(client.text_to_video).to be_a(RunApi::GrokImagine::Resources::TextToVideo)
     expect(client.image_to_video).to be_a(RunApi::GrokImagine::Resources::ImageToVideo)
     expect(client.text_to_image).to be_a(RunApi::GrokImagine::Resources::TextToImage)
+    expect(client.segment_map).to be_a(RunApi::GrokImagine::Resources::SegmentMap)
     expect(client.edit_image).to be_a(RunApi::GrokImagine::Resources::EditImage)
     expect(client.extensions).to be_a(RunApi::GrokImagine::Resources::Extensions)
     expect(client.upscales).to be_a(RunApi::GrokImagine::Resources::Upscales)

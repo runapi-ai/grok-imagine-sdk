@@ -12,6 +12,7 @@ type stubHTTPClient struct {
 	method string
 	path   string
 	body   any
+	response json.RawMessage
 }
 
 func (s *stubHTTPClient) Request(_ context.Context, method, path string, opts *core.HTTPRequestOptions) (json.RawMessage, error) {
@@ -19,6 +20,9 @@ func (s *stubHTTPClient) Request(_ context.Context, method, path string, opts *c
 	s.path = path
 	if opts != nil {
 		s.body = opts.Body
+	}
+	if s.response != nil {
+		return s.response, nil
 	}
 	return json.RawMessage(`{"id":"task_123","status":"processing"}`), nil
 }
@@ -259,6 +263,56 @@ func TestEditImageCreate(t *testing.T) {
 	}
 	if _, ok := body["image_urls"]; ok {
 		t.Fatal("expected image_urls to stay off the public request body")
+	}
+}
+
+func TestImage2SegmentMapAndEditCreate(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.SegmentMap.Create(context.Background(), SegmentMapParams{
+		Model:        ModelImage2SegmentMap,
+		SourceTaskID: "image_2_text_task",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if stub.method != "POST" || stub.path != "/api/v1/grok_imagine/segment_map" {
+		t.Fatalf("unexpected segment-map request: %s %s", stub.method, stub.path)
+	}
+	segmentBody := stub.body.(map[string]any)
+	if segmentBody["model"] != "grok-imagine-image-2-0" || segmentBody["source_task_id"] != "image_2_text_task" {
+		t.Fatalf("unexpected segment-map body: %#v", segmentBody)
+	}
+
+	_, err = client.EditImage.Create(context.Background(), EditImageParams{
+		Model:        ModelImage2EditImage,
+		SourceTaskID: "segment_map_task",
+		MaskIndices:  []int{1, 3},
+		Prompt:       "Replace the foreground",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	editBody := stub.body.(map[string]any)
+	if editBody["source_task_id"] != "segment_map_task" || editBody["prompt"] != "Replace the foreground" {
+		t.Fatalf("unexpected Image 2.0 edit body: %#v", editBody)
+	}
+	if _, ok := editBody["source_image_url"]; ok {
+		t.Fatal("expected Image 2.0 edit to omit source_image_url")
+	}
+	if _, ok := editBody["mask_indices"]; !ok {
+		t.Fatal("expected Image 2.0 edit to send mask_indices")
+	}
+}
+
+func TestSegmentMapGetDecodesSegments(t *testing.T) {
+	stub := &stubHTTPClient{response: json.RawMessage(`{"id":"segment_map_1","status":"completed","segments":[{"url":"https://file.runapi.ai/segment.png","name":"subject","index":1}]}`)}
+	response, err := NewClientWithHTTP(stub).SegmentMap.Get(context.Background(), "segment_map_1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(response.Segments) != 1 || response.Segments[0].Name != "subject" || response.Segments[0].Index == nil || *response.Segments[0].Index != 1 {
+		t.Fatalf("unexpected segments: %#v", response.Segments)
 	}
 }
 

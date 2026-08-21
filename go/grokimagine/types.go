@@ -15,6 +15,9 @@ type TextToImageModel string
 // EditImageModel identifies the Grok-Imagine image editing model.
 type EditImageModel string
 
+// SegmentMapModel identifies the Grok-Imagine segment-map model.
+type SegmentMapModel string
+
 const (
 	// ModelTextToVideo is the Grok Imagine text-to-video model.
 	ModelTextToVideo TextToVideoModel = "grok-imagine-text-to-video"
@@ -30,8 +33,14 @@ const (
 	ModelImageToVideo15Fast ImageToVideoModel = "grok-imagine-video-1.5-fast"
 	// ModelTextToImage is the Grok Imagine text-to-image model, with an optional Pro quality mode.
 	ModelTextToImage TextToImageModel = "grok-imagine-text-to-image"
+	// ModelImage2TextToImage is the Image 2.0 text-to-image model.
+	ModelImage2TextToImage TextToImageModel = "grok-imagine-image-2-0"
 	// ModelEditImage is the Grok Imagine image editing model for prompt-guided modifications to a source image.
 	ModelEditImage EditImageModel = "grok-imagine-edit-image"
+	// ModelImage2EditImage is the Image 2.0 model for segmentation-map-guided image edits.
+	ModelImage2EditImage EditImageModel = "grok-imagine-image-2-0"
+	// ModelImage2SegmentMap is the Image 2.0 model for creating editable segmentation maps.
+	ModelImage2SegmentMap SegmentMapModel = "grok-imagine-image-2-0"
 )
 
 // Video contains a generated video URL.
@@ -42,6 +51,13 @@ type Video struct {
 // Image contains a generated image URL.
 type Image struct {
 	URL string `json:"url"`
+}
+
+// Segment contains an editable segment-map result.
+type Segment struct {
+	URL   string `json:"url"`
+	Name  string `json:"name,omitempty"`
+	Index *int   `json:"index,omitempty"`
 }
 
 // AsyncTaskResponse is the base response for async Grok-Imagine tasks.
@@ -66,6 +82,12 @@ type VideoTaskResponse struct {
 type ImageTaskResponse struct {
 	AsyncTaskResponse
 	Images []Image `json:"images,omitempty"`
+}
+
+// SegmentMapTaskResponse is returned when polling a segment-map task.
+type SegmentMapTaskResponse struct {
+	AsyncTaskResponse
+	Segments []Segment `json:"segments,omitempty"`
 }
 
 // TextToVideoParams contains parameters for text-to-video generation.
@@ -112,14 +134,23 @@ type TextToImageParams struct {
 	EnablePro           *bool  `json:"enable_pro,omitempty" help:"optional; quality mode, slower but higher precision, default false"`
 }
 
+// SegmentMapParams contains parameters for creating a segmentation map from an Image 2.0 text-to-image task.
+type SegmentMapParams struct {
+	Model        SegmentMapModel `json:"model" help:"required; Image 2.0 model slug"`
+	SourceTaskID string          `json:"source_task_id" help:"required; completed Image 2.0 text-to-image task id"`
+	CallbackURL  string          `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+}
+
 // EditImageParams contains parameters for prompt-guided image editing.
 type EditImageParams struct {
 	Model          EditImageModel `json:"model" help:"required; model slug"`
-	SourceImageURL string         `json:"source_image_url" help:"required; source image URL"`
+	SourceImageURL string         `json:"source_image_url,omitempty" help:"required for grok-imagine-edit-image; not accepted by Image 2.0"`
+	SourceTaskID   string         `json:"source_task_id,omitempty" help:"required for Image 2.0; completed segment-map task id"`
+	MaskIndices    []int          `json:"mask_indices,omitempty" help:"optional; Image 2.0 segment indexes to edit"`
 	CallbackURL    string         `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired output"`
-	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
+	Prompt              string `json:"prompt,omitempty" help:"required for Image 2.0; optional edit instruction"`
+	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; not accepted by Image 2.0"`
 }
 
 // ExtendParams contains parameters for extending a prior grok-imagine video task.

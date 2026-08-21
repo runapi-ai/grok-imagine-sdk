@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.14](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.14), [ruby/v0.2.15](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.15), [go/v0.2.14](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.14), [python/v0.2.3](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.2.3), [java/v0.1.6](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.6) - 2026-08-21
+
+### Added
+- Add typed Image 2.0 text-to-image, segment-map, and segment-backed image editing support.
+
+
 ## [ruby/v0.2.14](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.14) - 2026-08-18
 
 ### Changed

@@ -44,3 +44,24 @@ class CompletedImageTaskResponse(ImageTaskResponse):
     """Narrowed image response from ``run()`` once polling observes completion."""
 
     images = required([lambda: MediaUrl])
+
+
+class Segment(BaseModel):
+    """Editable segment-map result."""
+
+    url = required(str)
+    name = optional(str)
+    index = optional(int)
+
+
+class SegmentMapTaskResponse(AsyncTaskResponse):
+    """Task status/result for Grok-Imagine segment-map generation."""
+
+    segments = optional([lambda: Segment])
+    error = optional(str)
+
+
+class CompletedSegmentMapTaskResponse(SegmentMapTaskResponse):
+    """Narrowed segment-map response from ``run()`` once polling observes completion."""
+
+    segments = required([lambda: Segment])

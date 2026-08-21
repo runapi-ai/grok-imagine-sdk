@@ -2,6 +2,7 @@ import { BaseClient, type ClientOptions } from '@runapi.ai/core';
 import { TextToVideo } from './resources/text-to-video';
 import { ImageToVideo } from './resources/image-to-video';
 import { TextToImage } from './resources/text-to-image';
+import { SegmentMap } from './resources/segment-map';
 import { EditImage } from './resources/edit-image';
 import { Extensions } from './resources/extensions';
 import { Upscales } from './resources/upscales';
@@ -33,6 +34,8 @@ export class GrokImagineClient extends BaseClient {
   public readonly imageToVideo: ImageToVideo;
   /** Text-to-image generation. */
   public readonly textToImage: TextToImage;
+  /** Segment-map generation from an Image 2.0 text-to-image task. */
+  public readonly segmentMap: SegmentMap;
   /** Prompt-guided image editing. */
   public readonly editImage: EditImage;
   /** Extend a previously generated video. */
@@ -45,6 +48,7 @@ export class GrokImagineClient extends BaseClient {
     this.textToVideo = new TextToVideo(this.http);
     this.imageToVideo = new ImageToVideo(this.http);
     this.textToImage = new TextToImage(this.http);
+    this.segmentMap = new SegmentMap(this.http);
     this.editImage = new EditImage(this.http);
     this.extensions = new Extensions(this.http);
     this.upscales = new Upscales(this.http);

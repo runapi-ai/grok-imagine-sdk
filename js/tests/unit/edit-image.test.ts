@@ -27,4 +27,25 @@ describe('Grok Imagine edit-image', () => {
       },
     });
   });
+
+  it('creates Image 2.0 edits from a segment-map task', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-2' });
+    const resource = new EditImage(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-image-2-0',
+      source_task_id: 'segment-map-task',
+      mask_indices: [1, 3],
+      prompt: 'Replace the foreground',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/edit_image', {
+      body: {
+        model: 'grok-imagine-image-2-0',
+        source_task_id: 'segment-map-task',
+        mask_indices: [1, 3],
+        prompt: 'Replace the foreground',
+      },
+    });
+  });
 });

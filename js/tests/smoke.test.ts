@@ -2,12 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { GrokImagineClient } from '../src';
 
 describe('GrokImagineClient', () => {
-  it('exposes the six endpoint resources', () => {
+  it('exposes the seven endpoint resources', () => {
     const client = new GrokImagineClient({ apiKey: 'test-key' });
 
     expect(client.textToVideo).toBeDefined();
     expect(client.imageToVideo).toBeDefined();
     expect(client.textToImage).toBeDefined();
+    expect(client.segmentMap).toBeDefined();
     expect(client.editImage).toBeDefined();
     expect(client.extensions).toBeDefined();
     expect(client.upscales).toBeDefined();

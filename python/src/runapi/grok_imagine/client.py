@@ -9,6 +9,7 @@ from runapi.core import ProviderClient
 from .resources.edit_image import EditImage
 from .resources.extensions import Extensions
 from .resources.image_to_video import ImageToVideo
+from .resources.segment_map import SegmentMap
 from .resources.text_to_image import TextToImage
 from .resources.text_to_video import TextToVideo
 from .resources.upscales import Upscales
@@ -33,6 +34,7 @@ class GrokImagineClient(ProviderClient):
         self.text_to_video = TextToVideo(http)
         self.image_to_video = ImageToVideo(http)
         self.text_to_image = TextToImage(http)
+        self.segment_map = SegmentMap(http)
         self.edit_image = EditImage(http)
         self.extensions = Extensions(http)
         self.upscales = Upscales(http)

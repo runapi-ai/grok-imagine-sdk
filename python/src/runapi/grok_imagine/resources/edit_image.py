@@ -59,5 +59,3 @@ class EditImage(Resource):
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
         self._validate_contract(CONTRACT["edit-image"], params)
-        if not params.get("source_image_url"):
-            raise ValidationError("source_image_url is required")

@@ -37,6 +37,21 @@ module RunApi
       class CompletedImageTaskResponse < ImageTaskResponse
         required :images, [-> { MediaUrl }]
       end
+
+      class Segment < RunApi::Core::BaseModel
+        required :url, String
+        optional :name, String
+        optional :index, Integer
+      end
+
+      class SegmentMapTaskResponse < AsyncTaskResponse
+        optional :segments, [-> { Segment }]
+        optional :error, String
+      end
+
+      class CompletedSegmentMapTaskResponse < SegmentMapTaskResponse
+        required :segments, [-> { Segment }]
+      end
     end
   end
 end

@@ -113,6 +113,7 @@ Use this route only for application or production-code integration. Open the cur
 
 ## Variants
 - `grok-imagine-edit-image`: https://runapi.ai/models/grok-imagine/edit-image.md
+- `grok-imagine-image-2-0`: https://runapi.ai/models/grok-imagine/image-2-0.md
 - `grok-imagine-image-to-video`: https://runapi.ai/models/grok-imagine/image-to-video.md
 - `grok-imagine-text-to-image`: https://runapi.ai/models/grok-imagine/text-to-image.md
 - `grok-imagine-text-to-video`: https://runapi.ai/models/grok-imagine/text-to-video.md

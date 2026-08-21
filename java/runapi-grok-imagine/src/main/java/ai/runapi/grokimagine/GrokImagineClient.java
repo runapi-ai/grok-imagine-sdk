@@ -7,6 +7,7 @@ import java.net.URI;
 import ai.runapi.grokimagine.resources.EditImageResource;
 import ai.runapi.grokimagine.resources.ExtensionsResource;
 import ai.runapi.grokimagine.resources.ImageToVideoResource;
+import ai.runapi.grokimagine.resources.SegmentMapResource;
 import ai.runapi.grokimagine.resources.TextToImageResource;
 import ai.runapi.grokimagine.resources.TextToVideoResource;
 import ai.runapi.grokimagine.resources.UpscalesResource;
@@ -17,6 +18,7 @@ public final class GrokImagineClient extends BaseClient {
   private final ExtensionsResource extensions;
   private final ImageToVideoResource imageToVideo;
   private final TextToImageResource textToImage;
+  private final SegmentMapResource segmentMap;
   private final TextToVideoResource textToVideo;
   private final UpscalesResource upscales;
 
@@ -26,6 +28,7 @@ public final class GrokImagineClient extends BaseClient {
     this.extensions = new ExtensionsResource(transport(), options());
     this.imageToVideo = new ImageToVideoResource(transport(), options());
     this.textToImage = new TextToImageResource(transport(), options());
+    this.segmentMap = new SegmentMapResource(transport(), options());
     this.textToVideo = new TextToVideoResource(transport(), options());
     this.upscales = new UpscalesResource(transport(), options());
   }
@@ -53,6 +56,11 @@ public final class GrokImagineClient extends BaseClient {
   /** Text To Image operations. */
   public TextToImageResource textToImage() {
     return textToImage;
+  }
+
+  /** Segment Map operations. */
+  public SegmentMapResource segmentMap() {
+    return segmentMap;
   }
 
   /** Text To Video operations. */

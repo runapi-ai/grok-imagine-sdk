@@ -6,6 +6,7 @@ export type GrokImagineTextToVideoModel = 'grok-imagine-text-to-video';
 export type GrokImagineImageToVideoModel = 'grok-imagine-image-to-video';
 export type GrokImagineVideo15FastModel = 'grok-imagine-video-1.5-fast';
 export type GrokImagineVideo15PreviewModel = 'grok-imagine-video-1.5-preview';
+export type GrokImagineImage2Model = 'grok-imagine-image-2-0';
 export type GrokImagineTextToImageModel = 'grok-imagine-text-to-image';
 export type GrokImagineEditImageModel = 'grok-imagine-edit-image';
 
@@ -156,7 +157,7 @@ export type GrokImagineImageToVideoParams =
 
 // --- Text to Image ---
 
-export interface GrokImagineTextToImageParams extends TaskCommonParams {
+export interface GrokImagineTextToImageStandardParams extends TaskCommonParams {
   model: GrokImagineTextToImageModel;
   /** Text description of desired image content, up to 5000 characters. */
   prompt: string;
@@ -168,9 +169,31 @@ export interface GrokImagineTextToImageParams extends TaskCommonParams {
   enable_pro?: boolean;
 }
 
+export interface GrokImagineImage2TextToImageParams extends TaskCommonParams {
+  model: GrokImagineImage2Model;
+  /** Text description of desired image content. */
+  prompt: string;
+  /** Required width-to-height ratio of the generated image. */
+  aspect_ratio: GrokImagineAspectRatio;
+  enable_safety_checker?: never;
+  enable_pro?: never;
+}
+
+export type GrokImagineTextToImageParams =
+  | GrokImagineTextToImageStandardParams
+  | GrokImagineImage2TextToImageParams;
+
+// --- Segment Map ---
+
+export interface GrokImagineSegmentMapParams extends TaskCommonParams {
+  model: GrokImagineImage2Model;
+  /** Completed Image 2.0 text-to-image task id. */
+  source_task_id: string;
+}
+
 // --- Edit Image ---
 
-export interface GrokImagineEditImageParams extends TaskCommonParams {
+export interface GrokImagineStandardEditImageParams extends TaskCommonParams {
   model: GrokImagineEditImageModel;
   /** Optional text prompt describing the desired output. */
   prompt?: string;
@@ -178,6 +201,22 @@ export interface GrokImagineEditImageParams extends TaskCommonParams {
   source_image_url: string;
   enable_safety_checker?: boolean;
 }
+
+export interface GrokImagineImage2EditImageParams extends TaskCommonParams {
+  model: GrokImagineImage2Model;
+  /** Editing instruction. */
+  prompt: string;
+  /** Completed Image 2.0 segment-map task id. */
+  source_task_id: string;
+  /** Optional one-based segment indexes to edit. */
+  mask_indices?: number[];
+  source_image_url?: never;
+  enable_safety_checker?: never;
+}
+
+export type GrokImagineEditImageParams =
+  | GrokImagineStandardEditImageParams
+  | GrokImagineImage2EditImageParams;
 
 // --- Extend ---
 
@@ -225,6 +264,20 @@ export interface GrokImagineImageResponse extends TaskResponse {
   [key: string]: unknown;
 }
 
+export interface GrokImagineSegment {
+  url: string;
+  name?: string;
+  index?: number;
+}
+
+export interface GrokImagineSegmentMapResponse extends TaskResponse {
+  id: string;
+  status: AsyncTaskStatus;
+  segments?: GrokImagineSegment[];
+  error?: string;
+  [key: string]: unknown;
+}
+
 export type CompletedGrokImagineVideoResponse = GrokImagineVideoResponse & {
   status: 'completed';
   videos: MediaUrl[];
@@ -233,4 +286,9 @@ export type CompletedGrokImagineVideoResponse = GrokImagineVideoResponse & {
 export type CompletedGrokImagineImageResponse = GrokImagineImageResponse & {
   status: 'completed';
   images: MediaUrl[];
+};
+
+export type CompletedGrokImagineSegmentMapResponse = GrokImagineSegmentMapResponse & {
+  status: 'completed';
+  segments: GrokImagineSegment[];
 };

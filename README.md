@@ -22,7 +22,7 @@
 </div>
 <br/>
 
-The Grok Imagine API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Grok Imagine on RunAPI. Use it for text-to-image, text-to-video, image-to-video, image editing, extension, and upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Grok Imagine API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Grok Imagine on RunAPI. Use it for text-to-image, segment maps, image editing, text-to-video, image-to-video, extension, and upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
 Grok Imagine is listed in the RunAPI model catalog at https://runapi.ai/models/grok-imagine. Variant pages below carry pricing, rate-limit, and commercial-usage details, including the shared `grok-imagine-video-1.5-fast` and `grok-imagine-video-1.5-preview` models for text-to-video and image-to-video. The public `grok-imagine-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.5")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.6")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.5.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.6.0"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```
@@ -129,6 +129,7 @@ Use the most specific Grok Imagine variant page for pricing, rate limits, and co
 - [Image to video](https://runapi.ai/models/grok-imagine/image-to-video)
 - [Text to image](https://runapi.ai/models/grok-imagine/text-to-image)
 - [Edit image](https://runapi.ai/models/grok-imagine/edit-image)
+- [Image 2.0](https://runapi.ai/models/grok-imagine/image-2-0)
 
 Default pricing link for the Grok Imagine SDK: https://runapi.ai/models/grok-imagine/text-to-video
 

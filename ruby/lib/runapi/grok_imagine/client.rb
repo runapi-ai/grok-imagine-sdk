@@ -18,6 +18,8 @@ module RunApi
       attr_reader :image_to_video
       # @return [Resources::TextToImage] Text-to-image generation operations.
       attr_reader :text_to_image
+      # @return [Resources::SegmentMap] Segmentation map generation operations.
+      attr_reader :segment_map
       # @return [Resources::EditImage] Prompt-guided image editing operations.
       attr_reader :edit_image
       # @return [Resources::Extensions] Extend a previously generated video.
@@ -31,6 +33,7 @@ module RunApi
         @text_to_video = Resources::TextToVideo.new(http)
         @image_to_video = Resources::ImageToVideo.new(http)
         @text_to_image = Resources::TextToImage.new(http)
+        @segment_map = Resources::SegmentMap.new(http)
         @edit_image = Resources::EditImage.new(http)
         @extensions = Resources::Extensions.new(http)
         @upscales = Resources::Upscales.new(http)

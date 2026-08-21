@@ -4,7 +4,7 @@ module RunApi
   module GrokImagine
     CONTRACT = {
       "edit-image" => {
-        "models" => ["grok-imagine-edit-image"],
+        "models" => ["grok-imagine-edit-image", "grok-imagine-image-2-0"],
         "fields_by_model" => {
           "grok-imagine-edit-image" => {
             "model" => {
@@ -13,8 +13,33 @@ module RunApi
             "source_image_url" => {
               "required" => true
             }
+          },
+          "grok-imagine-image-2-0" => {
+            "mask_indices" => {
+              "min_items" => 1
+            },
+            "model" => {
+              "required" => true
+            },
+            "prompt" => {
+              "required" => true
+            },
+            "source_task_id" => {
+              "required" => true
+            }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "grok-imagine-edit-image"
+          },
+          "forbidden" => ["source_task_id", "mask_indices"]
+        }, {
+          "when" => {
+            "model" => "grok-imagine-image-2-0"
+          },
+          "forbidden" => ["source_image_url", "enable_safety_checker"]
+        }]
       },
       "extend" => {
         "models" => [],
@@ -146,9 +171,34 @@ module RunApi
           "forbidden" => ["source_task_id", "index", "motion_style", "enable_safety_checker"]
         }]
       },
-      "text-to-image" => {
-        "models" => ["grok-imagine-text-to-image"],
+      "segment-map" => {
+        "models" => ["grok-imagine-image-2-0"],
         "fields_by_model" => {
+          "grok-imagine-image-2-0" => {
+            "model" => {
+              "required" => true
+            },
+            "source_task_id" => {
+              "required" => true
+            }
+          }
+        }
+      },
+      "text-to-image" => {
+        "models" => ["grok-imagine-image-2-0", "grok-imagine-text-to-image"],
+        "fields_by_model" => {
+          "grok-imagine-image-2-0" => {
+            "aspect_ratio" => {
+              "enum" => ["1:1", "2:3", "3:2", "16:9", "9:16"],
+              "required" => true
+            },
+            "model" => {
+              "required" => true
+            },
+            "prompt" => {
+              "required" => true
+            }
+          },
           "grok-imagine-text-to-image" => {
             "aspect_ratio" => {
               "enum" => ["2:3", "3:2", "1:1", "16:9", "9:16"]
@@ -162,7 +212,13 @@ module RunApi
               "length" => true
             }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "grok-imagine-image-2-0"
+          },
+          "forbidden" => ["enable_safety_checker", "enable_pro"]
+        }]
       },
       "text-to-video" => {
         "models" => ["grok-imagine-text-to-video", "grok-imagine-video-1.5-fast", "grok-imagine-video-1.5-preview"],

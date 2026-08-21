@@ -3,14 +3,14 @@
 module RunApi
   module GrokImagine
     module Resources
-      # Grok-Imagine prompt-guided image editing resource.
-      class EditImage
+      # Produces an editable segmentation map from an Image 2.0 text-to-image task.
+      class SegmentMap
         include RunApi::Core::ResourceHelpers
 
-        ENDPOINT = "/api/v1/grok_imagine/edit_image"
+        ENDPOINT = "/api/v1/grok_imagine/segment_map"
 
-        RESPONSE_CLASS = Types::ImageTaskResponse
-        COMPLETED_RESPONSE_CLASS = Types::CompletedImageTaskResponse
+        RESPONSE_CLASS = Types::SegmentMapTaskResponse
+        COMPLETED_RESPONSE_CLASS = Types::CompletedSegmentMapTaskResponse
 
         def initialize(http)
           @http = http
@@ -34,7 +34,7 @@ module RunApi
         private
 
         def validate_params!(params)
-          validate_contract!(CONTRACT["edit-image"], params)
+          validate_contract!(CONTRACT["segment-map"], params)
         end
       end
     end

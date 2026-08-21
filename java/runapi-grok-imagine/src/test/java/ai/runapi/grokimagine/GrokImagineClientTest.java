@@ -16,12 +16,15 @@ import ai.runapi.grokimagine.types.TextToImageResponse;
 import ai.runapi.grokimagine.types.CompletedEditImageResponse;
 import ai.runapi.grokimagine.types.CompletedExtendVideoResponse;
 import ai.runapi.grokimagine.types.CompletedImageToVideoResponse;
+import ai.runapi.grokimagine.types.CompletedSegmentMapResponse;
 import ai.runapi.grokimagine.types.CompletedTextToImageResponse;
 import ai.runapi.grokimagine.types.CompletedTextToVideoResponse;
 import ai.runapi.grokimagine.types.CompletedUpscaleImageResponse;
 import ai.runapi.grokimagine.types.EditImageModel;
 import ai.runapi.grokimagine.types.EditImageParams;
 import ai.runapi.grokimagine.types.EditImageResponse;
+import ai.runapi.grokimagine.types.SegmentMapModel;
+import ai.runapi.grokimagine.types.SegmentMapParams;
 import ai.runapi.grokimagine.types.ExtendParams;
 import ai.runapi.grokimagine.types.ExtendVideoResponse;
 import ai.runapi.grokimagine.types.ImageToVideoModel;
@@ -76,6 +79,54 @@ class GrokImagineClientTest {
     assertEquals("/api/v1/grok_imagine/text_to_image", transport.request.getPath());
     JsonNode body = bodyJson(transport.request);
     assertNotNull(body);
+  }
+
+  @Test
+  void image2SegmentMapAndEditSendTaskBasedInputs() throws Exception {
+    CapturingTransport segmentTransport = new CapturingTransport("{\"id\":\"segment_map\",\"status\":\"processing\"}");
+    GrokImagineClient segmentClient = GrokImagineClient.builder().apiKey("sk-test").transport(segmentTransport).build();
+    segmentClient.segmentMap().create(
+        SegmentMapParams.builder()
+            .model(SegmentMapModel.GROK_IMAGINE_IMAGE_2_0)
+            .sourceTaskId("text_image_task")
+            .build());
+    assertEquals("/api/v1/grok_imagine/segment_map", segmentTransport.request.getPath());
+    assertEquals("text_image_task", bodyJson(segmentTransport.request).get("source_task_id").asText());
+
+    CapturingTransport editTransport = new CapturingTransport("{\"id\":\"edit_image\",\"status\":\"processing\"}");
+    GrokImagineClient editClient = GrokImagineClient.builder().apiKey("sk-test").transport(editTransport).build();
+    editClient.editImage().create(
+        EditImageParams.builder()
+            .model(EditImageModel.GROK_IMAGINE_IMAGE_2_0)
+            .sourceTaskId("segment_map")
+            .maskIndices(Collections.singletonList(1))
+            .prompt("Replace the foreground")
+            .build());
+    JsonNode editBody = bodyJson(editTransport.request);
+    assertEquals("/api/v1/grok_imagine/edit_image", editTransport.request.getPath());
+    assertEquals("segment_map", editBody.get("source_task_id").asText());
+    assertEquals(1, editBody.get("mask_indices").get(0).asInt());
+  }
+
+  @Test
+  void segmentMapReturnsTypedSegments() {
+    SequenceTransport transport = new SequenceTransport(
+        "{\"id\":\"segment_map_1\",\"status\":\"processing\"}",
+        "{\"id\":\"segment_map_1\",\"status\":\"completed\",\"segments\":[{\"url\":\"https://file.runapi.ai/segment.png\",\"name\":\"subject\",\"index\":1}]}"
+    );
+    GrokImagineClient client = GrokImagineClient.builder().apiKey("sk-test").transport(transport).build();
+
+    CompletedSegmentMapResponse response = client.segmentMap().run(
+        SegmentMapParams.builder()
+            .model(SegmentMapModel.GROK_IMAGINE_IMAGE_2_0)
+            .sourceTaskId("text_image_task")
+            .build(),
+        RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build());
+
+    assertEquals("completed", response.getStatus().value());
+    assertEquals("subject", response.getSegments().get(0).getName());
+    assertEquals(1, response.getSegments().get(0).getIndex().intValue());
+    assertEquals(2, transport.calls);
   }
 
   @Test

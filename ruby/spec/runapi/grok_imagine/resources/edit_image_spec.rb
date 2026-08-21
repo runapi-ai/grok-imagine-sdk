@@ -18,4 +18,16 @@ RSpec.describe RunApi::GrokImagine::Resources::EditImage do
       resource.create(model: "grok-imagine-edit-image")
     }.to raise_error(RunApi::Core::ValidationError, /source_image_url is required/)
   end
+
+  it "POSTs an Image 2.0 edit from a segment-map task" do
+    params = {
+      model: "grok-imagine-image-2-0",
+      source_task_id: "segment-map-task",
+      mask_indices: [1, 3],
+      prompt: "Replace the foreground"
+    }
+    expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "t-2")
+
+    resource.create(**params)
+  end
 end

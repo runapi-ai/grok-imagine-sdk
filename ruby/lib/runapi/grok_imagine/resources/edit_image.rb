@@ -3,7 +3,11 @@
 module RunApi
   module GrokImagine
     module Resources
-      # Grok-Imagine prompt-guided image editing resource.
+      # Prompt-guided image editing resource.
+      #
+      # Image 2.0 accepts one to five source_image_urls, an aspect_ratio, and
+      # an optional prompt. The original model continues to accept a single
+      # source_image_url and prompt.
       class EditImage
         include RunApi::Core::ResourceHelpers
 

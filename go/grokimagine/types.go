@@ -37,7 +37,7 @@ const (
 	ModelImage2TextToImage TextToImageModel = "grok-imagine-image-2-0"
 	// ModelEditImage is the Grok Imagine image editing model for prompt-guided modifications to a source image.
 	ModelEditImage EditImageModel = "grok-imagine-edit-image"
-	// ModelImage2EditImage is the Image 2.0 model for segmentation-map-guided image edits.
+	// ModelImage2EditImage is the Image 2.0 model for direct image edits.
 	ModelImage2EditImage EditImageModel = "grok-imagine-image-2-0"
 	// ModelImage2SegmentMap is the Image 2.0 model for creating editable segmentation maps.
 	ModelImage2SegmentMap SegmentMapModel = "grok-imagine-image-2-0"
@@ -134,22 +134,24 @@ type TextToImageParams struct {
 	EnablePro           *bool  `json:"enable_pro,omitempty" help:"optional; quality mode, slower but higher precision, default false"`
 }
 
-// SegmentMapParams contains parameters for creating a segmentation map from an Image 2.0 text-to-image task.
+// SegmentMapParams contains parameters for creating a segmentation map from a public image URL.
 type SegmentMapParams struct {
-	Model        SegmentMapModel `json:"model" help:"required; Image 2.0 model slug"`
-	SourceTaskID string          `json:"source_task_id" help:"required; completed Image 2.0 text-to-image task id"`
-	CallbackURL  string          `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+	Model    SegmentMapModel `json:"model" help:"required; Image 2.0 model slug"`
+	ImageURL string          `json:"image_url,omitempty" help:"optional; public image URL; mutually exclusive with source_task_id"`
+	// Compatibility input for a completed Image 2.0 text-to-image task; use ImageURL instead.
+	SourceTaskID string `json:"source_task_id,omitempty" help:"optional; compatibility input; completed Image 2.0 text-to-image task id; use image_url instead"`
+	CallbackURL  string `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 }
 
 // EditImageParams contains parameters for prompt-guided image editing.
 type EditImageParams struct {
-	Model          EditImageModel `json:"model" help:"required; model slug"`
-	SourceImageURL string         `json:"source_image_url,omitempty" help:"required for grok-imagine-edit-image; not accepted by Image 2.0"`
-	SourceTaskID   string         `json:"source_task_id,omitempty" help:"required for Image 2.0; completed segment-map task id"`
-	MaskIndices    []int          `json:"mask_indices,omitempty" help:"optional; Image 2.0 segment indexes to edit"`
-	CallbackURL    string         `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
+	Model           EditImageModel `json:"model" help:"required; model slug"`
+	SourceImageURL  string         `json:"source_image_url,omitempty" help:"required for grok-imagine-edit-image; not accepted by Image 2.0"`
+	SourceImageURLs []string       `json:"source_image_urls,omitempty" help:"required for Image 2.0; one to five source image URLs"`
+	CallbackURL     string         `json:"callback_url,omitempty" help:"optional; URL that receives completion callback"`
 
-	Prompt              string `json:"prompt,omitempty" help:"required for Image 2.0; optional edit instruction"`
+	Prompt              string `json:"prompt,omitempty" help:"optional; edit instruction"`
+	AspectRatio         string `json:"aspect_ratio,omitempty" help:"required for Image 2.0; output aspect ratio"`
 	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; not accepted by Image 2.0"`
 }
 

@@ -138,7 +138,7 @@ func (r *TextToImage) Run(ctx context.Context, params TextToImageParams, opts ..
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*ImageTaskResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }
 
-// SegmentMap produces an editable segmentation map from an Image 2.0 text-to-image task.
+// SegmentMap produces an editable segmentation map from a public image URL.
 type SegmentMap struct{ http core.HTTPClient }
 
 // Create submits a segment-map task and returns immediately with a task id.

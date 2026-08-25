@@ -11,7 +11,11 @@ from ..types import CompletedSegmentMapTaskResponse, SegmentMapTaskResponse
 
 
 class SegmentMap(Resource):
-    """Create an editable segmentation map from an Image 2.0 text-to-image task."""
+    """Create an editable segmentation map from a public image URL.
+
+    ``source_task_id`` remains accepted as a compatibility input; use
+    ``image_url`` instead when available.
+    """
 
     ENDPOINT = "/api/v1/grok_imagine/segment_map"
 

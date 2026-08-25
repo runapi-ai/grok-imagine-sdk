@@ -9,9 +9,9 @@ import (
 )
 
 type stubHTTPClient struct {
-	method string
-	path   string
-	body   any
+	method   string
+	path     string
+	body     any
 	response json.RawMessage
 }
 
@@ -284,24 +284,110 @@ func TestImage2SegmentMapAndEditCreate(t *testing.T) {
 		t.Fatalf("unexpected segment-map body: %#v", segmentBody)
 	}
 
+	_, err = client.SegmentMap.Create(context.Background(), SegmentMapParams{
+		Model:    ModelImage2SegmentMap,
+		ImageURL: "https://cdn.runapi.ai/public/samples/image.jpg",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	segmentBody = stub.body.(map[string]any)
+	if segmentBody["image_url"] != "https://cdn.runapi.ai/public/samples/image.jpg" {
+		t.Fatalf("unexpected image URL segment-map body: %#v", segmentBody)
+	}
+	if _, ok := segmentBody["source_task_id"]; ok {
+		t.Fatalf("expected source_task_id to be omitted for image URL input: %#v", segmentBody)
+	}
+
 	_, err = client.EditImage.Create(context.Background(), EditImageParams{
-		Model:        ModelImage2EditImage,
-		SourceTaskID: "segment_map_task",
-		MaskIndices:  []int{1, 3},
-		Prompt:       "Replace the foreground",
+		Model: ModelImage2EditImage,
+		SourceImageURLs: []string{
+			"https://cdn.runapi.ai/public/samples/source.png",
+			"https://cdn.runapi.ai/public/samples/reference.png",
+		},
+		AspectRatio: "16:9",
+		Prompt:      "Replace the foreground",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 	editBody := stub.body.(map[string]any)
-	if editBody["source_task_id"] != "segment_map_task" || editBody["prompt"] != "Replace the foreground" {
+	if editBody["prompt"] != "Replace the foreground" || editBody["aspect_ratio"] != "16:9" {
 		t.Fatalf("unexpected Image 2.0 edit body: %#v", editBody)
+	}
+	if got, ok := editBody["source_image_urls"].([]any); !ok || len(got) != 2 {
+		t.Fatalf("unexpected Image 2.0 source_image_urls: %#v", editBody["source_image_urls"])
 	}
 	if _, ok := editBody["source_image_url"]; ok {
 		t.Fatal("expected Image 2.0 edit to omit source_image_url")
 	}
-	if _, ok := editBody["mask_indices"]; !ok {
-		t.Fatal("expected Image 2.0 edit to send mask_indices")
+	if _, ok := editBody["source_task_id"]; ok {
+		t.Fatal("expected Image 2.0 edit to omit source_task_id")
+	}
+	if _, ok := editBody["mask_indices"]; ok {
+		t.Fatal("expected Image 2.0 edit to omit mask_indices")
+	}
+}
+
+func TestImage2EditCreateAllowsPromptToBeOmitted(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.EditImage.Create(context.Background(), EditImageParams{
+		Model:           ModelImage2EditImage,
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
+		AspectRatio:     "1:1",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if _, ok := body["prompt"]; ok {
+		t.Fatalf("expected optional prompt to be omitted: %#v", body)
+	}
+}
+
+func TestImage2EditCreateValidatesDirectImageContract(t *testing.T) {
+	tests := []struct {
+		name            string
+		sourceImageURLs []string
+		aspectRatio     string
+	}{
+		{name: "requires a source image", aspectRatio: "1:1"},
+		{
+			name: "accepts at most five source images",
+			sourceImageURLs: []string{
+				"https://cdn.runapi.ai/public/samples/1.png",
+				"https://cdn.runapi.ai/public/samples/2.png",
+				"https://cdn.runapi.ai/public/samples/3.png",
+				"https://cdn.runapi.ai/public/samples/4.png",
+				"https://cdn.runapi.ai/public/samples/5.png",
+				"https://cdn.runapi.ai/public/samples/6.png",
+			},
+			aspectRatio: "1:1",
+		},
+		{
+			name:            "rejects an unsupported aspect ratio",
+			sourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
+			aspectRatio:     "4:3",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			stub := &stubHTTPClient{}
+			client := NewClientWithHTTP(stub)
+			_, err := client.EditImage.Create(context.Background(), EditImageParams{
+				Model:           ModelImage2EditImage,
+				SourceImageURLs: test.sourceImageURLs,
+				AspectRatio:     test.aspectRatio,
+			})
+			if err == nil {
+				t.Fatal("expected request validation to fail")
+			}
+			if stub.method != "" {
+				t.Fatalf("expected validation before HTTP request, got method %q", stub.method)
+			}
+		})
 	}
 }
 

@@ -3,7 +3,8 @@
 module RunApi
   module GrokImagine
     module Resources
-      # Produces an editable segmentation map from an Image 2.0 text-to-image task.
+      # Produces an editable segmentation map from a public image URL.
+      # source_task_id remains accepted as a compatibility input; use image_url instead.
       class SegmentMap
         include RunApi::Core::ResourceHelpers
 

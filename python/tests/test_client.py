@@ -206,6 +206,23 @@ def test_image_2_text_to_image_and_segment_map_create_shapes():
     ]
 
 
+def test_segment_map_create_from_image_url_shape():
+    fake = FakeHttp({"id": "segment_map"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.segment_map.create(
+        model="grok-imagine-image-2-0",
+        image_url="https://cdn.runapi.ai/public/samples/image.jpg",
+    )
+
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/grok_imagine/segment_map",
+            {"model": "grok-imagine-image-2-0", "image_url": "https://cdn.runapi.ai/public/samples/image.jpg"},
+        ),
+    ]
+
+
 def test_image_to_video_create_shape():
     fake = FakeHttp({"id": "t1", "status": "pending"})
     client = GrokImagineClient(api_key="k", http_client=fake)
@@ -295,8 +312,8 @@ def test_image_2_edit_image_create_shape():
     client = GrokImagineClient(api_key="k", http_client=fake)
     client.edit_image.create(
         model="grok-imagine-image-2-0",
-        source_task_id="segment_map_1",
-        mask_indices=[1, 3],
+        source_image_urls=["https://x/source.png", "https://x/reference.png"],
+        aspect_ratio="16:9",
         prompt="Replace the foreground",
     )
     assert fake.calls == [
@@ -305,12 +322,27 @@ def test_image_2_edit_image_create_shape():
             "/api/v1/grok_imagine/edit_image",
             {
                 "model": "grok-imagine-image-2-0",
-                "source_task_id": "segment_map_1",
-                "mask_indices": [1, 3],
+                "source_image_urls": ["https://x/source.png", "https://x/reference.png"],
+                "aspect_ratio": "16:9",
                 "prompt": "Replace the foreground",
             },
         ),
     ]
+
+
+def test_image_2_edit_image_prompt_is_optional():
+    fake = FakeHttp({"id": "t2"})
+    client = GrokImagineClient(api_key="k", http_client=fake)
+    client.edit_image.create(
+        model="grok-imagine-image-2-0",
+        source_image_urls=["https://x/source.png"],
+        aspect_ratio="auto",
+    )
+    assert fake.calls[0][2] == {
+        "model": "grok-imagine-image-2-0",
+        "source_image_urls": ["https://x/source.png"],
+        "aspect_ratio": "auto",
+    }
 
 
 def test_segment_map_run_returns_typed_segments():
@@ -494,6 +526,73 @@ def test_edit_image_requires_source_image_url():
     client = GrokImagineClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(ValidationError, match="source_image_url is required"):
         client.edit_image.create(model="grok-imagine-edit-image")
+
+
+def test_image_2_edit_image_requires_source_image_urls():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="source_image_urls is required"):
+        client.edit_image.create(model="grok-imagine-image-2-0", aspect_ratio="1:1")
+
+
+@pytest.mark.parametrize(
+    "source_image_urls",
+    [[], [f"https://x/{index}.png" for index in range(6)]],
+)
+def test_image_2_edit_image_enforces_source_image_count(source_image_urls):
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError,
+        match="source_image_urls must contain between 1 and 5 items",
+    ):
+        client.edit_image.create(
+            model="grok-imagine-image-2-0",
+            source_image_urls=source_image_urls,
+            aspect_ratio="1:1",
+        )
+
+
+def test_image_2_edit_image_requires_source_image_array():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="source_image_urls must be an array"):
+        client.edit_image.create(
+            model="grok-imagine-image-2-0",
+            source_image_urls="https://x/source.png",
+            aspect_ratio="1:1",
+        )
+
+
+def test_image_2_edit_image_requires_aspect_ratio():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="aspect_ratio is required"):
+        client.edit_image.create(
+            model="grok-imagine-image-2-0",
+            source_image_urls=["https://x/source.png"],
+        )
+
+
+def test_image_2_edit_image_rejects_bad_aspect_ratio():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="aspect_ratio must be one of"):
+        client.edit_image.create(
+            model="grok-imagine-image-2-0",
+            source_image_urls=["https://x/source.png"],
+            aspect_ratio="4:5",
+        )
+
+
+def test_image_2_edit_image_rejects_segment_edit_fields():
+    client = GrokImagineClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError,
+        match="source_task_id is not allowed when model is grok-imagine-image-2-0",
+    ):
+        client.edit_image.create(
+            model="grok-imagine-image-2-0",
+            source_task_id="segment_map_1",
+            mask_indices=[1],
+            source_image_urls=["https://x/source.png"],
+            aspect_ratio="1:1",
+        )
 
 
 def test_extensions_requires_source_task_id():

@@ -31,6 +31,19 @@ image = client.text_to_image.create(
 )
 ```
 
+## Edit with Image 2.0
+
+Image 2.0 edits one to five source images directly. Provide the source URLs and output aspect ratio; the edit prompt is optional. The task-based `source_task_id` and `mask_indices` fields are no longer accepted by this request.
+
+```python
+edit = client.edit_image.create(
+    model="grok-imagine-image-2-0",
+    source_image_urls=["https://cdn.runapi.ai/public/samples/input.png"],
+    aspect_ratio="1:1",
+    prompt="Change the background to a sunset beach",
+)
+```
+
 Use `create` to submit a task and return quickly, `get` to fetch the latest task state, and `run` to create and poll until completion:
 
 ```python
@@ -58,7 +71,6 @@ Pass parameters as keyword arguments and catch the `runapi.grok_imagine` error c
 - Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
 - Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
-- Provider comparison: https://runapi.ai/providers/xai
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/grok-imagine-sdk
 

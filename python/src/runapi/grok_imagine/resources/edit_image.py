@@ -14,7 +14,12 @@ from ..types import (
 
 
 class EditImage(Resource):
-    """Edit an image with a text prompt using Grok-Imagine."""
+    """Edit images using a Grok-Imagine image model.
+
+    ``grok-imagine-image-2-0`` accepts one to five ``source_image_urls``, an
+    ``aspect_ratio``, and an optional ``prompt``. The legacy
+    ``grok-imagine-edit-image`` model continues to accept ``source_image_url``.
+    """
 
     ENDPOINT = "/api/v1/grok_imagine/edit_image"
 
@@ -25,7 +30,7 @@ class EditImage(Resource):
         """Create an edit-image task and poll until it completes.
 
         Args:
-            **params: Edit-image parameters (model, prompt, ...).
+            **params: Edit-image parameters for the selected model.
 
         Returns:
             The completed edit-image response.
@@ -37,7 +42,7 @@ class EditImage(Resource):
         """Create an edit-image task and return immediately with an id.
 
         Args:
-            **params: Edit-image parameters (model, prompt, ...).
+            **params: Edit-image parameters for the selected model.
 
         Returns:
             The task creation result with an id.

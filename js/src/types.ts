@@ -185,11 +185,23 @@ export type GrokImagineTextToImageParams =
 
 // --- Segment Map ---
 
-export interface GrokImagineSegmentMapParams extends TaskCommonParams {
+export interface GrokImagineSegmentMapImageURLParams extends TaskCommonParams {
   model: GrokImagineImage2Model;
-  /** Completed Image 2.0 text-to-image task id. */
-  source_task_id: string;
+  /** Public image URL that the service can fetch. */
+  image_url: string;
+  source_task_id?: never;
 }
+
+export interface GrokImagineSegmentMapSourceTaskParams extends TaskCommonParams {
+  model: GrokImagineImage2Model;
+  /** Compatibility input; use image_url instead. */
+  source_task_id: string;
+  image_url?: never;
+}
+
+export type GrokImagineSegmentMapParams =
+  | GrokImagineSegmentMapImageURLParams
+  | GrokImagineSegmentMapSourceTaskParams;
 
 // --- Edit Image ---
 
@@ -204,13 +216,15 @@ export interface GrokImagineStandardEditImageParams extends TaskCommonParams {
 
 export interface GrokImagineImage2EditImageParams extends TaskCommonParams {
   model: GrokImagineImage2Model;
-  /** Editing instruction. */
-  prompt: string;
-  /** Completed Image 2.0 segment-map task id. */
-  source_task_id: string;
-  /** Optional one-based segment indexes to edit. */
-  mask_indices?: number[];
+  /** Optional editing instruction, up to 390000 characters. */
+  prompt?: string;
+  /** Required width-to-height ratio of the edited image. */
+  aspect_ratio: GrokImaginePreviewAspectRatio;
+  /** Source image URLs, from one to five entries. */
+  source_image_urls: string[];
   source_image_url?: never;
+  source_task_id?: never;
+  mask_indices?: never;
   enable_safety_checker?: never;
 }
 

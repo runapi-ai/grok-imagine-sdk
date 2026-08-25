@@ -16,7 +16,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.6")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.7")
 }
 ```
 
@@ -26,7 +26,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.6</version>
+  <version>0.1.7</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.6.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.6.1"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```
@@ -47,7 +47,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.6.0</version>
+      <version>0.6.1</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -72,6 +72,26 @@ CompletedTextToImageResponse result = client.textToImage().run(
         .model(TextToImageModel.GROK_IMAGINE_TEXT_TO_IMAGE)
         .prompt("A neon city street after rain")
         .aspectRatio("16:9")
+        .build()
+);
+```
+
+## Edit with Image 2.0
+
+Image 2.0 edits one to five source images directly. Provide the source URLs and output aspect ratio; the edit prompt is optional. The task-based `source_task_id` and `mask_indices` fields are no longer accepted by this request.
+
+```java
+import ai.runapi.core.polling.TaskCreateResponse;
+import ai.runapi.grokimagine.types.EditImageModel;
+import ai.runapi.grokimagine.types.EditImageParams;
+import java.util.Collections;
+
+TaskCreateResponse edit = client.editImage().create(
+    EditImageParams.builder()
+        .model(EditImageModel.GROK_IMAGINE_IMAGE_2_0)
+        .sourceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/input.png"))
+        .aspectRatio("1:1")
+        .prompt("Change the background to a sunset beach")
         .build()
 );
 ```

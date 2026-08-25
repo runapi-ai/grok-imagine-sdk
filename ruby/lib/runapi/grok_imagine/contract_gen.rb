@@ -15,17 +15,21 @@ module RunApi
             }
           },
           "grok-imagine-image-2-0" => {
-            "mask_indices" => {
-              "min_items" => 1
+            "aspect_ratio" => {
+              "enum" => ["1:1", "2:3", "3:2", "16:9", "9:16", "auto"],
+              "required" => true
             },
             "model" => {
               "required" => true
             },
             "prompt" => {
-              "required" => true
+              "max" => 390000,
+              "length" => true
             },
-            "source_task_id" => {
-              "required" => true
+            "source_image_urls" => {
+              "required" => true,
+              "min_items" => 1,
+              "max_items" => 5
             }
           }
         },
@@ -33,12 +37,12 @@ module RunApi
           "when" => {
             "model" => "grok-imagine-edit-image"
           },
-          "forbidden" => ["source_task_id", "mask_indices"]
+          "forbidden" => ["source_task_id", "mask_indices", "source_image_urls", "aspect_ratio"]
         }, {
           "when" => {
             "model" => "grok-imagine-image-2-0"
           },
-          "forbidden" => ["source_image_url", "enable_safety_checker"]
+          "forbidden" => ["source_image_url", "source_task_id", "mask_indices", "enable_safety_checker"]
         }]
       },
       "extend" => {
@@ -177,12 +181,26 @@ module RunApi
           "grok-imagine-image-2-0" => {
             "model" => {
               "required" => true
-            },
-            "source_task_id" => {
-              "required" => true
             }
           }
-        }
+        },
+        "rules" => [{
+          "required_any" => ["image_url", "source_task_id"]
+        }, {
+          "when" => {
+            "image_url" => {
+              "present" => true
+            }
+          },
+          "forbidden" => ["source_task_id"]
+        }, {
+          "when" => {
+            "source_task_id" => {
+              "present" => true
+            }
+          },
+          "forbidden" => ["image_url"]
+        }]
       },
       "text-to-image" => {
         "models" => ["grok-imagine-image-2-0", "grok-imagine-text-to-image"],

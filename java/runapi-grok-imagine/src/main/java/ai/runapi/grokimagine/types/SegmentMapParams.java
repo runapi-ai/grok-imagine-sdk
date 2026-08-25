@@ -6,11 +6,13 @@ import java.util.Map;
 /** Parameters for Image 2.0 segment-map operations. */
 public final class SegmentMapParams {
   private final String model;
+  private final String imageUrl;
   private final String sourceTaskId;
   private final String callbackUrl;
 
   private SegmentMapParams(Builder builder) {
     this.model = builder.model;
+    this.imageUrl = builder.imageUrl;
     this.sourceTaskId = builder.sourceTaskId;
     this.callbackUrl = builder.callbackUrl;
   }
@@ -28,6 +30,7 @@ public final class SegmentMapParams {
   public Map<String, Object> toMap() {
     Map<String, Object> raw = new LinkedHashMap<String, Object>();
     raw.put("model", GrokimagineParamUtils.wireValue(model));
+    raw.put("image_url", GrokimagineParamUtils.wireValue(imageUrl));
     raw.put("source_task_id", GrokimagineParamUtils.wireValue(sourceTaskId));
     raw.put("callback_url", GrokimagineParamUtils.wireValue(callbackUrl));
     return GrokimagineParamUtils.compact(raw);
@@ -36,6 +39,7 @@ public final class SegmentMapParams {
   /** Builder for {@link SegmentMapParams}. */
   public static final class Builder {
     private String model;
+    private String imageUrl;
     private String sourceTaskId;
     private String callbackUrl;
 
@@ -53,7 +57,17 @@ public final class SegmentMapParams {
       return this;
     }
 
-    /** Sets the completed Image 2.0 text-to-image task ID. */
+    /** Sets the public image URL that the service should segment. */
+    public Builder imageUrl(String value) {
+      this.imageUrl = GrokimagineParamUtils.requireNonBlank(value, "imageUrl");
+      return this;
+    }
+
+    /**
+     * Sets the completed Image 2.0 text-to-image task ID.
+     * Compatibility input; use {@link #imageUrl(String)} instead when available.
+     */
+    @Deprecated
     public Builder sourceTaskId(String value) {
       this.sourceTaskId = GrokimagineParamUtils.requireNonBlank(value, "sourceTaskId");
       return this;

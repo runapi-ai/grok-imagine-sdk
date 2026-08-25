@@ -82,7 +82,7 @@ class GrokImagineClientTest {
   }
 
   @Test
-  void image2SegmentMapAndEditSendTaskBasedInputs() throws Exception {
+  void image2SegmentMapAndEditSendTheirDistinctInputs() throws Exception {
     CapturingTransport segmentTransport = new CapturingTransport("{\"id\":\"segment_map\",\"status\":\"processing\"}");
     GrokImagineClient segmentClient = GrokImagineClient.builder().apiKey("sk-test").transport(segmentTransport).build();
     segmentClient.segmentMap().create(
@@ -93,19 +93,51 @@ class GrokImagineClientTest {
     assertEquals("/api/v1/grok_imagine/segment_map", segmentTransport.request.getPath());
     assertEquals("text_image_task", bodyJson(segmentTransport.request).get("source_task_id").asText());
 
+    CapturingTransport urlTransport = new CapturingTransport("{\"id\":\"segment_map_url\",\"status\":\"processing\"}");
+    GrokImagineClient urlClient = GrokImagineClient.builder().apiKey("sk-test").transport(urlTransport).build();
+    urlClient.segmentMap().create(
+        SegmentMapParams.builder()
+            .model(SegmentMapModel.GROK_IMAGINE_IMAGE_2_0)
+            .imageUrl("https://cdn.runapi.ai/public/samples/image.jpg")
+            .build());
+    assertEquals("https://cdn.runapi.ai/public/samples/image.jpg", bodyJson(urlTransport.request).get("image_url").asText());
+    assertEquals(false, bodyJson(urlTransport.request).has("source_task_id"));
+
     CapturingTransport editTransport = new CapturingTransport("{\"id\":\"edit_image\",\"status\":\"processing\"}");
     GrokImagineClient editClient = GrokImagineClient.builder().apiKey("sk-test").transport(editTransport).build();
     editClient.editImage().create(
         EditImageParams.builder()
             .model(EditImageModel.GROK_IMAGINE_IMAGE_2_0)
-            .sourceTaskId("segment_map")
-            .maskIndices(Collections.singletonList(1))
+            .sourceImageUrls(java.util.Arrays.asList(
+                "https://cdn.runapi.ai/public/samples/source.png",
+                "https://cdn.runapi.ai/public/samples/reference.png"))
+            .aspectRatio("16:9")
             .prompt("Replace the foreground")
             .build());
     JsonNode editBody = bodyJson(editTransport.request);
     assertEquals("/api/v1/grok_imagine/edit_image", editTransport.request.getPath());
-    assertEquals("segment_map", editBody.get("source_task_id").asText());
-    assertEquals(1, editBody.get("mask_indices").get(0).asInt());
+    assertEquals("https://cdn.runapi.ai/public/samples/source.png", editBody.get("source_image_urls").get(0).asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/reference.png", editBody.get("source_image_urls").get(1).asText());
+    assertEquals("16:9", editBody.get("aspect_ratio").asText());
+    assertEquals("Replace the foreground", editBody.get("prompt").asText());
+    assertEquals(false, editBody.has("source_task_id"));
+    assertEquals(false, editBody.has("mask_indices"));
+  }
+
+  @Test
+  void image2DirectEditAllowsPromptToBeOmitted() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"edit_image\",\"status\":\"processing\"}");
+    GrokImagineClient client = GrokImagineClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.editImage().create(
+        EditImageParams.builder()
+            .model(EditImageModel.GROK_IMAGINE_IMAGE_2_0)
+            .sourceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/source.png"))
+            .aspectRatio("auto")
+            .build());
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals(false, body.has("prompt"));
   }
 
   @Test

@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.6")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.7")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.6</version>
+  <version>0.1.7</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.6.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.6.1"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```
@@ -69,6 +69,8 @@ The PHP package is published from the split Composer repository as `runapi-ai/gr
 - Build apps, agent workflows, batch jobs, and production services around Grok Imagine requests.
 - Install only the language package your app needs while keeping one model-specific repository for docs and releases.
 - Use `create` for submit-only jobs, `get` for status lookup, and `run` for submit-and-poll scripts.
+- Create Image 2.0 segment maps from a public `image_url`; `source_task_id` remains accepted as a compatibility input. Use `image_url` instead when available.
+- Edit Image 2.0 images directly from one to five `source_image_urls`, with an `aspect_ratio` and optional `prompt`; task-based `source_task_id` and `mask_indices` inputs are no longer accepted by this request.
 - Use `grok-imagine-video-1.5-preview` on either text-to-video or image-to-video when you need the preview video model.
 - Use `grok-imagine-video-1.5-fast` on either text-to-video or image-to-video for fast iteration, reference images, and clips up to 30 seconds.
 - Upload local files, URL files, or base64 files through shared RunAPI file helpers.

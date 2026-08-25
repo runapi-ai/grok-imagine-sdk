@@ -11,7 +11,7 @@ import type {
 
 const ENDPOINT = '/api/v1/grok_imagine/segment_map';
 
-/** Creates an editable segmentation map from an Image 2.0 text-to-image task. */
+/** Creates an editable segmentation map from a public image URL. */
 export class SegmentMap {
   constructor(private readonly http: HttpClient) {}
 

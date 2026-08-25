@@ -26,6 +26,23 @@ describe('Grok Imagine segment-map', () => {
     });
   });
 
+  it('creates from a public image URL', async () => {
+    vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'segment-map-task' });
+    const resource = new SegmentMap(mockHttp);
+
+    await resource.create({
+      model: 'grok-imagine-image-2-0',
+      image_url: 'https://cdn.runapi.ai/public/samples/image.jpg',
+    });
+
+    expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/grok_imagine/segment_map', {
+      body: {
+        model: 'grok-imagine-image-2-0',
+        image_url: 'https://cdn.runapi.ai/public/samples/image.jpg',
+      },
+    });
+  });
+
   it('returns typed segment results instead of images', async () => {
     vi.mocked(mockHttp.request).mockResolvedValueOnce({
       id: 'segment-map-task',

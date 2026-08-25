@@ -22,6 +22,19 @@ const task = await client.textToVideo.create({
 const status = await client.textToVideo.get(task.id);
 ```
 
+## Edit with Image 2.0
+
+Image 2.0 edits one to five source images directly. Provide the source URLs and output aspect ratio; the edit prompt is optional. The task-based `source_task_id` and `mask_indices` fields are no longer accepted by this request.
+
+```typescript
+const edit = await client.editImage.create({
+  model: 'grok-imagine-image-2-0',
+  source_image_urls: ['https://cdn.runapi.ai/public/samples/input.png'],
+  aspect_ratio: '1:1',
+  prompt: 'Change the background to a sunset beach',
+});
+```
+
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
 
 RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
@@ -39,7 +52,6 @@ Use the TypeScript types in `src/types.ts` and the resource classes under `src/r
 - Video 1.5 Fast pricing and rate limits: https://runapi.ai/models/grok-imagine/video-1.5-fast
 - Text-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/text-to-video
 - Image-to-video pricing and rate limits: https://runapi.ai/models/grok-imagine/image-to-video
-- Provider comparison: https://runapi.ai/providers/xai
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/grok-imagine-sdk
 

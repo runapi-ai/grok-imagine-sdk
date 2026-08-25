@@ -8,8 +8,8 @@ import java.util.Map;
 public final class EditImageParams {
   private final String model;
   private final String sourceImageUrl;
-  private final String sourceTaskId;
-  private final List<Integer> maskIndices;
+  private final List<String> sourceImageUrls;
+  private final String aspectRatio;
   private final String callbackUrl;
   private final String prompt;
   private final Boolean enableSafetyChecker;
@@ -17,8 +17,8 @@ public final class EditImageParams {
   private EditImageParams(Builder builder) {
     this.model = builder.model;
     this.sourceImageUrl = builder.sourceImageUrl;
-    this.sourceTaskId = builder.sourceTaskId;
-    this.maskIndices = builder.maskIndices;
+    this.sourceImageUrls = GrokimagineParamUtils.strings(builder.sourceImageUrls);
+    this.aspectRatio = builder.aspectRatio;
     this.callbackUrl = builder.callbackUrl;
     this.prompt = builder.prompt;
     this.enableSafetyChecker = builder.enableSafetyChecker;
@@ -39,8 +39,8 @@ public final class EditImageParams {
     Map<String, Object> raw = new LinkedHashMap<String, Object>();
     raw.put("model", GrokimagineParamUtils.wireValue(model));
     raw.put("source_image_url", GrokimagineParamUtils.wireValue(sourceImageUrl));
-    raw.put("source_task_id", GrokimagineParamUtils.wireValue(sourceTaskId));
-    raw.put("mask_indices", GrokimagineParamUtils.wireValue(maskIndices));
+    raw.put("source_image_urls", GrokimagineParamUtils.wireValue(sourceImageUrls));
+    raw.put("aspect_ratio", GrokimagineParamUtils.wireValue(aspectRatio));
     raw.put("callback_url", GrokimagineParamUtils.wireValue(callbackUrl));
     raw.put("prompt", GrokimagineParamUtils.wireValue(prompt));
     raw.put("enable_safety_checker", GrokimagineParamUtils.wireValue(enableSafetyChecker));
@@ -53,8 +53,8 @@ public final class EditImageParams {
   public static final class Builder {
     private String model;
     private String sourceImageUrl;
-    private String sourceTaskId;
-    private List<Integer> maskIndices;
+    private List<String> sourceImageUrls;
+    private String aspectRatio;
     private String callbackUrl;
     private String prompt;
     private Boolean enableSafetyChecker;
@@ -74,21 +74,21 @@ public final class EditImageParams {
     }
 
 
-    /** Sets the source image URL. */
+    /** Sets the source image URL for the legacy edit model. */
     public Builder sourceImageUrl(String value) {
       this.sourceImageUrl = GrokimagineParamUtils.requireNonBlank(value, "sourceImageUrl");
       return this;
     }
 
-    /** Sets the completed Image 2.0 segment-map task ID. */
-    public Builder sourceTaskId(String value) {
-      this.sourceTaskId = GrokimagineParamUtils.requireNonBlank(value, "sourceTaskId");
+    /** Sets one to five source image URLs for Image 2.0. */
+    public Builder sourceImageUrls(List<String> value) {
+      this.sourceImageUrls = value;
       return this;
     }
 
-    /** Sets optional one-based Image 2.0 segment indexes to edit. */
-    public Builder maskIndices(List<Integer> value) {
-      this.maskIndices = java.util.Objects.requireNonNull(value, "maskIndices");
+    /** Sets the output aspect ratio for Image 2.0. */
+    public Builder aspectRatio(String value) {
+      this.aspectRatio = GrokimagineParamUtils.requireNonBlank(value, "aspectRatio");
       return this;
     }
 

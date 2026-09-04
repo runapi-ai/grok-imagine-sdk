@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-grok-imagine:0.1.7")
+  implementation("ai.runapi:runapi-grok-imagine:0.1.8")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-grok-imagine</artifactId>
-  <version>0.1.7</version>
+  <version>0.1.8</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.6.1"))
+  implementation(platform("ai.runapi:runapi-bom:0.6.2"))
   implementation("ai.runapi:runapi-grok-imagine")
 }
 ```

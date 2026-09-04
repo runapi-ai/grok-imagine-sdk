@@ -1,5 +1,23 @@
 # Changelog
 
+## [js/v0.2.16](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.16), [ruby/v0.2.17](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.17), [go/v0.2.16](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.16), [python/v0.2.5](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.2.5), [java/v0.1.8](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.8) - 2026-09-04
+
+### Breaking
+- Remove source_task_id and mask_indices from the Image 2.0 direct edit request contract.
+  Migration: Replace them with one to five source_image_urls and an aspect_ratio; prompt is optional.
+
+### Added
+- Add typed Image 2.0 text-to-image, segment-map, and segment-backed image editing support.
+- Accept public image_url inputs for Image 2.0 segment-map requests.
+
+### Changed
+- Correct Image 2.0 edit requests to use one to five source_image_urls and an aspect_ratio.
+
+### Deprecated
+- Deprecate source_task_id for Image 2.0 segment-map requests.
+  Replacement: Send image_url instead; source_task_id remains accepted for compatibility.
+
+
 ## [js/v0.2.15](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.2.15), [ruby/v0.2.16](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.2.16), [go/v0.2.15](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.2.15), [python/v0.2.4](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.2.4), [java/v0.1.7](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.1.7) - 2026-08-25
 
 ### Breaking

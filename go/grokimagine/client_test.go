@@ -36,8 +36,7 @@ func TestTextToVideoCreate(t *testing.T) {
 		Prompt:              "A drone shot over a neon city",
 		MotionStyle:         "fun",
 		OutputResolution:    "720p",
-		EnableSafetyChecker: &enableSafetyChecker,
-	})
+		EnableSafetyChecker: &enableSafetyChecker})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,8 +70,7 @@ func TestTextToVideoPreviewCreate(t *testing.T) {
 		Prompt:           "A quiet city rain scene",
 		AspectRatio:      "auto",
 		DurationSeconds:  &duration,
-		OutputResolution: "720p",
-	})
+		OutputResolution: "720p"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -101,8 +99,7 @@ func TestTextToVideoFastCreate(t *testing.T) {
 		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/result.png"},
 		AspectRatio:        "16:9",
 		DurationSeconds:    &duration,
-		OutputResolution:   "720p",
-	})
+		OutputResolution:   "720p"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,8 +120,7 @@ func TestImageToVideoWithTaskID(t *testing.T) {
 	client := NewClientWithHTTP(stub)
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
 		Model:        ModelImageToVideo,
-		SourceTaskID: "prior_t2i_task",
-	})
+		SourceTaskID: "prior_t2i_task"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -146,8 +142,7 @@ func TestImageToVideoMotionStyle(t *testing.T) {
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
 		Model:        ModelImageToVideo,
 		SourceTaskID: "prior_t2i_task",
-		MotionStyle:  "spicy",
-	})
+		MotionStyle:  "spicy"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -165,8 +160,7 @@ func TestImageToVideoWithSourceImageURL(t *testing.T) {
 	client := NewClientWithHTTP(stub)
 	_, err := client.ImageToVideo.Create(context.Background(), ImageToVideoParams{
 		Model:          ModelImageToVideo,
-		SourceImageURL: "https://cdn.runapi.ai/public/samples/result.png",
-	})
+		SourceImageURL: "https://cdn.runapi.ai/public/samples/result.png"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -189,8 +183,7 @@ func TestImageToVideoPreviewWithSourceImageURL(t *testing.T) {
 		Prompt:           "Animate the still image",
 		AspectRatio:      "auto",
 		DurationSeconds:  &duration,
-		OutputResolution: "720p",
-	})
+		OutputResolution: "720p"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -220,8 +213,7 @@ func TestImageToVideoFastWithSourceAndReferenceImages(t *testing.T) {
 		Prompt:             "Animate the still image",
 		AspectRatio:        "3:2",
 		DurationSeconds:    &duration,
-		OutputResolution:   "720p",
-	})
+		OutputResolution:   "720p"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -246,8 +238,7 @@ func TestEditImageCreate(t *testing.T) {
 	_, err := client.EditImage.Create(context.Background(), EditImageParams{
 		Model:          ModelEditImage,
 		SourceImageURL: "https://cdn.runapi.ai/public/samples/source.png",
-		Prompt:         "Restyle",
-	})
+		Prompt:         "Restyle"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -271,8 +262,7 @@ func TestImage2SegmentMapAndEditCreate(t *testing.T) {
 	client := NewClientWithHTTP(stub)
 	_, err := client.SegmentMap.Create(context.Background(), SegmentMapParams{
 		Model:        ModelImage2SegmentMap,
-		SourceTaskID: "image_2_text_task",
-	})
+		SourceTaskID: "image_2_text_task"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -286,8 +276,7 @@ func TestImage2SegmentMapAndEditCreate(t *testing.T) {
 
 	_, err = client.SegmentMap.Create(context.Background(), SegmentMapParams{
 		Model:    ModelImage2SegmentMap,
-		ImageURL: "https://cdn.runapi.ai/public/samples/image.jpg",
-	})
+		ImageURL: "https://cdn.runapi.ai/public/samples/image.jpg"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -303,11 +292,9 @@ func TestImage2SegmentMapAndEditCreate(t *testing.T) {
 		Model: ModelImage2EditImage,
 		SourceImageURLs: []string{
 			"https://cdn.runapi.ai/public/samples/source.png",
-			"https://cdn.runapi.ai/public/samples/reference.png",
-		},
+			"https://cdn.runapi.ai/public/samples/reference.png"},
 		AspectRatio: "16:9",
-		Prompt:      "Replace the foreground",
-	})
+		Prompt:      "Replace the foreground"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -335,8 +322,7 @@ func TestImage2EditCreateAllowsPromptToBeOmitted(t *testing.T) {
 	_, err := client.EditImage.Create(context.Background(), EditImageParams{
 		Model:           ModelImage2EditImage,
 		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-		AspectRatio:     "1:1",
-	})
+		AspectRatio:     "1:1"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -361,16 +347,12 @@ func TestImage2EditCreateValidatesDirectImageContract(t *testing.T) {
 				"https://cdn.runapi.ai/public/samples/3.png",
 				"https://cdn.runapi.ai/public/samples/4.png",
 				"https://cdn.runapi.ai/public/samples/5.png",
-				"https://cdn.runapi.ai/public/samples/6.png",
-			},
-			aspectRatio: "1:1",
-		},
+				"https://cdn.runapi.ai/public/samples/6.png"},
+			aspectRatio: "1:1"},
 		{
 			name:            "rejects an unsupported aspect ratio",
 			sourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-			aspectRatio:     "4:3",
-		},
-	}
+			aspectRatio:     "4:3"}}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -379,8 +361,7 @@ func TestImage2EditCreateValidatesDirectImageContract(t *testing.T) {
 			_, err := client.EditImage.Create(context.Background(), EditImageParams{
 				Model:           ModelImage2EditImage,
 				SourceImageURLs: test.sourceImageURLs,
-				AspectRatio:     test.aspectRatio,
-			})
+				AspectRatio:     test.aspectRatio})
 			if err == nil {
 				t.Fatal("expected request validation to fail")
 			}
@@ -392,7 +373,7 @@ func TestImage2EditCreateValidatesDirectImageContract(t *testing.T) {
 }
 
 func TestSegmentMapGetDecodesSegments(t *testing.T) {
-	stub := &stubHTTPClient{response: json.RawMessage(`{"id":"segment_map_1","status":"completed","segments":[{"url":"https://file.runapi.ai/segment.png","name":"subject","index":1}]}`)}
+	stub := &stubHTTPClient{response: json.RawMessage(`{"id":"segment_map_1","status":"completed", "usage": {"cost": 0.05},"segments":[{"url":"https://file.runapi.ai/segment.png","name":"subject","index":1}]}`)}
 	response, err := NewClientWithHTTP(stub).SegmentMap.Get(context.Background(), "segment_map_1")
 	if err != nil {
 		t.Fatal(err)
@@ -409,8 +390,7 @@ func TestExtensionsCreate(t *testing.T) {
 		SourceTaskID:             "prior_video_task",
 		Prompt:                   "Continue the scene",
 		StartSeconds:             0,
-		ExtensionDurationSeconds: 6,
-	})
+		ExtensionDurationSeconds: 6})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -445,8 +425,7 @@ func TestUpscalesCreate(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	_, err := client.Upscales.Create(context.Background(), UpscaleParams{
-		SourceTaskID: "prior_video_task",
-	})
+		SourceTaskID: "prior_video_task"})
 	if err != nil {
 		t.Fatal(err)
 	}

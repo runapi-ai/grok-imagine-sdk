@@ -104,8 +104,7 @@ def test_text_to_video_create_posts_compacted_body():
             "post",
             "/api/v1/grok_imagine/text_to_video",
             {"model": "grok-imagine-text-to-video", "prompt": "a neon city", "output_resolution": "720p"},
-        ),
-    ]
+        )]
     assert isinstance(result, VideoTaskResponse)
 
 
@@ -128,10 +127,8 @@ def test_text_to_video_preview_create_posts_compacted_body():
                 "prompt": "a quiet city rain scene",
                 "aspect_ratio": "auto",
                 "duration_seconds": 15,
-                "output_resolution": "720p",
-            },
-        ),
-    ]
+                "output_resolution": "720p"},
+        )]
 
 
 def test_text_to_video_fast_create_accepts_durations_below_the_classic_minimum():
@@ -155,10 +152,8 @@ def test_text_to_video_fast_create_accepts_durations_below_the_classic_minimum()
                 "aspect_ratio": "16:9",
                 "duration_seconds": 5,
                 "output_resolution": "720p",
-                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/result.png"],
-            },
-        ),
-    ]
+                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/result.png"]},
+        )]
 
 
 def test_text_to_video_get_fetches_by_id():
@@ -177,8 +172,7 @@ def test_text_to_image_create_shape():
             "post",
             "/api/v1/grok_imagine/text_to_image",
             {"model": "grok-imagine-text-to-image", "prompt": "a fox", "aspect_ratio": "1:1"},
-        ),
-    ]
+        )]
     assert isinstance(result, ImageTaskResponse)
 
 
@@ -202,8 +196,7 @@ def test_image_2_text_to_image_and_segment_map_create_shapes():
             "post",
             "/api/v1/grok_imagine/segment_map",
             {"model": "grok-imagine-image-2-0", "source_task_id": "image_2"},
-        ),
-    ]
+        )]
 
 
 def test_segment_map_create_from_image_url_shape():
@@ -219,8 +212,7 @@ def test_segment_map_create_from_image_url_shape():
             "post",
             "/api/v1/grok_imagine/segment_map",
             {"model": "grok-imagine-image-2-0", "image_url": "https://cdn.runapi.ai/public/samples/image.jpg"},
-        ),
-    ]
+        )]
 
 
 def test_image_to_video_create_shape():
@@ -234,8 +226,7 @@ def test_image_to_video_create_shape():
             "post",
             "/api/v1/grok_imagine/image_to_video",
             {"model": "grok-imagine-image-to-video", "source_image_url": "https://x/a.png"},
-        ),
-    ]
+        )]
 
 
 def test_image_to_video_preview_create_shape():
@@ -259,10 +250,8 @@ def test_image_to_video_preview_create_shape():
                 "prompt": "animate this",
                 "aspect_ratio": "auto",
                 "duration_seconds": 8,
-                "output_resolution": "720p",
-            },
-        ),
-    ]
+                "output_resolution": "720p"},
+        )]
 
 
 def test_image_to_video_fast_create_shape():
@@ -288,10 +277,8 @@ def test_image_to_video_fast_create_shape():
                 "prompt": "Animate the still image",
                 "aspect_ratio": "3:2",
                 "duration_seconds": 21,
-                "output_resolution": "720p",
-            },
-        ),
-    ]
+                "output_resolution": "720p"},
+        )]
 
 
 def test_edit_image_create_shape():
@@ -303,8 +290,7 @@ def test_edit_image_create_shape():
             "post",
             "/api/v1/grok_imagine/edit_image",
             {"model": "grok-imagine-edit-image", "source_image_url": "https://x/a.png"},
-        ),
-    ]
+        )]
 
 
 def test_image_2_edit_image_create_shape():
@@ -324,10 +310,8 @@ def test_image_2_edit_image_create_shape():
                 "model": "grok-imagine-image-2-0",
                 "source_image_urls": ["https://x/source.png", "https://x/reference.png"],
                 "aspect_ratio": "16:9",
-                "prompt": "Replace the foreground",
-            },
-        ),
-    ]
+                "prompt": "Replace the foreground"},
+        )]
 
 
 def test_image_2_edit_image_prompt_is_optional():
@@ -341,8 +325,7 @@ def test_image_2_edit_image_prompt_is_optional():
     assert fake.calls[0][2] == {
         "model": "grok-imagine-image-2-0",
         "source_image_urls": ["https://x/source.png"],
-        "aspect_ratio": "auto",
-    }
+        "aspect_ratio": "auto"}
 
 
 def test_segment_map_run_returns_typed_segments():
@@ -350,9 +333,8 @@ def test_segment_map_run_returns_typed_segments():
         {"id": "segment_map_1"},
         {
             "id": "segment_map_1",
-            "status": "completed",
-            "segments": [{"url": "https://file.runapi.ai/segment.png", "name": "subject", "index": 1}],
-        },
+            "status": "completed", "usage": {"cost": 0.05},
+            "segments": [{"url": "https://file.runapi.ai/segment.png", "name": "subject", "index": 1}]},
     )
     client = GrokImagineClient(api_key="k", http_client=fake)
 
@@ -381,10 +363,8 @@ def test_extensions_create_uses_task_id_shape():
                 "source_task_id": "src_1",
                 "prompt": "keep going",
                 "start_seconds": 4,
-                "extension_duration_seconds": 6,
-            },
-        ),
-    ]
+                "extension_duration_seconds": 6},
+        )]
     assert isinstance(result, VideoTaskResponse)
 
 
@@ -393,8 +373,7 @@ def test_upscales_create_uses_task_id_shape():
     client = GrokImagineClient(api_key="k", http_client=fake)
     client.upscales.create(source_task_id="src_1")
     assert fake.calls == [
-        ("post", "/api/v1/grok_imagine/upscale_image", {"source_task_id": "src_1"}),
-    ]
+        ("post", "/api/v1/grok_imagine/upscale_image", {"source_task_id": "src_1"})]
 
 
 def test_text_to_video_non_numeric_duration_raises_validation_error():
@@ -428,7 +407,7 @@ def test_extensions_get_fetches_by_id():
 def test_run_narrows_completed_video_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "videos": [{"url": "https://x/y.mp4"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "videos": [{"url": "https://x/y.mp4"}]},
     )
     client = GrokImagineClient(api_key="k", http_client=fake)
     result = client.text_to_video.run(model="grok-imagine-text-to-video", prompt="a lake")
@@ -439,7 +418,7 @@ def test_run_narrows_completed_video_type():
 def test_run_narrows_completed_image_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "images": [{"url": "https://x/y.png"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "images": [{"url": "https://x/y.png"}]},
     )
     client = GrokImagineClient(api_key="k", http_client=fake)
     result = client.text_to_image.run(model="grok-imagine-text-to-image", prompt="a fox")

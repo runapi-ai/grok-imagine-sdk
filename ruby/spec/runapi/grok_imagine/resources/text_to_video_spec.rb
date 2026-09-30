@@ -51,29 +51,4 @@ RSpec.describe RunApi::GrokImagine::Resources::TextToVideo do
 
     resource.create(**params)
   end
-
-  it "raises when model is missing" do
-    expect { resource.create(prompt: "x") }
-      .to raise_error(RunApi::Core::ValidationError, /model must be one of: grok-imagine-text-to-video/)
-  end
-
-  it "raises when prompt is missing" do
-    expect { resource.create(model: "grok-imagine-text-to-video") }
-      .to raise_error(RunApi::Core::ValidationError, /prompt is required/)
-  end
-
-  it "raises for invalid output_resolution" do
-    expect { resource.create(model: "grok-imagine-text-to-video", prompt: "x", output_resolution: "4k") }
-      .to raise_error(RunApi::Core::ValidationError, /output_resolution must be one of: 480p, 720p/)
-  end
-
-  it "raises for duration_seconds out of range" do
-    expect { resource.create(model: "grok-imagine-text-to-video", prompt: "x", duration_seconds: 60) }
-      .to raise_error(RunApi::Core::ValidationError, /duration_seconds must be/)
-  end
-
-  it "raises for preview duration_seconds out of range" do
-    expect { resource.create(model: "grok-imagine-video-1.5-preview", prompt: "x", duration_seconds: 16) }
-      .to raise_error(RunApi::Core::ValidationError, /duration_seconds must be between 1 and 15/)
-  end
 end

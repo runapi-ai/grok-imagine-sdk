@@ -47,26 +47,9 @@ RSpec.describe RunApi::GrokImagine::Resources::ImageToVideo do
     resource.create(**params)
   end
 
-  it "rejects when both source_image_url and source_task_id provided" do
-    expect {
-      resource.create(model: "grok-imagine-image-to-video", source_image_url: "a", source_task_id: "b")
-    }.to raise_error(RunApi::Core::ValidationError, /Provide either source_image_url or source_task_id/)
-  end
-
-  it "rejects when neither source_image_url nor source_task_id provided" do
-    expect { resource.create(model: "grok-imagine-image-to-video") }
-      .to raise_error(RunApi::Core::ValidationError, /One of source_image_url or source_task_id is required/)
-  end
-
   it "accepts motion_style with source_task_id path" do
     params = {model: "grok-imagine-image-to-video", source_task_id: "prior-t2i", motion_style: "spicy"}
     expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "t-3")
     resource.create(**params)
-  end
-
-  it "rejects spicy motion_style with source_image_url" do
-    expect {
-      resource.create(model: "grok-imagine-image-to-video", source_image_url: "a", motion_style: "spicy")
-    }.to raise_error(RunApi::Core::ValidationError, /spicy motion_style requires a source_task_id/)
   end
 end

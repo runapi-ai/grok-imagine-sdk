@@ -23,35 +23,11 @@ module RunApi
 
         def create(options: nil, **params)
           params = compact_params(params)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          validate_contract!(CONTRACT["text-to-video"], params)
-          raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-
-          duration_seconds = param(params, :duration_seconds)
-          if duration_seconds
-            int = duration_seconds.to_i
-            range = case param(params, :model)
-            when Types::FAST_MODEL
-              Types::FAST_DURATION_RANGE
-            when Types::PREVIEW_MODEL
-              Types::PREVIEW_DURATION_RANGE
-            else
-              Types::DURATION_RANGE
-            end
-            unless range.cover?(int)
-              raise Core::ValidationError, "duration_seconds must be an integer between #{range.min} and #{range.max}"
-            end
-          end
         end
       end
     end

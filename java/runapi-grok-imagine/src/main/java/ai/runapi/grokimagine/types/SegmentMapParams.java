@@ -53,13 +53,13 @@ public final class SegmentMapParams {
 
     /** Sets the model slug using a string value. */
     public Builder model(String value) {
-      this.model = GrokimagineParamUtils.requireNonBlankTrim(value, "model");
+      this.model = value;
       return this;
     }
 
     /** Sets the public image URL that the service should segment. */
     public Builder imageUrl(String value) {
-      this.imageUrl = GrokimagineParamUtils.requireNonBlank(value, "imageUrl");
+      this.imageUrl = value;
       return this;
     }
 
@@ -69,13 +69,13 @@ public final class SegmentMapParams {
      */
     @Deprecated
     public Builder sourceTaskId(String value) {
-      this.sourceTaskId = GrokimagineParamUtils.requireNonBlank(value, "sourceTaskId");
+      this.sourceTaskId = value;
       return this;
     }
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = GrokimagineParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 

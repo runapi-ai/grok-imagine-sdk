@@ -6,13 +6,11 @@ source_task_id (+ index).
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from runapi.core import Resource, ValidationError, RequestOptions
+from runapi.core import Resource, RequestOptions
 
-from ..contract_gen import CONTRACT
 from ..types import (
-    INDEX_RANGE,
     CompletedVideoTaskResponse,
     VideoTaskResponse,
 )
@@ -49,7 +47,6 @@ class ImageToVideo(Resource):
             The task creation result with an id.
         """
         compacted = self._compact_params(params)
-        self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 
     def get(self, id: str, options: Optional[RequestOptions] = None) -> Any:
@@ -62,29 +59,3 @@ class ImageToVideo(Resource):
             The current image-to-video status.
         """
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
-
-    def _validate_params(self, params: Dict[str, Any]) -> None:
-        source_image_url = params.get("source_image_url")
-        source_task_id = params.get("source_task_id")
-        if params.get("model") == self.CLASSIC_MODEL and source_task_id and not source_image_url:
-            self._validate_index(params.get("index"))
-
-        self._validate_contract(CONTRACT["image-to-video"], params)
-
-        if source_image_url and source_task_id:
-            raise ValidationError("Provide either source_image_url or source_task_id, not both")
-        if not source_image_url and not source_task_id:
-            raise ValidationError("One of source_image_url or source_task_id is required")
-
-        if str(params.get("motion_style")) == "spicy" and source_image_url:
-            raise ValidationError("spicy motion_style requires a source_task_id source image.")
-
-    def _validate_index(self, index: Any) -> None:
-        if index is None:
-            return
-        try:
-            value = None if isinstance(index, bool) else int(index)
-        except (TypeError, ValueError):
-            value = None
-        if value is None or value not in INDEX_RANGE:
-            raise ValidationError("index must be an integer between 0 and 5")

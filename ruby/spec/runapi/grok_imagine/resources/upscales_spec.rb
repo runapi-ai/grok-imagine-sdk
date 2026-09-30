@@ -12,9 +12,4 @@ RSpec.describe RunApi::GrokImagine::Resources::Upscales do
       .and_return("id" => "ups-1")
     resource.create(source_task_id: "prior-video")
   end
-
-  it "rejects missing source_task_id" do
-    expect { resource.create }
-      .to raise_error(RunApi::Core::ValidationError, /source_task_id is required/)
-  end
 end

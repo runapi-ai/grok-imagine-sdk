@@ -70,9 +70,6 @@ type TextToVideo struct{ http core.HTTPClient }
 func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["text-to-video"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, body, requestOptions)
 }
 
@@ -95,9 +92,6 @@ type ImageToVideo struct{ http core.HTTPClient }
 func (r *ImageToVideo) Create(ctx context.Context, params ImageToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["image-to-video"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, imageToVideoPath, body, requestOptions)
 }
 
@@ -120,9 +114,6 @@ type TextToImage struct{ http core.HTTPClient }
 func (r *TextToImage) Create(ctx context.Context, params TextToImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["text-to-image"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToImagePath, body, requestOptions)
 }
 
@@ -145,9 +136,6 @@ type SegmentMap struct{ http core.HTTPClient }
 func (r *SegmentMap) Create(ctx context.Context, params SegmentMapParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["segment-map"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, segmentMapPath, body, requestOptions)
 }
 
@@ -170,9 +158,6 @@ type EditImage struct{ http core.HTTPClient }
 func (r *EditImage) Create(ctx context.Context, params EditImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["edit-image"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, body, requestOptions)
 }
 

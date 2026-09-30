@@ -5,9 +5,9 @@ Takes a prior grok-imagine video source_task_id and upscales it.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from runapi.core import Resource, ValidationError, RequestOptions
+from runapi.core import Resource, RequestOptions
 
 from ..types import (
     CompletedVideoTaskResponse,
@@ -45,7 +45,6 @@ class Upscales(Resource):
             The task creation result with an id.
         """
         compacted = self._compact_params(params)
-        self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 
     def get(self, id: str, options: Optional[RequestOptions] = None) -> Any:
@@ -58,7 +57,3 @@ class Upscales(Resource):
             The current video upscale status.
         """
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
-
-    def _validate_params(self, params: Dict[str, Any]) -> None:
-        if not params.get("source_task_id"):
-            raise ValidationError("source_task_id is required")

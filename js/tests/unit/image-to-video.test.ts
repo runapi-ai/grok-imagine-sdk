@@ -96,16 +96,4 @@ describe('Grok Imagine image-to-video', () => {
       },
     });
   });
-
-  it('rejects spicy motion_style with source_image_url', async () => {
-    const resource = new ImageToVideo(mockHttp);
-
-    await expect(resource.create({
-      model: 'grok-imagine-image-to-video',
-      source_image_url: 'https://cdn.runapi.ai/public/samples/result.png',
-      motion_style: 'spicy',
-    })).rejects.toThrow(/spicy motion_style requires a source_task_id source image/);
-
-    expect(mockHttp.request).not.toHaveBeenCalled();
-  });
 });

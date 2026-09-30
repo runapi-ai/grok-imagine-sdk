@@ -21,11 +21,6 @@ RSpec.describe RunApi::GrokImagine::Resources::SegmentMap do
     resource.create(**params)
   end
 
-  it "rejects missing image URL and source task id" do
-    expect { resource.create(model: "grok-imagine-image-2-0") }
-      .to raise_error(RunApi::Core::ValidationError, /one of image_url, source_task_id is required/)
-  end
-
   it "returns typed segments from completed tasks" do
     params = {model: "grok-imagine-image-2-0", source_task_id: "image-2-task"}
     expect(http).to receive(:request).with(:post, endpoint, body: params)

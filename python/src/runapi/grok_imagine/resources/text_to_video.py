@@ -2,17 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from runapi.core import Resource, ValidationError, RequestOptions
+from runapi.core import Resource, RequestOptions
 
-from ..contract_gen import CONTRACT
 from ..types import (
-    DURATION_RANGE,
-    FAST_DURATION_RANGE,
-    FAST_MODEL,
-    PREVIEW_DURATION_RANGE,
-    PREVIEW_MODEL,
     CompletedVideoTaskResponse,
     VideoTaskResponse,
 )
@@ -49,7 +43,6 @@ class TextToVideo(Resource):
             The task creation result with an id.
         """
         compacted = self._compact_params(params)
-        self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 
     def get(self, id: str, options: Optional[RequestOptions] = None) -> Any:
@@ -62,34 +55,3 @@ class TextToVideo(Resource):
             The current text-to-video status.
         """
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
-
-    def _validate_params(self, params: Dict[str, Any]) -> None:
-        if (
-            params.get("model") == self.CLASSIC_MODEL
-            and params.get("prompt")
-            and "duration_seconds" in params
-        ):
-            self._validate_duration(params, DURATION_RANGE)
-
-        self._validate_contract(CONTRACT["text-to-video"], params)
-        if not params.get("prompt"):
-            raise ValidationError("prompt is required")
-
-        duration_seconds = params.get("duration_seconds")
-        if duration_seconds:
-            duration_ranges = {
-                FAST_MODEL: FAST_DURATION_RANGE,
-                PREVIEW_MODEL: PREVIEW_DURATION_RANGE,
-            }
-            duration_range = duration_ranges.get(params.get("model"), DURATION_RANGE)
-            self._validate_duration(params, duration_range)
-
-    def _validate_duration(self, params: Dict[str, Any], duration_range: range) -> None:
-        try:
-            value = int(params.get("duration_seconds"))
-        except (TypeError, ValueError):
-            value = None
-        if value is None or value not in duration_range:
-            raise ValidationError(
-                f"duration_seconds must be an integer between {duration_range.start} and {duration_range.stop - 1}"
-            )

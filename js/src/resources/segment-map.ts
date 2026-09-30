@@ -1,7 +1,6 @@
-import type { ActionSchema, HttpClient, PollingOptions, RequestOptions } from '@runapi.ai/core';
-import { compactParams, validateParams } from '@runapi.ai/core';
+import type { HttpClient, PollingOptions, RequestOptions } from '@runapi.ai/core';
+import { compactParams } from '@runapi.ai/core';
 import { pollUntilComplete } from '@runapi.ai/core/internal';
-import { contract } from '../contract_gen';
 import type {
   CompletedGrokImagineSegmentMapResponse,
   GrokImagineSegmentMapResponse,
@@ -29,7 +28,6 @@ export class SegmentMap {
 
   async create(params: GrokImagineSegmentMapParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     const body = compactParams(params);
-    validateParams(contract['segment-map'] as ActionSchema, body as Record<string, unknown>);
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body,
       ...options,

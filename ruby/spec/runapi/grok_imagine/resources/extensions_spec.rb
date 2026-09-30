@@ -17,14 +17,4 @@ RSpec.describe RunApi::GrokImagine::Resources::Extensions do
     expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "ext-1")
     resource.create(**params)
   end
-
-  it "rejects missing task_id" do
-    expect { resource.create(prompt: "x", start_seconds: 0, extension_duration_seconds: 6) }
-      .to raise_error(RunApi::Core::ValidationError, /source_task_id is required/)
-  end
-
-  it "rejects invalid extension_duration_seconds" do
-    expect { resource.create(source_task_id: "t", prompt: "x", start_seconds: 0, extension_duration_seconds: 8) }
-      .to raise_error(RunApi::Core::ValidationError, /extension_duration_seconds must be one of/)
-  end
 end

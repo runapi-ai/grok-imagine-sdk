@@ -55,13 +55,13 @@ public final class ExtendParams {
 
     /** Sets the source task ID. */
     public Builder sourceTaskId(String value) {
-      this.sourceTaskId = GrokimagineParamUtils.requireNonBlank(value, "sourceTaskId");
+      this.sourceTaskId = value;
       return this;
     }
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = GrokimagineParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
@@ -79,7 +79,7 @@ public final class ExtendParams {
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = GrokimagineParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 

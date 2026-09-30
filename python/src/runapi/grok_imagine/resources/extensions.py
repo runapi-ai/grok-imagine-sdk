@@ -5,12 +5,11 @@ Takes a prior grok-imagine video source_task_id and extends it.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from runapi.core import Resource, ValidationError, RequestOptions
+from runapi.core import Resource, RequestOptions
 
 from ..types import (
-    EXTENSION_DURATION_SECONDS,
     CompletedVideoTaskResponse,
     VideoTaskResponse,
 )
@@ -46,7 +45,6 @@ class Extensions(Resource):
             The task creation result with an id.
         """
         compacted = self._compact_params(params)
-        self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 
     def get(self, id: str, options: Optional[RequestOptions] = None) -> Any:
@@ -59,20 +57,3 @@ class Extensions(Resource):
             The current video extension status.
         """
         return self._request("get", f"{self.ENDPOINT}/{id}", options=options)
-
-    def _validate_params(self, params: Dict[str, Any]) -> None:
-        if not params.get("source_task_id"):
-            raise ValidationError("source_task_id is required")
-        if not params.get("prompt"):
-            raise ValidationError("prompt is required")
-        # start_seconds is numeric and 0 (extend from the beginning) is valid, so
-        # check for absence explicitly rather than treating 0 as missing.
-        if params.get("start_seconds") is None:
-            raise ValidationError("start_seconds is required")
-
-        extension_duration_seconds = params.get("extension_duration_seconds")
-        if not extension_duration_seconds:
-            raise ValidationError("extension_duration_seconds is required")
-        if extension_duration_seconds not in EXTENSION_DURATION_SECONDS:
-            joined = ", ".join(str(value) for value in EXTENSION_DURATION_SECONDS)
-            raise ValidationError(f"extension_duration_seconds must be one of: {joined}")

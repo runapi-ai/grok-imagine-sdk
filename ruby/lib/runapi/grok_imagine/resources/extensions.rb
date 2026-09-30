@@ -24,26 +24,11 @@ module RunApi
 
         def create(options: nil, **params)
           params = compact_params(params)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          raise Core::ValidationError, "source_task_id is required" unless param(params, :source_task_id)
-          raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          raise Core::ValidationError, "start_seconds is required" unless param(params, :start_seconds)
-
-          extension_duration_seconds = param(params, :extension_duration_seconds)
-          raise Core::ValidationError, "extension_duration_seconds is required" unless extension_duration_seconds
-          unless Types::EXTENSION_DURATION_SECONDS.include?(extension_duration_seconds)
-            raise Core::ValidationError, "extension_duration_seconds must be one of: #{Types::EXTENSION_DURATION_SECONDS.join(", ")}"
-          end
         end
       end
     end

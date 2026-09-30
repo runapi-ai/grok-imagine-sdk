@@ -89,20 +89,20 @@ public final class ImageToVideoParams {
 
     /** Sets the model slug using a string value. */
     public Builder model(String value) {
-      this.model = GrokimagineParamUtils.requireNonBlankTrim(value, "model");
+      this.model = value;
       return this;
     }
 
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = GrokimagineParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 
     /** Sets the source image URL. */
     public Builder sourceImageUrl(String value) {
-      this.sourceImageUrl = GrokimagineParamUtils.requireNonBlank(value, "sourceImageUrl");
+      this.sourceImageUrl = value;
       return this;
     }
 
@@ -114,7 +114,7 @@ public final class ImageToVideoParams {
 
     /** Sets the source task ID. */
     public Builder sourceTaskId(String value) {
-      this.sourceTaskId = GrokimagineParamUtils.requireNonBlank(value, "sourceTaskId");
+      this.sourceTaskId = value;
       return this;
     }
 
@@ -126,13 +126,13 @@ public final class ImageToVideoParams {
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = GrokimagineParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
     /** Sets the motion style. */
     public Builder motionStyle(String value) {
-      this.motionStyle = GrokimagineParamUtils.requireNonBlank(value, "motionStyle");
+      this.motionStyle = value;
       return this;
     }
 
@@ -144,13 +144,13 @@ public final class ImageToVideoParams {
 
     /** Sets the output resolution. */
     public Builder outputResolution(String value) {
-      this.outputResolution = GrokimagineParamUtils.requireNonBlank(value, "outputResolution");
+      this.outputResolution = value;
       return this;
     }
 
     /** Sets the output aspect ratio. */
     public Builder aspectRatio(String value) {
-      this.aspectRatio = GrokimagineParamUtils.requireNonBlank(value, "aspectRatio");
+      this.aspectRatio = value;
       return this;
     }
 

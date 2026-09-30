@@ -332,46 +332,6 @@ func TestImage2EditCreateAllowsPromptToBeOmitted(t *testing.T) {
 	}
 }
 
-func TestImage2EditCreateValidatesDirectImageContract(t *testing.T) {
-	tests := []struct {
-		name            string
-		sourceImageURLs []string
-		aspectRatio     string
-	}{
-		{name: "requires a source image", aspectRatio: "1:1"},
-		{
-			name: "accepts at most five source images",
-			sourceImageURLs: []string{
-				"https://cdn.runapi.ai/public/samples/1.png",
-				"https://cdn.runapi.ai/public/samples/2.png",
-				"https://cdn.runapi.ai/public/samples/3.png",
-				"https://cdn.runapi.ai/public/samples/4.png",
-				"https://cdn.runapi.ai/public/samples/5.png",
-				"https://cdn.runapi.ai/public/samples/6.png"},
-			aspectRatio: "1:1"},
-		{
-			name:            "rejects an unsupported aspect ratio",
-			sourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-			aspectRatio:     "4:3"}}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			stub := &stubHTTPClient{}
-			client := NewClientWithHTTP(stub)
-			_, err := client.EditImage.Create(context.Background(), EditImageParams{
-				Model:           ModelImage2EditImage,
-				SourceImageURLs: test.sourceImageURLs,
-				AspectRatio:     test.aspectRatio})
-			if err == nil {
-				t.Fatal("expected request validation to fail")
-			}
-			if stub.method != "" {
-				t.Fatalf("expected validation before HTTP request, got method %q", stub.method)
-			}
-		})
-	}
-}
-
 func TestSegmentMapGetDecodesSegments(t *testing.T) {
 	stub := &stubHTTPClient{response: json.RawMessage(`{"id":"segment_map_1","status":"completed", "usage": {"cost": 0.05},"segments":[{"url":"https://file.runapi.ai/segment.png","name":"subject","index":1}]}`)}
 	response, err := NewClientWithHTTP(stub).SegmentMap.Get(context.Background(), "segment_map_1")

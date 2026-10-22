@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.3.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.3.1), [go/v0.3.1](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.3.1) - 2026-10-22
+
+### Changed
+- Text-to-image tasks now return two images, so image-to-video index accepts 0 or 1.
+
+
 ## [js/v0.3.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/js%2Fv0.3.0), [ruby/v0.3.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/ruby%2Fv0.3.0), [go/v0.3.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/go%2Fv0.3.0), [python/v0.3.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/python%2Fv0.3.0), [java/v0.2.0](https://github.com/runapi-ai/grok-imagine-sdk/releases/tag/java%2Fv0.2.0) - 2026-09-30
 
 ### Changed

@@ -113,7 +113,7 @@ type ImageToVideoParams struct {
 	SourceImageURL     string   `json:"source_image_url,omitempty" help:"optional; source image URL (mutually exclusive with source_task_id); required by fast and preview"`
 	ReferenceImageURLs []string `json:"reference_image_urls,omitempty" help:"optional; reference image URLs; fast only"`
 	SourceTaskID       string   `json:"source_task_id,omitempty" help:"optional; prior text-to-image task id (mutually exclusive with source_image_url); not supported by fast or preview"`
-	Index              *int     `json:"index,omitempty" help:"optional; 0-5, selects image when using source_task_id; not supported by fast or preview"`
+	Index              *int     `json:"index,omitempty" help:"optional; 0-1, selects image when using source_task_id; not supported by fast or preview"`
 
 	Prompt              string `json:"prompt,omitempty" help:"optional; text description of desired motion"`
 	MotionStyle         string `json:"motion_style,omitempty" help:"optional; motion style preset; not supported by fast or preview"`
